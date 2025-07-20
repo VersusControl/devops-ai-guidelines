@@ -30,7 +30,7 @@ This repository is your one-stop resource for everything you need to know about 
 
 | Document                                                               | Description                                                  | Time to Read |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------ | ------------ |
-| [**AI Interview Preparation Guide**](./day19-ai-interview-prep.md)  | Master AI-related DevOps interview questions and scenarios   | 10 min       |
+| [**AI Interview Preparation Guide**](./ai-mock-interview.md)  | Master AI-related DevOps interview questions and scenarios   | 10 min       |
 | [**10 Essential AI Prompts for DevOps**](./10-ai-prompts-devops.md) | Ready-to-use prompts that will boost your daily productivity | 5 min        |
 
 ### ☁️ For Cloud & Certification
@@ -45,7 +45,7 @@ This repository is your one-stop resource for everything you need to know about 
 
 1. Start with [10 AI Prompts](./10-ai-prompts-devops.md) for immediate productivity gains
 2. Use [AWS AI Learning](./aws-certification-10x-faster.md) to accelerate certifications
-3. Prepare for interviews with [AI Interview Guide](./day19-ai-interview-prep.md)
+3. Prepare for interviews with [AI Interview Guide](./ai-mock-interview.md)
 
 ### � **Team Lead/Manager**
 
