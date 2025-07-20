@@ -24,38 +24,38 @@ This repository is your one-stop resource for everything you need to know about 
 
 | Document                                                                | Description                                                        | Time to Read |
 | ----------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------ |
-| [**AI Guidelines for DevOps Teams**](./ai-guidelines-devops-team.md) | Complete framework for implementing AI safely in your organization | 15-20 min    |
+| [**AI Guidelines for DevOps Teams**](./docs/ai-guidelines-devops-team.md) | Complete framework for implementing AI safely in your organization | 15-20 min    |
 
 ### 🚀 For Individual Career Growth
 
 | Document                                                               | Description                                                  | Time to Read |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------ | ------------ |
-| [**AI Interview Preparation Guide**](./ai-mock-interview.md)  | Master AI-related DevOps interview questions and scenarios   | 10 min       |
-| [**10 Essential AI Prompts for DevOps**](./10-ai-prompts-devops.md) | Ready-to-use prompts that will boost your daily productivity | 5 min        |
+| [**AI Interview Preparation Guide**](./docs/ai-mock-interview.md)  | Master AI-related DevOps interview questions and scenarios   | 10 min       |
+| [**10 Essential AI Prompts for DevOps**](./docs/10-ai-prompts-devops.md) | Ready-to-use prompts that will boost your daily productivity | 5 min        |
 
 ### ☁️ For Cloud & Certification
 
 | Document                                                                         | Description                                                | Time to Read |
 | -------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------ |
-| [**AWS Certification 10x Faster with AI**](./aws-certification-10x-faster.md) | Accelerate your AWS learning using AI tools and strategies | 8 min        |
+| [**AWS Certification 10x Faster with AI**](./docs/aws-certification-10x-faster.md) | Accelerate your AWS learning using AI tools and strategies | 8 min        |
 
 ## 🚀 Quick Start Paths
 
 ### 👤 **Individual DevOps Engineer**
 
-1. Start with [10 AI Prompts](./10-ai-prompts-devops.md) for immediate productivity gains
-2. Use [AWS AI Learning](./aws-certification-10x-faster.md) to accelerate certifications
-3. Prepare for interviews with [AI Interview Guide](./ai-mock-interview.md)
+1. Start with [10 AI Prompts](./docs/10-ai-prompts-devops.md) for immediate productivity gains
+2. Use [AWS AI Learning](./docs/aws-certification-10x-faster.md) to accelerate certifications
+3. Prepare for interviews with [AI Interview Guide](./docs/ai-mock-interview.md)
 
 ### � **Team Lead/Manager**
 
-1. Review [Team Guidelines](./ai-guidelines-devops-team.md) for safe AI implementation
-2. Share [Daily Prompts](./10-ai-prompts-devops.md) with your team
+1. Review [Team Guidelines](./docs/ai-guidelines-devops-team.md) for safe AI implementation
+2. Share [Daily Prompts](./docs/10-ai-prompts-devops.md) with your team
 3. Establish security framework from the guidelines
 
 ### 🏢 **Organization/CTO**
 
-1. Implement [AI Guidelines](./ai-guidelines-devops-team.md) across teams
+1. Implement [AI Guidelines](./docs/ai-guidelines-devops-team.md) across teams
 2. Train teams using all resources as reference material
 3. Monitor and optimize based on provided frameworks
 
