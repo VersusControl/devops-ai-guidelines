@@ -773,7 +773,7 @@ Notes: [WHAT_WORKED_WELL_OR_POORLY]
 - [ ] [Prompt Engineering Guide by DAIR.AI](https://www.promptingguide.ai/)
 
 ### **DevOps-Specific Prompt Collections:**
-- [ ] [Awesome ChatGPT Prompts for DevOps](https://github.com/f/awesome-chatgpt-prompts)
+- [ ] [PromptOps: From YAML to AI](https://leanpub.com/promptops-from-yaml-to-ai)
 - [ ] [AI-Assisted Infrastructure](https://github.com/topics/ai-devops)
 
 ### **Tools for Prompt Development:**
