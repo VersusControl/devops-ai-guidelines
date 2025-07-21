@@ -1,4 +1,4 @@
-# DevOps AI Tips, Tricks & Guidelines
+# DevOps AI Guidelines & Learning Path
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/VersusControl/devops-ai-guidelines.svg?style=social&label=Star)](https://github.com/VersusControl/devops-ai-guidelines)
