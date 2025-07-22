@@ -26,7 +26,7 @@
 | -------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------ |
 | [🎯 AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) | ✅ Available     | Technical guide to AI concepts, LLM architecture, and evaluation methodologies |
 | [🚀 Prompt Engineering](03-prompt-engineering.md)           | ✅ Available     | Advanced communication strategies and optimization techniques for AI systems   |
-| [🔧 AI Tools Integration](04-ai-tools-integration.md)       | ✅ Available   | APIs, Python automation, and AI workflow implementation                        |
+| [🔧 AI Tools Integration](04-ai-tools-integration-apis.md)  | ✅ Available     | APIs, Python automation, and AI workflow implementation                        |
 | [🤖 MCP &amp; Agent Basics](05-mcp-agent-basics.md)         | 🚧 Coming Soon   | Model Context Protocol and agent framework foundations                         |
 
 ### **📋 Phase 2: Specialization** *(Coming Soon)*
