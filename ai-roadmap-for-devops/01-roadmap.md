@@ -26,26 +26,25 @@
 | -------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------ |
 | [🎯 AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) | ✅ Available     | Technical guide to AI concepts, LLM architecture, and evaluation methodologies |
 | [🚀 Prompt Engineering](03-prompt-engineering.md)           | ✅ Available     | Advanced communication strategies and optimization techniques for AI systems   |
-| [🏗️ Infrastructure Basics](04-infrastructure-basics.md)   | 🚧 Coming Soon   | Cloud platforms, IaC, and container orchestration fundamentals                 |
-| [🔧 AI Tools Integration](05-ai-tools-integration.md)       | 🚧 Coming Soon   | APIs, Python automation, and AI workflow implementation                        |
-| [🤖 MCP &amp; Agent Basics](06-mcp-agent-basics.md)         | 🚧 Coming Soon   | Model Context Protocol and agent framework foundations                         |
+| [🔧 AI Tools Integration](04-ai-tools-integration.md)       | ✅ Available   | APIs, Python automation, and AI workflow implementation                        |
+| [🤖 MCP &amp; Agent Basics](05-mcp-agent-basics.md)         | 🚧 Coming Soon   | Model Context Protocol and agent framework foundations                         |
 
 ### **📋 Phase 2: Specialization** *(Coming Soon)*
 
 | **Advanced Topics**                          | **Status** | **Description**                                  |
 | -------------------------------------------------- | ---------------- | ------------------------------------------------------ |
-| [🧠 AI Model Training](07-ai-model-training.md)       | 📅 Planned       | Custom models, fine-tuning, and training methodologies |
-| [👥 Multi-Agent Systems](08-multi-agent-systems.md)   | 📅 Planned       | Crew AI, AutoGen, LangGraph implementation             |
-| [⚡ Prompt-to-Production](09-prompt-to-production.md) | 📅 Planned       | RAG systems, orchestration, and production pipelines   |
-| [🏢 Enterprise Platform](10-enterprise-platform.md)   | 📅 Planned       | Multi-cloud governance and enterprise AI architecture  |
+| [🧠 AI Model Training](06-ai-model-training.md)       | 📅 Planned       | Custom models, fine-tuning, and training methodologies |
+| [👥 Multi-Agent Systems](07-multi-agent-systems.md)   | 📅 Planned       | Crew AI, AutoGen, LangGraph implementation             |
+| [⚡ Prompt-to-Production](08-prompt-to-production.md) | 📅 Planned       | RAG systems, orchestration, and production pipelines   |
+| [🏢 Enterprise Platform](09-enterprise-platform.md)   | 📅 Planned       | Multi-cloud governance and enterprise AI architecture  |
 
 ### **📋 Phase 3: Mastery** *(Coming Soon)*
 
 | **Leadership Topics**                            | **Status** | **Description**                              |
 | ------------------------------------------------------ | ---------------- | -------------------------------------------------- |
-| [📈 Scale &amp; Leadership](11-scale-leadership.md)       | 📅 Planned       | Enterprise teams and AI infrastructure management  |
-| [🔬 Innovation &amp; Research](12-innovation-research.md) | 📅 Planned       | Cutting-edge AI technologies and patent strategies |
-| [🌍 Ecosystem Contribution](13-ecosystem-contribution.md) | 📅 Planned       | Open source contributions and industry standards   |
+| [📈 Scale &amp; Leadership](10-scale-leadership.md)       | 📅 Planned       | Enterprise teams and AI infrastructure management  |
+| [🔬 Innovation &amp; Research](11-innovation-research.md) | 📅 Planned       | Cutting-edge AI technologies and patent strategies |
+| [🌍 Ecosystem Contribution](12-ecosystem-contribution.md) | 📅 Planned       | Open source contributions and industry standards   |
 
 ### **🛠️ Supporting Resources**
 
