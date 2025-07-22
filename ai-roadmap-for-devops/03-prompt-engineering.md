@@ -791,7 +791,7 @@ After mastering prompt engineering, you'll be ready for:
 - ✅ Training your team on AI best practices
 - ✅ Integrating AI into existing workflows
 
-**Ready for the next module?** → [04-infrastructure-basics.md](04-infrastructure-basics.md)
+**Ready for the next module?** → [04-ai-tools-integration-apis.md](04-ai-tools-integration-apis.md)
 
 ---
 
