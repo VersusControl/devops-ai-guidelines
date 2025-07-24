@@ -2,6 +2,12 @@
 
 *Learn the fundamentals of Model Context Protocol and build practical MCP servers for DevOps automation*
 
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
 ## 📚 Table of Contents
 
 - [What is Model Context Protocol (MCP)?](#what-is-model-context-protocol-mcp)
@@ -744,42 +750,99 @@ if __name__ == "__main__":
 
 **What this does**: Creates a minimal test harness to verify that our MCP server can start up, list resources and tools, and respond to basic requests.
 
-### Step 9: Integration with AI Clients
+### Step 9: VS Code + Copilot + MCP Integration Guide
 
-To integrate with popular AI tools, you'll need configuration files:
+This section shows how to integrate your EC2 MCP server with VS Code and GitHub Copilot for seamless AI-powered DevOps workflows.
+
+### 🛠️ Prerequisites
+
+Before configuring MCP with VS Code, ensure you have:
+
+```bash
+# Required installations
+- VS Code (latest version)
+- GitHub Copilot extension
+- Python 3.8+ with our MCP server
+- AWS CLI configured
+- MCP extension for VS Code
+```
+
+### ⚙️ VS Code Configuration
+
+#### Install MCP Extension
+
+1. Open VS Code Extensions (Ctrl/Cmd + Shift + X)
+2. Search for "Model Context Protocol" or "MCP"
+3. Install the official MCP extension
+4. Restart VS Code
+
+#### Configure VS Code Settings
+
+Create or update your VS Code settings (`Ctrl/Cmd + ,` then "Open Settings JSON"):
 
 ```json
-// claude_desktop_config.json (for Claude Desktop)
 {
-  "mcpServers": {
-    "aws-ec2": {
+  // VS Code MCP Configuration
+  "mcp.servers": {
+    "aws-ec2-devops": {
+      "name": "AWS EC2 DevOps Server",
       "command": "python",
       "args": ["/path/to/your/ec2_mcp_server.py"],
+      "cwd": "/path/to/your/mcp-server-directory",
       "env": {
-        "AWS_PROFILE": "your-aws-profile",
-        "AWS_REGION": "us-east-1"
-      }
+        "AWS_PROFILE": "devops-team",
+        "AWS_REGION": "us-west-2",
+        "AWS_DEFAULT_REGION": "us-west-2",
+        "LOG_LEVEL": "INFO"
+      },
+      "timeout": 30000,
+      "restart": "onFailure"
     }
+  },
+  
+  // GitHub Copilot Configuration for DevOps
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "dockerfile": true,
+    "terraform": true
   }
 }
 ```
 
-**Configuration Notes**:
+#### Workspace-Specific Configuration
 
-- Ensure your AWS credentials are configured (`aws configure`)
-- Set appropriate AWS region and profile
-- Path should point to your actual server file
+For DevOps projects, create a `.vscode/settings.json` in your project root:
 
-### 🎯 Real-World Usage Examples
+```json
+{
+  "mcp.enabledServers": ["aws-ec2-devops"],
+  "mcp.autoStart": true,
+  
+  // DevOps-specific file associations
+  "files.associations": {
+    "*.yml": "yaml",
+    "*.yaml": "yaml",
+    "Dockerfile*": "dockerfile",
+    "*.tf": "terraform"
+  },
+  
+  // Copilot context for DevOps
+  "github.copilot.chat.welcomeMessage": "DevOps Assistant Ready! I can help with AWS infrastructure via MCP."
+}
+```
 
-Once your MCP server is configured, here are practical examples of how DevOps teams can interact with it:
+### Copilot Chat Integration with Real-World Examples
+
+1. **Open Copilot Chat** (Ctrl/Cmd + Shift + I)
+2. **Reference MCP server** by typing `@mcp` to access your EC2 server
+3. **Ask DevOps questions** using natural language
 
 #### Example 1: Infrastructure Health Check
 
 **User Request**: "Check the status of all our web servers"
 
 **AI Response**:
-
 ```
 I'll check the status of your EC2 instances for you.
 
@@ -798,15 +861,16 @@ Found 5 EC2 instances. Let me check the web servers specifically:
 - System Status: impaired
 - Failed Checks: Instance reachability check
 
-💡 Recommendation: Consider restarting web-server-3 or investigating network connectivity.
+� Recommendation: Consider restarting web-server-3 or investigating network connectivity.
 ```
+
+**VS Code Copilot Command**: `@mcp Show me all running EC2 instances and their health status`
 
 #### Example 2: Automated Incident Response
 
 **User Request**: "Our database server seems slow, can you create a snapshot before we restart it?"
 
 **AI Response**:
-
 ```
 I'll help you create a safety snapshot before restarting the database server.
 
@@ -825,18 +889,19 @@ Found database server: db-primary-1 (i-0db123456789abcde0)
 
 ⏳ Snapshots are being created in the background (typically takes 5-10 minutes).
 
-🛡️ Once snapshots complete, you can safely restart the instance. Would you like me to:
+�️ Once snapshots complete, you can safely restart the instance. Would you like me to:
 1. Monitor snapshot progress
 2. Restart the instance when snapshots are complete
 3. Just notify you when snapshots are ready
 ```
+
+**VS Code Copilot Command**: `@mcp Create a snapshot of instance i-0db123456789abcde0 before maintenance`
 
 #### Example 3: Resource Optimization
 
 **User Request**: "Show me all stopped instances and estimate cost savings"
 
 **AI Response**:
-
 ```
 I'll analyze your stopped instances and calculate potential savings.
 
@@ -860,13 +925,15 @@ I'll analyze your stopped instances and calculate potential savings.
   - Stopped: 45 days ago
   - Last activity: Legacy backup process
 
-💡 Recommendations:
+� Recommendations:
 • Consider terminating old-backup-server (saved: $62.28/month)
 • test-server-1 could be replaced with spot instances for testing
 • staging-db: Schedule automatic start/stop for business hours only
 
 🎯 Potential monthly savings: $217.21 if optimized properly
 ```
+
+**VS Code Copilot Command**: `@mcp Analyze stopped instances and calculate cost optimization opportunities`
 
 ---
 
@@ -957,3 +1024,11 @@ graph TB
 ## Next Steps
 
 **Ready for the next step?** Continue to [05-02 Agent Frameworks](05-02-agent-frameworks.md) to learn how to build intelligent agents that can orchestrate multiple MCP servers for complex DevOps workflows.
+
+---
+
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
