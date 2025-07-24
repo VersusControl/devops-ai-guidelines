@@ -2,6 +2,12 @@
 
 *A comprehensive technical guide to understanding AI foundations for DevOps professionals*
 
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
 ## 🎯 **Learning Objectives**
 
 Upon completion of this guide, you will:
@@ -430,3 +436,13 @@ After completing this module, you should:
 5. **Stay curious** - The field moves fast, but fundamentals remain stable
 
 *Remember: You're not trying to become an AI researcher - you're learning to use AI effectively in infrastructure and DevOps contexts.*
+
+---
+
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
+---

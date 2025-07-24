@@ -2,6 +2,12 @@
 
 *Advanced communication strategies for AI system optimization*
 
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
 ## 🎯 **Learning Objectives**
 
 Upon completion of this guide, you will be able to:
@@ -835,3 +841,13 @@ Tone: "[TECHNICAL/EXECUTIVE/URGENT] for [AUDIENCE]"
 ```
 
 *Keep this C.R.A.F.T reference handy as you build professional-grade prompts!*
+
+---
+
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
+---

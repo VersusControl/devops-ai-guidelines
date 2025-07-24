@@ -2,6 +2,12 @@
 
 *Python automation workflows and AI API integration for DevOps professionals*
 
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
 ## 🎯 **Learning Objectives**
 
 Upon completion of this guide, you will be able to:
@@ -1807,3 +1813,13 @@ aws logs describe-log-groups --log-group-name-prefix "/aws/lambda"
 ---
 
 **🎯 Ready for advanced AI agent frameworks? [Continue to MCP &amp; Agent Basics →](06-mcp-agent-basics.md)**
+
+---
+
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
+---

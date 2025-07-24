@@ -1,12 +1,14 @@
 # AI Roadmap for DevOps
 
-*A visual learning path for DevOps Engineers transitioning to AI Infrastructure Architecture*
-
 ![AI Infrastructure Architect Roadmap](./images/roadmap.svg)
 
 *A visual learning path for DevOps Engineers transitioning to AI Infrastructure Architecture*
 
-> 📝 **Note**: The mermaid source code for this diagram is available in [00-mermaid.md](00-mermaid.md)
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
 
 ## 🗺️ **Quick Navigation**
 
@@ -290,5 +292,15 @@ Principal AI Infrastructure Engineer / Engineering Manager
 *The future of infrastructure is intelligent, autonomous, and conversational. This roadmap will guide you from where you are today to becoming the architect of that future.*
 
 **Remember**: This is not just about learning new tools—it's about fundamentally changing how infrastructure is designed, built, and managed. You're not just becoming an AI Infrastructure Architect; you're becoming a pioneer in the next evolution of technology infrastructure.
+
+---
+
+## 📚 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+
+---
 
 🎯 **Your journey to AI Infrastructure mastery starts now!**
