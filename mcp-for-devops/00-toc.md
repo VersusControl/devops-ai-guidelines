@@ -47,7 +47,9 @@ flowchart TD
 ### 🚀 Quick Start Options
 
 **🏃‍♂️ Fast Track (Experienced DevOps)**: Skip to Chapter 3 after completing Chapter 1 environment setup
+
 **🎓 Complete Journey (New to DevOps)**: Follow all chapters sequentially for comprehensive learning
+
 **🎯 Focused Learning (Specific Needs)**: Jump to relevant chapters based on your requirements
 
 ---
