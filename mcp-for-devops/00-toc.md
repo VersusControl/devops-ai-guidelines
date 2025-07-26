@@ -6,6 +6,18 @@
 
 This tutorial series transforms theoretical MCP knowledge into practical DevOps skills through building a real-world **Kubernetes MCP Server** using **Golang**. You'll progress from basic concepts to advanced production-ready implementations while integrating with VS Code and GitHub Copilot for modern AI-powered development workflows.
 
+## �️ Table of Contents
+
+- Chapter 1: MCP Fundamentals
+- Chapter 2: MCP Architecture Deep Dive
+- Chapter 3: Building MCP Server with Go & Kubernetes
+- Chapter 4: Kubernetes Tools & Actions
+- Chapter 5: Authentication & Security
+- Chapter 6: Advanced MCP & Kubernetes Patterns
+- Chapter 7: MCP Performance & Optimization
+- Chapter 8: VS Code & GitHub Copilot Integration
+- Chapter 9: Production Deployment & Operations
+
 ## 🚀 What You'll Build
 
 **Primary Project**: A comprehensive Kubernetes MCP Server in Golang that provides:
@@ -16,45 +28,15 @@ This tutorial series transforms theoretical MCP knowledge into practical DevOps 
 - **Security Management**: RBAC, network policies, secret rotation
 - **CI/CD Integration**: Deploy applications, manage releases, rollback operations
 
-## �️ Tutorial Overview
-
-```mermaid
-flowchart TD
-    A[New to MCP] --> B[Chapter 1: MCP Fundamentals]
-    B --> C[Chapter 2: MCP Architecture Deep Dive]
-    C --> D[Chapter 3: Building MCP Server with Go & Kubernetes]
-    D --> E[Chapter 4: Kubernetes Tools & Actions]
-    E --> F[Chapter 5: Authentication & Security]
-    F --> G[Chapter 6: Advanced MCP & Kubernetes Patterns]
-    G --> H[Chapter 7: MCP Performance & Optimization]
-    H --> I[Chapter 8: VS Code & GitHub Copilot Integration]
-    I --> J[Chapter 9: Production Deployment & Operations]
-    J --> K[MCP Expert]
-  
-    style A fill:#e3f2fd
-    style B fill:#e8f5e8
-    style C fill:#e8f5e8
-    style D fill:#e8f5e8
-    style E fill:#e8f5e8
-    style F fill:#e8f5e8
-    style G fill:#e8f5e8
-    style H fill:#e8f5e8
-    style I fill:#e8f5e8
-    style J fill:#e8f5e8
-    style K fill:#e3f2fd
-```
-
 ### 🚀 Quick Start Options
 
-**🏃‍♂️ Fast Track (Experienced DevOps)**: Skip to Chapter 3 after completing Chapter 1 environment setup
-
-**🎓 Complete Journey (New to DevOps)**: Follow all chapters sequentially for comprehensive learning
-
-**🎯 Focused Learning (Specific Needs)**: Jump to relevant chapters based on your requirements
+- **🏃‍♂️ Fast Track (Experienced DevOps)**: Skip to Chapter 3 after completing Chapter 1 environment setup.
+- **🎓 Complete Journey (New to DevOps)**: Follow all chapters sequentially for comprehensive learning.
+- **🎯 Focused Learning (Specific Needs)**: Jump to relevant chapters based on your requirements.
 
 ---
 
-## 📖 Complete Table of Contents
+## 📖 Brief of Content
 
 ### [Chapter 1: MCP Fundamentals](01-mcp-fundamentals.md)
 
