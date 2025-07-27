@@ -24,11 +24,11 @@ This repository provides everything you need to master AI in DevOps - from your 
 
 **Complete 18-month journey from DevOps Engineer to AI Infrastructure Architect**
 
-| Document                                                               | Description                                                       | Status       |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------ |
+| Document                                                                  | Description                                                       | Status       |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------ |
 | [**📊 AI Roadmap Overview**](./01-ai-roadmap-for-devops/01-roadmap.md) | Complete visual learning path with 3 phases and navigation        | ✅ Available |
 | [**🚀 MCP for DevOps**](./02-mcp-for-devops/00-toc.md)                 | Complete guide to building MCP servers with Golang and Kubernetes | ✅ Available |
-| [**🚀 AI Agent for DevOps**](./03-ai-agent-for-devops/00-toc.md)                 |  | ✅ Available |
+| [**🚀 AI Agent for DevOps**](./03-ai-agent-for-devops/00-toc.md)       | Complete guide to building AI Agent with Golang and LangChain    | ✅ Available |
 
 ### 🏢 For Teams & Organizations
 
