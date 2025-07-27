@@ -6,7 +6,7 @@
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
 
 ## 📚 Table of Contents
 
@@ -18,6 +18,8 @@
 - [Testing and Integration](#testing-and-integration)
 - [Best Practices for DevOps](#best-practices-for-devops)
 - [Next Steps](#next-steps)
+
+**Note:** This guide provides a brief overview and a basic understanding of how MCP can be applied to DevOps. For a deeper understanding and step-by-step tutorial, please visit **[MCP for DevOps](/02-mcp-for-devops/00-toc.md)**.
 
 ---
 
@@ -234,22 +236,22 @@ async def handle_list_resources() -> list[Resource]:
     try:
         # Get EC2 instances
         instances_response = ec2_client.describe_instances()
-      
+    
         resources = []
-      
+    
         # Create resource entries for each instance
         for reservation in instances_response['Reservations']:
             for instance in reservation['Instances']:
                 instance_id = instance['InstanceId']
                 instance_name = get_instance_name(instance)
-              
+            
                 resources.append(Resource(
                     uri=AnyUrl(f"ec2://instance/{instance_id}"),
                     name=f"EC2 Instance: {instance_name} ({instance_id})",
                     description=f"EC2 instance {instance_id} - {instance.get('State', {}).get('Name', 'unknown')}",
                     mimeType="application/json"
                 ))
-      
+    
         # Add VPC resources
         vpcs_response = ec2_client.describe_vpcs()
         for vpc in vpcs_response['Vpcs']:
@@ -260,10 +262,10 @@ async def handle_list_resources() -> list[Resource]:
                 description=f"Virtual Private Cloud {vpc_id}",
                 mimeType="application/json"
             ))
-      
+    
         logger.info(f"Listed {len(resources)} EC2 resources")
         return resources
-      
+    
     except Exception as e:
         logger.error(f"Error listing resources: {e}")
         return []
@@ -298,20 +300,20 @@ async def handle_read_resource(uri: AnyUrl) -> str:
     try:
         uri_str = str(uri)
         logger.info(f"Reading resource: {uri_str}")
-      
+    
         if uri_str.startswith("ec2://instance/"):
             # Extract instance ID from URI
             instance_id = uri_str.split("/")[-1]
             return await get_instance_details(instance_id)
-          
+        
         elif uri_str.startswith("ec2://vpc/"):
             # Extract VPC ID from URI
             vpc_id = uri_str.split("/")[-1]
             return await get_vpc_details(vpc_id)
-          
+        
         else:
             return f"Unknown resource type: {uri_str}"
-          
+        
     except Exception as e:
         logger.error(f"Error reading resource {uri}: {e}")
         return f"Error reading resource: {e}"
@@ -320,7 +322,7 @@ async def get_instance_details(instance_id: str) -> str:
     """Get detailed information about an EC2 instance"""
     try:
         response = ec2_client.describe_instances(InstanceIds=[instance_id])
-      
+    
         for reservation in response['Reservations']:
             for instance in reservation['Instances']:
                 # Format instance information in a readable way
@@ -336,11 +338,11 @@ async def get_instance_details(instance_id: str) -> str:
                     'SecurityGroups': [sg['GroupName'] for sg in instance.get('SecurityGroups', [])],
                     'Tags': {tag['Key']: tag['Value'] for tag in instance.get('Tags', [])}
                 }
-              
+            
                 return f"EC2 Instance Details:\n{json.dumps(instance_info, indent=2, default=str)}"
-              
+            
         return f"Instance {instance_id} not found"
-      
+    
     except Exception as e:
         return f"Error getting instance details: {e}"
 
@@ -348,7 +350,7 @@ async def get_vpc_details(vpc_id: str) -> str:
     """Get detailed information about a VPC"""
     try:
         response = ec2_client.describe_vpcs(VpcIds=[vpc_id])
-      
+    
         if response['Vpcs']:
             vpc = response['Vpcs'][0]
             vpc_info = {
@@ -358,11 +360,11 @@ async def get_vpc_details(vpc_id: str) -> str:
                 'IsDefault': vpc['IsDefault'],
                 'Tags': {tag['Key']: tag['Value'] for tag in vpc.get('Tags', [])}
             }
-          
+        
             return f"VPC Details:\n{json.dumps(vpc_info, indent=2)}"
-          
+        
         return f"VPC {vpc_id} not found"
-      
+    
     except Exception as e:
         return f"Error getting VPC details: {e}"
 ```
@@ -478,7 +480,7 @@ async def handle_call_tool(name: str, arguments: dict | None) -> list[TextConten
             return await create_snapshot_tool(arguments or {})
         else:
             return [TextContent(type="text", text=f"Unknown tool: {name}")]
-          
+        
     except Exception as e:
         logger.error(f"Error executing tool {name}: {e}")
         return [TextContent(type="text", text=f"Error executing {name}: {e}")]
@@ -493,19 +495,19 @@ async def start_instance_tool(arguments: dict) -> list[TextContent]:
         # Check current state first
         response = ec2_client.describe_instances(InstanceIds=[instance_id])
         current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
-      
+    
         if current_state == 'running':
             return [TextContent(type="text", text=f"Instance {instance_id} is already running")]
-      
+    
         # Start the instance
         ec2_client.start_instances(InstanceIds=[instance_id])
-      
+    
         result = f"✅ Successfully initiated start for instance {instance_id}\n"
         result += f"Previous state: {current_state}\n"
         result += "Instance is starting up... This may take a few minutes."
-      
+    
         return [TextContent(type="text", text=result)]
-      
+    
     except Exception as e:
         return [TextContent(type="text", text=f"Failed to start instance {instance_id}: {e}")]
 
@@ -519,19 +521,19 @@ async def stop_instance_tool(arguments: dict) -> list[TextContent]:
         # Check current state first
         response = ec2_client.describe_instances(InstanceIds=[instance_id])
         current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
-      
+    
         if current_state in ['stopped', 'stopping']:
             return [TextContent(type="text", text=f"Instance {instance_id} is already {current_state}")]
-      
+    
         # Stop the instance
         ec2_client.stop_instances(InstanceIds=[instance_id])
-      
+    
         result = f"✅ Successfully initiated stop for instance {instance_id}\n"
         result += f"Previous state: {current_state}\n"
         result += "Instance is shutting down... This may take a few minutes."
-      
+    
         return [TextContent(type="text", text=result)]
-      
+    
     except Exception as e:
         return [TextContent(type="text", text=f"Failed to stop instance {instance_id}: {e}")]
 
@@ -547,11 +549,11 @@ async def get_instance_status_tool(arguments: dict) -> list[TextContent]:
             InstanceIds=[instance_id],
             IncludeAllInstances=True
         )
-      
+    
         # Get instance details
         instances_response = ec2_client.describe_instances(InstanceIds=[instance_id])
         instance = instances_response['Reservations'][0]['Instances'][0]
-      
+    
         status_info = {
             'InstanceId': instance_id,
             'State': instance['State']['Name'],
@@ -559,7 +561,7 @@ async def get_instance_status_tool(arguments: dict) -> list[TextContent]:
             'LaunchTime': instance['LaunchTime'].isoformat(),
             'Monitoring': instance.get('Monitoring', {}).get('State', 'N/A'),
         }
-      
+    
         # Add status checks if available
         if status_response['InstanceStatuses']:
             status = status_response['InstanceStatuses'][0]
@@ -569,12 +571,12 @@ async def get_instance_status_tool(arguments: dict) -> list[TextContent]:
                 'SystemStatusDetails': [check['Status'] for check in status['SystemStatus']['Details']],
                 'InstanceStatusDetails': [check['Status'] for check in status['InstanceStatus']['Details']]
             })
-      
+    
         result = f"📊 Instance Status Report for {instance_id}:\n"
         result += json.dumps(status_info, indent=2, default=str)
-      
+    
         return [TextContent(type="text", text=result)]
-      
+    
     except Exception as e:
         return [TextContent(type="text", text=f"Failed to get status for instance {instance_id}: {e}")]
 
@@ -590,34 +592,34 @@ async def create_snapshot_tool(arguments: dict) -> list[TextContent]:
         # Get instance details to find attached volumes
         response = ec2_client.describe_instances(InstanceIds=[instance_id])
         instance = response['Reservations'][0]['Instances'][0]
-      
+    
         snapshots_created = []
-      
+    
         # Create snapshots for each attached volume
         for block_device in instance.get('BlockDeviceMappings', []):
             volume_id = block_device['Ebs']['VolumeId']
             device_name = block_device['DeviceName']
-          
+        
             snapshot_description = f"{description} - {instance_id} - {device_name}"
-          
+        
             snapshot_response = ec2_client.create_snapshot(
                 VolumeId=volume_id,
                 Description=snapshot_description
             )
-          
+        
             snapshots_created.append({
                 'SnapshotId': snapshot_response['SnapshotId'],
                 'VolumeId': volume_id,
                 'DeviceName': device_name
             })
-      
+    
         result = f"📸 Successfully initiated snapshots for instance {instance_id}:\n"
         for snap in snapshots_created:
             result += f"  • {snap['DeviceName']} ({snap['VolumeId']}) → {snap['SnapshotId']}\n"
         result += "\n⏳ Snapshots are being created in the background..."
-      
+    
         return [TextContent(type="text", text=result)]
-      
+    
     except Exception as e:
         return [TextContent(type="text", text=f"Failed to create snapshots for instance {instance_id}: {e}")]
 ```
@@ -647,7 +649,7 @@ async def main():
   
     try:
         logger.info("Starting AWS EC2 MCP Server...")
-      
+    
         # Run the server using stdio transport
         async with stdio_server() as (read_stream, write_stream):
             await server.run(
@@ -662,7 +664,7 @@ async def main():
                     )
                 )
             )
-          
+        
     except Exception as e:
         logger.error(f"Server error: {e}")
         raise
@@ -710,34 +712,34 @@ async def test_mcp_server():
     try:
         # Connect to the server
         async with stdio_client(server_process.stdin, server_process.stdout) as (read, write):
-          
+        
             # Test 1: List available resources
             print("🔍 Testing resource listing...")
             resources = await read.list_resources()
             print(f"Found {len(resources)} resources:")
             for resource in resources[:3]:  # Show first 3
                 print(f"  - {resource.name}")
-          
+        
             # Test 2: List available tools
             print("\n🛠️  Testing tool listing...")
             tools = await read.list_tools()
             print(f"Found {len(tools)} tools:")
             for tool in tools:
                 print(f"  - {tool.name}: {tool.description}")
-          
+        
             # Test 3: Read a resource (if any exist)
             if resources:
                 print(f"\n📖 Testing resource reading...")
                 resource_content = await read.read_resource(resources[0].uri)
                 print(f"Resource content preview: {str(resource_content)[:200]}...")
-          
+        
             # Test 4: Get instance status (example)
             print(f"\n⚡ Testing tool execution...")
             if tools:
                 # This would require a real instance ID
                 # result = await read.call_tool("get_instance_status", {"instance_id": "i-1234567890abcdef0"})
                 print("Tool execution test skipped (requires real instance ID)")
-          
+        
     except Exception as e:
         print(f"Test failed: {e}")
     finally:
@@ -843,6 +845,7 @@ For DevOps projects, create a `.vscode/settings.json` in your project root:
 **User Request**: "Check the status of all our web servers"
 
 **AI Response**:
+
 ```
 I'll check the status of your EC2 instances for you.
 
@@ -871,6 +874,7 @@ Found 5 EC2 instances. Let me check the web servers specifically:
 **User Request**: "Our database server seems slow, can you create a snapshot before we restart it?"
 
 **AI Response**:
+
 ```
 I'll help you create a safety snapshot before restarting the database server.
 
@@ -902,6 +906,7 @@ Found database server: db-primary-1 (i-0db123456789abcde0)
 **User Request**: "Show me all stopped instances and estimate cost savings"
 
 **AI Response**:
+
 ```
 I'll analyze your stopped instances and calculate potential savings.
 
@@ -1031,4 +1036,4 @@ graph TB
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
