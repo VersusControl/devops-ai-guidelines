@@ -1,4 +1,4 @@
-# ChapterChapter 2: MCP Architecture Deep Dive
+# Chapter 2: MCP Architecture Deep Dive
 
 *Understanding how all the pieces fit together in the MCP ecosystem*
 
