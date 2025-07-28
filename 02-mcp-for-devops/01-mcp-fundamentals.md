@@ -8,7 +8,7 @@
 
 > Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
 
-## 📚 Table of Contents
+## 📚 Chapter of Contents
 
 - [1.1 Introduction to Model Context Protocol (MCP)](#11-introduction-to-model-context-protocol-mcp)
 - [1.2 MCP vs Traditional Automation Approaches](#12-mcp-vs-traditional-automation-approaches)

@@ -1,4 +1,4 @@
-# Chapter 2: MCP Architecture Deep Dive
+# ChapterChapter 2: MCP Architecture Deep Dive
 
 *Understanding how all the pieces fit together in the MCP ecosystem*
 
@@ -14,21 +14,21 @@ By the end of this chapter, you'll understand how your AI assistant talks to you
 
 Your AI assistant is smart but doesn't know your infrastructure. The MCP server bridges this gap, turning AI questions like "What pods are running?" into actual Kubernetes API calls that return real data.
 
-## 📚 Table of Contents
+## 📚 Chapter of Contents
 
-- [The Complete Flow](#the-complete-flow)
-- [MCP Protocol: The Foundation](#mcp-protocol-the-foundation)
-- [Understanding the Client-Server Side](#understanding-the-client-server-side)
-- [Resources: Making Your Infrastructure Discoverable](#resources-making-your-infrastructure-discoverable)
-- [Tools: Where Actions Happen](#tools-where-actions-happen)
-- [Error Handling: When Things Go Wrong](#error-handling-when-things-go-wrong)
-- [Protocol Compliance: Following the Rules](#protocol-compliance-following-the-rules)
-- [Debugging MCP Communications](#debugging-mcp-communications)
-- [Hands-On Lab: Exploring MCP in Action](#hands-on-lab-exploring-mcp-in-action)
-- [Real-World Architecture Patterns](#real-world-architecture-patterns)
-- [What's Next?](#whats-next)
+- [2.1 The Complete Flow](#21-the-complete-flow)
+- [2.2 MCP Protocol: The Foundation](#22-mcp-protocol-the-foundation)
+- [2.3 Understanding the Client-Server Side](#23-understanding-the-client-server-side)
+- [2.4 Resources: Making Your Infrastructure Discoverable](#24-resources-making-your-infrastructure-discoverable)
+- [2.5 Tools: Where Actions Happen](#25-tools-where-actions-happen)
+- [2.6 Error Handling: When Things Go Wrong](#26-error-handling-when-things-go-wrong)
+- [2.7 Protocol Compliance: Following the Rules](#27-protocol-compliance-following-the-rules)
+- [2.8 Debugging MCP Communications](#28-debugging-mcp-communications)
+- [2.9 Hands-On Lab: Exploring MCP in Action](#29-hands-on-lab-exploring-mcp-in-action)
+- [2.10 Real-World Architecture Patterns](#210-real-world-architecture-patterns)
+- [2.11 What&#39;s Next?](#211-whats-next)
 
-## The Complete Flow
+## 2.1 The Complete Flow
 
 Here's what happens when you ask an AI to scale your application:
 
@@ -73,7 +73,7 @@ The flow:
 
 Once set up, the AI handles complex requests like "Show me all failing pods and their logs" without custom code for each question.
 
-## MCP Protocol: The Foundation
+## 2.2 MCP Protocol: The Foundation
 
 MCP uses JSON-RPC 2.0 for communication. It's a standard way for programs to exchange JSON messages.
 
@@ -124,7 +124,7 @@ MCP uses JSON-RPC 2.0 for communication. It's a standard way for programs to exc
 
 Every message follows this pattern, making it predictable and debuggable.
 
-## Understanding the Client-Server Side
+## 2.3 Understanding the Client-Server Side
 
 When an AI assistant wants to interact with your Kubernetes cluster, there's a specific sequence of messages. Understanding this flow helps you debug issues and build better MCP servers.
 
@@ -194,7 +194,7 @@ graph LR
 
 We'll start with **stdio** since it's simple and works well with VS Code and GitHub Copilot. Later chapters will cover HTTP for production deployments.
 
-## Resources: Making Your Infrastructure Discoverable
+## 2.4 Resources: Making Your Infrastructure Discoverable
 
 Resources are like a catalog of things the AI can ask about. For Kubernetes, this means pods, services, deployments, and everything else in your cluster.
 
@@ -242,7 +242,7 @@ Your MCP server needs to present Kubernetes objects in a way that's useful for A
 
 Design resource descriptions for AI understanding. Instead of just "nginx-deployment", use "nginx-deployment (3/3 replicas ready) in production namespace". The AI can now understand health and context without additional queries.
 
-## Tools: Where Actions Happen
+## 2.5 Tools: Where Actions Happen
 
 Tools let the AI actually *do* things in your infrastructure. Each tool is a function the AI can call with parameters.
 
@@ -312,7 +312,7 @@ Your tools need to define what parameters they accept. This example balances fle
 - **Replica limits**: Prevents accidental massive scaling
 - **Required fields**: Forces the AI to provide essential information
 
-## Error Handling: When Things Go Wrong
+## 2.6 Error Handling: When Things Go Wrong
 
 In production, things break. Your MCP server needs to handle failures gracefully and give the AI useful information to help users.
 
@@ -386,7 +386,7 @@ flowchart TD
 
 This way, the AI can still help users even when the cluster is having problems.
 
-## Protocol Compliance: Following the Rules
+## 2.7 Protocol Compliance: Following the Rules
 
 MCP has specific requirements for message formats and sequences. Following these ensures your server works reliably with any MCP client.
 
@@ -440,7 +440,7 @@ Your responses must follow JSON-RPC 2.0 format exactly:
 - Wrong `id` (must match the request)
 - Using `result` and `error` in the same response
 
-## Debugging MCP Communications
+## 2.8 Debugging MCP Communications
 
 When things don't work, you need to see what's happening in the protocol layer.
 
@@ -484,7 +484,7 @@ echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":
 
 This catches most protocol compliance issues early.
 
-## Hands-On Lab: Exploring MCP in Action
+## 2.9 Hands-On Lab: Exploring MCP in Action
 
 Let's analyze real MCP communications and build a simple client to understand the protocol from both sides.
 
@@ -643,7 +643,7 @@ After completing these labs, you understand:
 3. **Error Patterns**: What happens when things go wrong
 4. **Debugging Techniques**: How to trace protocol issues
 
-## Real-World Architecture Patterns
+## 2.10 Real-World Architecture Patterns
 
 Now that you understand the protocol, let's look at how successful teams structure their MCP implementations.
 
@@ -718,7 +718,7 @@ graph LR
 
 Each handler knows how to work with one type of Kubernetes resource, making the code predictable and maintainable.
 
-## What's Next?
+## 2.11 What's Next?
 
 You now understand how MCP works under the hood. In the next chapter, we'll put this knowledge to work by building a real Kubernetes MCP server in Go.
 
