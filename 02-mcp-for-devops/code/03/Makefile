@@ -19,10 +19,6 @@ build:
 test:
 	$(GOTEST) -v ./...
 
-# Run integration tests
-test-integration:
-	$(GOTEST) -v ./test/...
-
 # Clean build artifacts
 clean:
 	$(GOCLEAN)
@@ -37,39 +33,23 @@ deps:
 	$(GOMOD) download
 	$(GOMOD) tidy
 
-# Build Docker image
-docker:
-	docker build -t k8s-mcp-server:latest .
+# Quick MCP test
+mcp-test: build
+	@echo "Testing MCP initialization..."
+	@echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{"resources":{}},"clientInfo":{"name":"test","version":"1.0.0"}}}' | $(BINARY_PATH)
 
-# Development setup
-dev-setup:
-	$(GOGET) github.com/stretchr/testify/assert
-	$(GOGET) github.com/stretchr/testify/mock
-	$(GOGET) github.com/stretchr/testify/require
-
-# Lint code
-lint:
-	golangci-lint run
-
-# Format code
-fmt:
-	$(GOCMD) fmt ./...
-
-# Quick development test
-dev-test: build
-	@echo "Testing MCP server demo..."
-	$(BINARY_PATH)
+# List resources test
+list-test: build
+	@echo "Testing resource listing..."
+	@echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{"resources":{}},"clientInfo":{"name":"test","version":"1.0.0"}}}' | $(BINARY_PATH) && \
+	echo '{"jsonrpc":"2.0","id":2,"method":"resources/list","params":{}}' | $(BINARY_PATH)
 
 help:
 	@echo "Available targets:"
-	@echo "  build           - Build the application"
-	@echo "  test            - Run unit tests"
-	@echo "  test-integration- Run integration tests"
-	@echo "  clean           - Clean build artifacts"
-	@echo "  run             - Build and run the application"
-	@echo "  deps            - Download dependencies"
-	@echo "  docker          - Build Docker image"
-	@echo "  dev-setup       - Setup development dependencies"
-	@echo "  lint            - Run linter"
-	@echo "  fmt             - Format code"
-	@echo "  dev-test        - Quick development test"
+	@echo "  build     - Build the application"
+	@echo "  test      - Run unit tests"
+	@echo "  clean     - Clean build artifacts"
+	@echo "  run       - Build and run the application"
+	@echo "  deps      - Download dependencies"
+	@echo "  mcp-test  - Quick MCP protocol test"
+	@echo "  list-test - Test resource listing"
