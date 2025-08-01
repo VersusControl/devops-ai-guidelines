@@ -40,11 +40,11 @@ graph TB
     subgraph "Enhanced MCP Server"
         B --> C[MCP Protocol Handler]
         C --> D[Resource Manager] 
-        C --> E[Tool Manager] %%% NEW
+        C --> E[Tool Manager]
         D --> F[Kubernetes Client]
         E --> F
-        E --> G[Input Validator] %%% NEW
-        E --> H[Operation Tracker] %%% NEW
+        E --> G[Input Validator]
+        E --> H[Operation Tracker]
         F --> I[AI Formatters]
     end
   
