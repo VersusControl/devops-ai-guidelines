@@ -12,10 +12,10 @@ This tutorial series transforms theoretical MCP knowledge into practical DevOps 
 - Chapter 2: MCP Architecture Deep Dive
 - Chapter 3: Building MCP Server with Go & Kubernetes
 - Chapter 4: Kubernetes Tools & Actions
-- Chapter 5: Authentication & Security
-- Chapter 6: Advanced MCP & Kubernetes Patterns
-- Chapter 7: MCP Performance & Optimization
-- Chapter 8: VS Code & GitHub Copilot Integration
+- Chapter 5: VS Code & GitHub Copilot Integration
+- Chapter 6: Authentication & Security
+- Chapter 7: Advanced MCP & Kubernetes Patterns
+- Chapter 8: MCP Performance & Optimization
 - Chapter 9: Production Deployment & Operations
 
 ## 🚀 What You'll Build
@@ -173,114 +173,7 @@ Feature-complete MCP server capable of performing common Kubernetes operational 
 
 ---
 
-### [Chapter 5: Authentication &amp; Security](05-authentication-security.md)
-
-**🎯 Learning Objectives:**
-
-- Implement robust authentication mechanisms for MCP servers
-- Design fine-grained authorization controls for Kubernetes operations
-- Apply security best practices for production deployments
-- Handle credential management and rotation securely
-
-**📋 Key Topics:**
-
-- Kubernetes RBAC integration with MCP servers
-- Service account management and least-privilege principles
-- Secure credential storage and rotation patterns
-- Audit logging and compliance requirements
-- Network security and TLS configuration
-
-**🛠️ Hands-On Lab:**
-
-- Implement RBAC-based authorization checks
-- Create service accounts with minimal required permissions
-- Add audit logging for all MCP operations
-- Configure TLS for secure communications
-- Build credential rotation mechanisms
-
-**💡 Real-World Scenario:**
-Enterprise environment requiring strict access controls, audit trails, and security compliance for AI-powered infrastructure management.
-
-**📝 Chapter Outcome:**
-Security-hardened MCP server with proper authentication, authorization, audit logging, and compliance features ready for enterprise deployment.
-
----
-
-### [Chapter 6: Advanced MCP &amp; Kubernetes Patterns](06-advanced-mcp-kubernetes-patterns.md)
-
-**🎯 Learning Objectives:**
-
-- Implement advanced MCP patterns for complex Kubernetes operations
-- Build event-driven MCP servers with Kubernetes watch APIs
-- Create efficient resource caching and streaming mechanisms
-- Handle multi-cluster and multi-namespace scenarios
-
-**📋 Key Topics:**
-
-- Advanced MCP server patterns and architectures
-- Kubernetes watch APIs and event streaming through MCP
-- Resource caching and performance optimization
-- Multi-cluster MCP server implementation
-- Namespace isolation and multi-tenancy patterns
-- Custom Resource Definitions (CRDs) integration
-- Helm and Kustomize integration patterns
-
-**🛠️ Hands-On Lab:**
-
-- Implement Kubernetes watch API integration for real-time updates
-- Build resource caching layer for performance optimization
-- Create multi-cluster MCP server with cluster federation
-- Add support for custom resources and CRDs
-- Implement Helm chart deployment through MCP tools
-- Build namespace-aware resource filtering
-
-**💡 Real-World Scenario:**
-Enterprise environment with multiple Kubernetes clusters requiring real-time monitoring, efficient resource management, and multi-tenancy support through AI interfaces.
-
-**📝 Chapter Outcome:**
-Advanced MCP server capable of handling enterprise-scale Kubernetes environments with real-time updates and multi-cluster support.
-
----
-
-### [Chapter 7: MCP Performance &amp; Optimization](07-mcp-performance-optimization.md)
-
-**🎯 Learning Objectives:**
-
-- Optimize MCP server performance for large-scale Kubernetes environments
-- Implement efficient resource querying and response strategies
-- Build comprehensive testing and debugging workflows for MCP servers
-- Monitor and profile MCP server performance
-
-**📋 Key Topics:**
-
-- MCP server performance optimization techniques
-- Efficient Kubernetes API querying and pagination
-- Resource filtering and selective data retrieval
-- Concurrent request handling and rate limiting
-- Memory management and garbage collection optimization
-- Testing strategies: unit, integration, and load testing
-- Debugging MCP protocol communications and bottlenecks
-- Performance monitoring and profiling tools
-
-**🛠️ Hands-On Lab:**
-
-- Profile MCP server performance with large Kubernetes clusters
-- Implement efficient resource querying with pagination and filtering
-- Build concurrent request handling with proper rate limiting
-- Create comprehensive test suite with performance benchmarks
-- Add performance monitoring with metrics and tracing
-- Optimize memory usage and response times
-- Debug complex MCP communication issues
-
-**💡 Real-World Scenario:**
-Production MCP server handling thousands of Kubernetes resources across multiple clusters, requiring optimized performance and comprehensive monitoring.
-
-**📝 Chapter Outcome:**
-High-performance MCP server optimized for enterprise-scale Kubernetes environments with comprehensive testing and monitoring capabilities.
-
----
-
-### [Chapter 8: VS Code &amp; GitHub Copilot Integration](08-vscode-copilot-integration.md)
+### [Chapter 5: VS Code &amp; GitHub Copilot Integration](08-vscode-copilot-integration.md)
 
 **🎯 Learning Objectives:**
 
@@ -324,6 +217,113 @@ Enterprise deployment requiring 99.9% uptime, automated deployments, comprehensi
 
 **📝 Chapter Outcome:**
 Enterprise-grade production deployment with high availability, automated operations, comprehensive monitoring, and established operational procedures.
+
+---
+
+### [Chapter 6: Authentication &amp; Security](05-authentication-security.md)
+
+**🎯 Learning Objectives:**
+
+- Implement robust authentication mechanisms for MCP servers
+- Design fine-grained authorization controls for Kubernetes operations
+- Apply security best practices for production deployments
+- Handle credential management and rotation securely
+
+**📋 Key Topics:**
+
+- Kubernetes RBAC integration with MCP servers
+- Service account management and least-privilege principles
+- Secure credential storage and rotation patterns
+- Audit logging and compliance requirements
+- Network security and TLS configuration
+
+**🛠️ Hands-On Lab:**
+
+- Implement RBAC-based authorization checks
+- Create service accounts with minimal required permissions
+- Add audit logging for all MCP operations
+- Configure TLS for secure communications
+- Build credential rotation mechanisms
+
+**💡 Real-World Scenario:**
+Enterprise environment requiring strict access controls, audit trails, and security compliance for AI-powered infrastructure management.
+
+**📝 Chapter Outcome:**
+Security-hardened MCP server with proper authentication, authorization, audit logging, and compliance features ready for enterprise deployment.
+
+---
+
+### [Chapter 7: Advanced MCP &amp; Kubernetes Patterns](06-advanced-mcp-kubernetes-patterns.md)
+
+**🎯 Learning Objectives:**
+
+- Implement advanced MCP patterns for complex Kubernetes operations
+- Build event-driven MCP servers with Kubernetes watch APIs
+- Create efficient resource caching and streaming mechanisms
+- Handle multi-cluster and multi-namespace scenarios
+
+**📋 Key Topics:**
+
+- Advanced MCP server patterns and architectures
+- Kubernetes watch APIs and event streaming through MCP
+- Resource caching and performance optimization
+- Multi-cluster MCP server implementation
+- Namespace isolation and multi-tenancy patterns
+- Custom Resource Definitions (CRDs) integration
+- Helm and Kustomize integration patterns
+
+**🛠️ Hands-On Lab:**
+
+- Implement Kubernetes watch API integration for real-time updates
+- Build resource caching layer for performance optimization
+- Create multi-cluster MCP server with cluster federation
+- Add support for custom resources and CRDs
+- Implement Helm chart deployment through MCP tools
+- Build namespace-aware resource filtering
+
+**💡 Real-World Scenario:**
+Enterprise environment with multiple Kubernetes clusters requiring real-time monitoring, efficient resource management, and multi-tenancy support through AI interfaces.
+
+**📝 Chapter Outcome:**
+Advanced MCP server capable of handling enterprise-scale Kubernetes environments with real-time updates and multi-cluster support.
+
+---
+
+### [Chapter 8: MCP Performance &amp; Optimization](07-mcp-performance-optimization.md)
+
+**🎯 Learning Objectives:**
+
+- Optimize MCP server performance for large-scale Kubernetes environments
+- Implement efficient resource querying and response strategies
+- Build comprehensive testing and debugging workflows for MCP servers
+- Monitor and profile MCP server performance
+
+**📋 Key Topics:**
+
+- MCP server performance optimization techniques
+- Efficient Kubernetes API querying and pagination
+- Resource filtering and selective data retrieval
+- Concurrent request handling and rate limiting
+- Memory management and garbage collection optimization
+- Testing strategies: unit, integration, and load testing
+- Debugging MCP protocol communications and bottlenecks
+- Performance monitoring and profiling tools
+
+**🛠️ Hands-On Lab:**
+
+- Profile MCP server performance with large Kubernetes clusters
+- Implement efficient resource querying with pagination and filtering
+- Build concurrent request handling with proper rate limiting
+- Create comprehensive test suite with performance benchmarks
+- Add performance monitoring with metrics and tracing
+- Optimize memory usage and response times
+- Debug complex MCP communication issues
+
+**💡 Real-World Scenario:**
+Production MCP server handling thousands of Kubernetes resources across multiple clusters, requiring optimized performance and comprehensive monitoring.
+
+**📝 Chapter Outcome:**
+High-performance MCP server optimized for enterprise-scale Kubernetes environments with comprehensive testing and monitoring capabilities.
 
 ---
 
