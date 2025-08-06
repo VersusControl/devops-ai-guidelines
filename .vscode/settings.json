@@ -1,0 +1,10 @@
+{
+  "mcp.enabled": true,
+  "chat.mcp.serverSampling": {
+    "devops-ai-guidelines/.vscode/mcp.json: k8s-mcp-server": {
+      "allowedModels": [
+        "github.copilot-chat/claude-sonnet-4"
+      ]
+    }
+  }
+}

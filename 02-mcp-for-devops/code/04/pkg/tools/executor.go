@@ -64,6 +64,8 @@ func (e *ToolExecutor) ExecuteTool(ctx context.Context, toolName string, inputs 
 		result = e.executeCreateConfigMap(ctx, inputs)
 	case "k8s_delete_pod":
 		result = e.executeDeletePod(ctx, inputs)
+	case "k8s_list_pods":
+		result = e.executeListPods(ctx, inputs)
 	default:
 		result = &ExecuteResult{
 			Success:   false,
@@ -290,6 +292,47 @@ func (e *ToolExecutor) executeDeletePod(ctx context.Context, inputs map[string]i
 			"namespace": namespace,
 			"name":      name,
 			"force":     force,
+		},
+		Timestamp: time.Now(),
+	}
+}
+
+// executeListPods handles listing pods in a namespace
+func (e *ToolExecutor) executeListPods(ctx context.Context, inputs map[string]interface{}) *ExecuteResult {
+	namespace := inputs["namespace"].(string)
+
+	pods, err := e.k8sClient.ListPods(ctx, namespace)
+	if err != nil {
+		return &ExecuteResult{
+			Success:   false,
+			Message:   "Failed to list pods",
+			Error:     err.Error(),
+			Timestamp: time.Now(),
+		}
+	}
+
+	// Convert pods to a format suitable for the response
+	podList := make([]map[string]interface{}, len(pods))
+	for i, pod := range pods {
+		podList[i] = map[string]interface{}{
+			"name":      pod.Name,
+			"namespace": pod.Namespace,
+			"status":    pod.Status,
+			"phase":     pod.Phase,
+			"node":      pod.Node,
+			"labels":    pod.Labels,
+			"createdAt": pod.CreatedAt.Format(time.RFC3339),
+			"restarts":  pod.Restarts,
+		}
+	}
+
+	return &ExecuteResult{
+		Success: true,
+		Message: fmt.Sprintf("Successfully listed %d pods in namespace %s", len(pods), namespace),
+		Data: map[string]interface{}{
+			"namespace": namespace,
+			"podCount":  len(pods),
+			"pods":      podList,
 		},
 		Timestamp: time.Now(),
 	}

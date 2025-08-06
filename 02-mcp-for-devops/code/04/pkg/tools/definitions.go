@@ -133,6 +133,21 @@ func GetToolDefinitions() []mcp.Tool {
 			},
 		},
 		{
+			Name:        "k8s_list_pods",
+			Description: "List all pods in a Kubernetes namespace with their status and details",
+			InputSchema: mcp.ToolInputSchema{
+				Type: "object",
+				Properties: map[string]interface{}{
+					"namespace": map[string]interface{}{
+						"type":        "string",
+						"description": "Kubernetes namespace to list pods from",
+						"pattern":     "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+					},
+				},
+				Required: []string{"namespace"},
+			},
+		},
+		{
 			Name:        "k8s_delete_pod",
 			Description: "Delete a specific Kubernetes pod (use with caution)",
 			InputSchema: mcp.ToolInputSchema{

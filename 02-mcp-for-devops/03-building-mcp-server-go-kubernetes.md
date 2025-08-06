@@ -1,4 +1,4 @@
-# 📚 Chapter 3: Building Production MCP Server for Kubernetes with Go
+# Chapter 3: Building Production MCP Server for Kubernetes with Go
 
 ## 📚 Support This Work
 

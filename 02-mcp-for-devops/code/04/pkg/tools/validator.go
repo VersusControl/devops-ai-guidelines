@@ -41,7 +41,11 @@ func (v *Validator) ValidateToolInput(toolName string, inputs map[string]interfa
 
 	// Common validations for all tools
 	v.validateNamespace(inputs, result)
-	v.validateResourceName(inputs, result)
+
+	// Only validate resource name for tools that require a specific resource
+	if toolName != "k8s_list_pods" {
+		v.validateResourceName(inputs, result)
+	}
 
 	// Tool-specific validations
 	switch toolName {
@@ -55,6 +59,8 @@ func (v *Validator) ValidateToolInput(toolName string, inputs map[string]interfa
 		v.validateConfigMapOperation(inputs, result)
 	case "k8s_delete_pod":
 		v.validateDeleteOperation(inputs, result)
+	case "k8s_list_pods":
+		v.validateListOperation(inputs, result)
 	default:
 		result.Valid = false
 		result.Errors = append(result.Errors, ValidationError{
@@ -397,6 +403,12 @@ func (v *Validator) validateConfirmation(inputs map[string]interface{}, result *
 			Message: "you must set confirm=true to perform this operation",
 		})
 	}
+}
+
+// validateListOperation validates list operation parameters
+func (v *Validator) validateListOperation(inputs map[string]interface{}, result *ValidationResult) {
+	// For list operations, we only need namespace validation which is already done in common validation
+	// No additional validation required for listing pods
 }
 
 // isValidLabelKey validates Kubernetes label key format
