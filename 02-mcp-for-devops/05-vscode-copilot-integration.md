@@ -186,6 +186,7 @@ GitHub Copilot Chat ←→ VS Code MCP Client ←→ Your MCP Server ←→ Kube
 Besides `.vscode/settings.json`, you can also configure MCP servers:
 
 **User Settings (Global)**:
+
 ```json
 // In VS Code User Settings
 {
@@ -198,6 +199,7 @@ Besides `.vscode/settings.json`, you can also configure MCP servers:
 ```
 
 **Workspace Settings (Project-specific)**:
+
 ```json
 // In .vscode/settings.json (recommended)
 {
@@ -212,6 +214,7 @@ Besides `.vscode/settings.json`, you can also configure MCP servers:
 ```
 
 **Environment Variables**:
+
 ```bash
 # Set MCP server path
 export MCP_SERVER_PATH="/path/to/your/mcp/server"
@@ -229,30 +232,34 @@ export MCP_SERVER_PATH="/path/to/your/mcp/server"
 **Common Issues:**
 
 ❌ **MCP server not starting**:
+
 ```json
 // Wrong path
 "cwd": "./wrong/path"
 ```
 
 ✅ **Correct path**:
+
 ```json
 // Correct path with workspace variable
 "cwd": "${workspaceFolder}/02-mcp-for-devops/code/04"
 ```
 
 ❌ **Tool not found**:
+
 - Server might not be exposing tools correctly
 - Check server logs for tool registration errors
 
 ✅ **Tools working**:
+
 - You'll see tool calls in the MCP output panel
 - Copilot will successfully execute commands
 
-## 5.3 How to Ask Questions - The Magic Starts Here
+## 5.3 How to Ask Questions
 
 ## 5.2 How to Ask Questions
 
-The beauty of MCP is that you **don't need to learn commands**. Just ask natural questions in GitHub Copilot Chat.
+The power of MCP is that you **don't need to learn commands**. Just ask natural questions in GitHub Copilot Chat.
 
 ### Opening Copilot Chat
 
@@ -594,84 +601,11 @@ You don't need to memorize commands or syntax:
 
 ## Summary
 
-In this chapter, you learned the **core concept** of MCP integration: **natural conversation with automatic tool selection**.
-
-### Key Takeaways
-
-✅ **No Commands to Remember**: Just ask questions naturally
-✅ **AI Chooses Tools**: The AI automatically picks the right Kubernetes operations
-✅ **Real Cluster Data**: Every response uses live data from your cluster
-✅ **Conversational Flow**: Ask follow-up questions to dive deeper
-✅ **Safety First**: AI asks for confirmation on destructive operations
-
-### The Magic Formula
-
-```
-Your Natural Question + AI Tool Selection + Live Cluster Data = Intelligent Response
-```
-
-### What You Can Do Now
-
-- **Ask any Kubernetes question** and get answers with real data
-- **Perform operations** like scaling and restarting through conversation
-- **Debug issues** with AI-guided investigation workflows
-- **Learn as you go** - AI explains what it's doing and why
-
-### Real-World Impact
-
-Instead of remembering kubectl commands and switching between terminals, you can now:
-
-```
-You: "Are there any issues in production?"
-AI: [Checks everything automatically]
-AI: "Found 2 issues: pod X is failing, deployment Y needs scaling"
-
-You: "Fix the scaling issue"  
-AI: [Scales automatically]
-AI: "Scaled deployment Y from 2 to 5 replicas, monitoring progress"
-```
-
-This is the power of MCP: **turning complex infrastructure management into simple conversations**.
-
-### Next Steps
-
-Now that you understand how to use MCP with GitHub Copilot, let's secure it for production use:
-
-**Next**: [Chapter 6: Authentication &amp; Security](06-authentication-security.md) - Learn how to add proper authentication, authorization, and audit logging to make your MCP server enterprise-ready.
-
-## Summary
-
 In this chapter, we've transformed our MCP server from a standalone tool into a fully integrated development environment. The combination of VS Code, GitHub Copilot, Claude, and our Kubernetes MCP server creates a powerful AI-assisted DevOps workflow.
 
-### Key Achievements
-
-✅ **Seamless Integration**: VS Code automatically connects to our MCP server
-✅ **AI-Enhanced Workflows**: Custom Copilot commands for Kubernetes operations
-✅ **Team Collaboration**: Shared configurations and standardized processes
-✅ **Intelligent Debugging**: AI-guided troubleshooting with live cluster data
-✅ **Automated Documentation**: Self-documenting investigation processes
-
-### What You've Built
-
-- **Complete IDE Integration** with MCP server connectivity
-- **Custom AI Commands** for Kubernetes-specific operations
-- **Team Workspace Configuration** for consistent development environments
-- **Automated Workflows** for common DevOps tasks
-- **Intelligent Context Sharing** between code and infrastructure
-
-### Real-World Impact
-
-Your development team can now:
-
-- **Debug Kubernetes issues** without leaving the IDE
-- **Deploy applications** with AI-generated best practices
-- **Scale operations** with intelligent recommendations
-- **Share knowledge** through standardized AI-assisted workflows
-- **Accelerate learning** with guided problem-solving approaches
-
 ### Next Steps
 
-With our integrated development environment complete, we're ready to tackle enterprise-grade concerns:
+With our integrated development environment complete, we're ready to tackle enterprise-grade concerns.
 
 **Next**: [Chapter 6: Authentication &amp; Security](06-authentication-security.md) - Learn how to secure your MCP server for production use with enterprise authentication, authorization, and audit logging.
 
