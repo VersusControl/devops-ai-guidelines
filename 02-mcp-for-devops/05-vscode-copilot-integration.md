@@ -93,13 +93,29 @@ Create or update `.vscode/settings.json` in your workspace:
 
 ```json
 {
-  "mcp.servers": {
-    "kubernetes": {
-      "command": "go",
-      "args": ["run", "./cmd/server"],
-      "cwd": "${workspaceFolder}/02-mcp-for-devops/code/04"
+  "mcp.enabled": true,
+  "chat.mcp.serverSampling": {
+    "devops-ai-guidelines/.vscode/mcp.json: k8s-mcp-server": {
+      "allowedModels": [
+        "github.copilot-chat/claude-sonnet-4"
+      ]
     }
   }
+}
+```
+
+Next create `.vscode/mcp.json`:
+
+```json
+{
+	"servers": {
+		"k8s-mcp-server": {
+			"type": "stdio",
+			"command": "${workspaceFolder}/02-mcp-for-devops/code/04/bin/k8s-mcp-server",
+			"args": []
+		}
+	},
+	"inputs": []
 }
 ```
 
@@ -180,45 +196,6 @@ GitHub Copilot Chat ←→ VS Code MCP Client ←→ Your MCP Server ←→ Kube
 5. **VS Code forwards to MCP server**: Calls your Go server
 6. **Your server queries Kubernetes**: Gets actual pod data
 7. **Response flows back**: Server → VS Code → Copilot → You
-
-### Alternative Configuration Methods
-
-Besides `.vscode/settings.json`, you can also configure MCP servers:
-
-**User Settings (Global)**:
-
-```json
-// In VS Code User Settings
-{
-  "mcp.servers": {
-    "kubernetes": {
-      "command": "/usr/local/bin/k8s-mcp-server"
-    }
-  }
-}
-```
-
-**Workspace Settings (Project-specific)**:
-
-```json
-// In .vscode/settings.json (recommended)
-{
-  "mcp.servers": {
-    "kubernetes": {
-      "command": "go",
-      "args": ["run", "./cmd/server"],
-      "cwd": "${workspaceFolder}/02-mcp-for-devops/code/04"
-    }
-  }
-}
-```
-
-**Environment Variables**:
-
-```bash
-# Set MCP server path
-export MCP_SERVER_PATH="/path/to/your/mcp/server"
-```
 
 ### Troubleshooting the Connection
 
