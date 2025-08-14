@@ -173,7 +173,7 @@ Feature-complete MCP server capable of performing common Kubernetes operational 
 
 ---
 
-### [Chapter 5: VS Code &amp; GitHub Copilot Integration](08-vscode-copilot-integration.md)
+### [Chapter 5: VS Code &amp; GitHub Copilot Integration](05-vscode-copilot-integration.md)
 
 **🎯 Learning Objectives:**
 
@@ -220,7 +220,7 @@ Enterprise-grade production deployment with high availability, automated operati
 
 ---
 
-### [Chapter 6: Authentication &amp; Security](05-authentication-security.md)
+### [Chapter 6: Authentication &amp; Security](06-authentication-security.md)
 
 **🎯 Learning Objectives:**
 

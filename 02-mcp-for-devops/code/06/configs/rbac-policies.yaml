@@ -1,0 +1,39 @@
+roles:
+  - name: "viewer"
+    description: "Read-only access to Kubernetes resources"
+    permissions:
+      - "k8s:pods:list"
+      - "k8s:services:list"
+      - "k8s:deployments:list"
+      - "k8s:pods:logs"
+    namespaces:
+      - "default"
+      - "development"
+
+  - name: "operator"
+    description: "Operational access for routine maintenance"
+    permissions:
+      - "k8s:pods:*"
+      - "k8s:services:list"
+      - "k8s:deployments:*"
+    namespaces:
+      - "default"
+      - "development"
+      - "staging"
+
+  - name: "admin"
+    description: "Full administrative access"
+    permissions:
+      - "k8s:*"
+    # No namespaces specified = access to all namespaces
+
+  - name: "developer"
+    description: "Development environment access"
+    permissions:
+      - "k8s:pods:list"
+      - "k8s:pods:logs"
+      - "k8s:deployments:list"
+      - "k8s:deployments:scale"
+    namespaces:
+      - "development"
+      - "feature-*"  # Wildcard namespace matching
