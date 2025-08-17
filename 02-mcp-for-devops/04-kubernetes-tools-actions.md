@@ -1647,7 +1647,7 @@ Your MCP server is now a powerful operational tool that can safely perform commo
 
 ---
 
-**Next**: [Chapter 5: Authentication &amp; Security](05-authentication-security.md)
+**Next**: [Chapter 5: VS Code &amp; GitHub Copilot Integration](05-vscode-copilot-integration.md)
 
 ---
 
