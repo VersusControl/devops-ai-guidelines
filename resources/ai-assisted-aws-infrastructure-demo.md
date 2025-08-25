@@ -21,12 +21,12 @@ config:
   layout: dagre
 ---
 flowchart LR
- subgraph subGraph0["❌ Traditional Way: 3-5 Days"]
+ subgraph subGraph0["❌ Traditional Way"]
         OLD["📝 Write Code 
             🐛 Debug Issues
             🔧 Fix Problems"]
   end
- subgraph subGraph1["✅ AI Way: 18 Minutes"]
+ subgraph subGraph1["✅ AI Way"]
         NEW["💬 I need a web app
             🤖 AI builds everything
             ✨ Production ready"]
