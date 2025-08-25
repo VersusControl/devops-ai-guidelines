@@ -49,6 +49,12 @@ This repository provides everything you need to master AI in DevOps - from your 
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | ------------ |
 | [**AWS Certification 10x Faster with AI**](./resources/aws-certification-10x-faster.md) | Accelerate your AWS learning using AI tools and strategies | 8 min        |
 
+### Resources Example
+
+| Document                                                                                   | Description                                                | Time to Read |
+| ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | ------------ |
+| [**How I Use AI Assistant to Create AWS Infrastructure**](./resources/ai-assisted-aws-infrastructure-demo.md) | A conversation with your AI assistant about your infrastructure needs, and it builds everything for you. | 12 min        |
+
 ## 🚀 Quick Start Paths
 
 ### 👤 **Individual DevOps Engineer**
