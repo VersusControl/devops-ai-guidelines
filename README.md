@@ -85,5 +85,3 @@ If these guidelines have helped your team implement AI safely and effectively, c
 ---
 
 **Made with ❤️ by the DevOps VN community | Helping DevOps professionals thrive in the AI era**
-
-*Repository last updated: July 2025*
