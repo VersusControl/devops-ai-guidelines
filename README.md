@@ -54,6 +54,7 @@ This repository provides everything you need to master AI in DevOps - from your 
 | Document                                                                                   | Description                                                | Time to Read |
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------- | ------------ |
 | [**How I Use AI Assistant to Create AWS Infrastructure**](./resources/ai-assisted-aws-infrastructure-demo.md) | A conversation with your AI assistant about your infrastructure needs, and it builds everything for you. | 12 min        |
+| [**AI Infrastructure Agent for AWS**](./resources/ai-infrastructure-agent-for-aws.md) | Transform your AWS infrastructure management with natural language commands! | 12 min        |
 
 ## 🚀 Quick Start Paths
 
