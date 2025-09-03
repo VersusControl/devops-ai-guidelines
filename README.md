@@ -29,6 +29,7 @@ This repository provides everything you need to master AI in DevOps - from your 
 | [**📊 AI Roadmap Overview**](./01-ai-roadmap-for-devops/01-roadmap.md) | Complete visual learning path with 3 phases and navigation        | ✅ Available |
 | [**🚀 MCP for DevOps**](./02-mcp-for-devops/00-toc.md)                 | Complete guide to building MCP servers with Golang and Kubernetes | ✅ Available |
 | [**🚀 AI Agent for DevOps**](./03-ai-agent-for-devops/00-toc.md)       | Complete guide to building AI Agent with Golang and LangChain    | ✅ Available |
+| [**🚀 Building Your Business on AWS with AI Agent**](./04-ai-agent-for-aws/00-toc.md) | A Step-by-Step Guide for Beginners to Design, Build, and Scale Your Business Infrastructure on Amazon Web Services | ✅ Available        |
 
 ### 🏢 For Teams & Organizations
 
