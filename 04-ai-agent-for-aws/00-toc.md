@@ -42,7 +42,7 @@ If you’re enjoying this series and find it helpful, I'd love for you to like a
 * The Shared Responsibility Model: Your Role and AWS's Role
 * Introduction to "Cloud Coffee Shop" – Our Architectural
 
-**Chapter 2: Mastering AWS Account Security with IAM**
+**Chapter 2: Your AWS Account - The Foundation for Business**
 
 * The AWS Account: Your Secure Container for "Cloud Coffee Shop"
 * Securing Your Root User: The Keys to the Coffee Kingdom
@@ -59,6 +59,8 @@ If you’re enjoying this series and find it helpful, I'd love for you to like a
 * Key VPC Components: The Building Blocks
 * Designing "Cloud Coffee Shop" Network Architecture
 * IP Addressing within the VPC
+* Introduction AI Infrastructure Agent
+* Using AI Infrastructure Agent to create AWS VPC
 
 **Chapter 4: Securing Your VPC: Network Firewalls & Remote Access**
 
