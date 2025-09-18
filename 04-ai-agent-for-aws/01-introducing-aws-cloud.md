@@ -1,5 +1,7 @@
 # Chapter 1: Introducing the AWS Cloud and Our Business
 
+> ⭐ **Starring** this repository to support this work
+
 Welcome to the world of cloud computing and Amazon Web Services (AWS)! If you're looking to build a new business, scale an existing application, or simply understand how modern technology powers the online services you use every day, you're in the right place. This chapter will lay the groundwork for our journey. We'll explore what cloud computing is, introduce you to AWS, and meet the "Cloud Coffee Shop," our example project that will help us practically understand AWS concepts.
 
 ## 1.1 What is Cloud Computing?
