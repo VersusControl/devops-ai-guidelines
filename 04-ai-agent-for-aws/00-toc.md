@@ -57,8 +57,8 @@ If you’re enjoying this series and find it helpful, I'd love for you to like a
 
 * What is a Virtual Private Cloud (VPC)? Your Isolated Network on AWS
 * Key VPC Components: The Building Blocks
-* Designing "Cloud Coffee Shop" Network Architecture
 * IP Addressing within the VPC
+* Designing "Cloud Coffee Shop" Network Architecture: Describe step by step from VPC -> Subnet -> Public Subnet with Internet gateway -> Private Subnet with NAT gateway
 * Introduction AI Infrastructure Agent
 * Using AI Infrastructure Agent to create AWS VPC
 

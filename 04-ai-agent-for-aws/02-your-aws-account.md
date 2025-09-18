@@ -1,5 +1,7 @@
 # Chapter 2: Your AWS Account - The Foundation for Business
 
+> ⭐ **Starring** this repository to support this work
+
 In Chapter 1, we learned about cloud computing, Amazon Web Services (AWS), and our example project, the "Cloud Coffee Shop." Now, before we start building our coffee shop's online platform, we need to talk about something vitally important: security. Just like you'd want strong locks on the doors of a physical coffee shop, you need robust security for your AWS account. This chapter will guide you through the first and most critical steps to secure your AWS environment using a service called AWS Identity and Access Management (IAM).
 
 ## 2.1 Your AWS Account: The Foundational Container for 'Cloud Coffee Shop'
@@ -165,3 +167,13 @@ Regularly reviewing your billing dashboard and utilizing tools like AWS Budgets 
 By diligently securing your root user and leveraging IAM to manage users, groups, roles, and policies according to the principle of least privilege, you are establishing a robust security foundation for your "Cloud Coffee Shop." In the next chapter, we will begin designing the network infrastructure for our coffee shop using Amazon Virtual Private Cloud (VPC).
 
 If you're enjoying this series and find it helpful, I'd love for you to like and share it! Thank you so much!
+
+---
+
+## 💝 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> **Support this project:** Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered DevOps resources.
+
+---
