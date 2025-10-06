@@ -1,5 +1,7 @@
 # Chapter 1: Introduction to AI Agents for Logging
 
+> ⭐ **Starring** this repository to support this work
+
 ## What is an AI Agent?
 
 An AI agent is a piece of software that can think, learn, and act on its own. In the world of DevOps, an AI agent for logging reads your log files, understands what's happening in your systems, and helps you find and fix problems faster.
@@ -550,3 +552,13 @@ Error handling, cost optimization, monitoring, and reliability.
 ---
 
 Let's get started.
+
+---
+
+## 💝 Support This Work
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+
+> **Support this project:** Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered DevOps resources.
+
+---
