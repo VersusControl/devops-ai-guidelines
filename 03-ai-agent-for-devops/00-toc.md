@@ -22,7 +22,7 @@ This README provides an outline for a beginner-friendly book series on building 
 - Why use AI for log analysis: Benefits like intelligent parsing, pattern recognition, anomaly detection, and automated log correlation.
 - Overview of what you'll build: A simple AI Logging Agent that analyzes application and system logs in real-time.
 
-## Chapter 2: AI Agents vs. Traditional Tools
+## [Chapter 2: AI Agents vs. Traditional Tools](./02-ai-agents-vs-traditional-tools.md)
 
 - Differences between AI Agents, basic scripts, and tools like ELK Stack, Splunk, or traditional log parsers.
 - Core AI components: Models for log understanding, retrieval for context, actions for responses.
