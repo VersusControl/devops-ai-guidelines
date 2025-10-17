@@ -10,6 +10,41 @@ Think of this like learning to cook. Before you make a meal, you need to know wh
 
 The good news? There are only a handful of core concepts you need to grasp. Once you understand these, building an AI agent becomes straightforward.
 
+```mermaid
+graph TB
+    subgraph "Core Building Blocks"
+        M[AI Model<br/>The Brain]
+        D[Data Retrieval<br/>Getting Logs]
+        R[Role<br/>Who It Is]
+        T[Tasks<br/>What It Does]
+        To[Tools<br/>Its Capabilities]
+        Me[Memory<br/>What It Remembers]
+        P[ReAct Pattern<br/>How It Works]
+    end
+    
+    M --> Agent[AI Logging Agent]
+    D --> Agent
+    R --> Agent
+    T --> Agent
+    To --> Agent
+    Me --> Agent
+    P --> Agent
+    
+    Agent --> Output[Analysis & Actions]
+    
+    style M fill:#667eea,stroke:#764ba2,color:#fff
+    style D fill:#4dabf7,color:#000
+    style R fill:#51cf66,stroke:#2f9e44,color:#000
+    style T fill:#51cf66,stroke:#2f9e44,color:#000
+    style To fill:#ffd43b,stroke:#fab005,color:#000
+    style Me fill:#ff8787,stroke:#c92a2a,color:#fff
+    style P fill:#4dabf7,color:#000
+    style Agent fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
+    style Output fill:#51cf66,stroke:#2f9e44,color:#000
+```
+
+**Figure 3.1:** Core Building Blocks - Seven key components that make up an AI logging agent.
+
 ## The AI Model: Your Agent's Brain
 
 At the heart of every AI agent is a language model. This is the part that reads text, understands it, and generates responses.
@@ -41,7 +76,7 @@ graph LR
     style D fill:#48bb78,color:#fff
 ```
 
-**Figure 3.1:** Basic Model Processing - Input goes in, understanding happens, output comes out.
+**Figure 3.2:** Basic Model Processing - Input goes in, understanding happens, output comes out.
 
 ### Choosing Your Model
 
@@ -109,7 +144,7 @@ graph TB
     style AI fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
 ```
 
-**Figure 3.2:** Data Retrieval Architecture - Logs flow from multiple sources through a retrieval layer to the AI model.
+**Figure 3.3:** Data Retrieval Architecture - Logs flow from multiple sources through a retrieval layer to the AI model.
 
 ### Building Your Retrieval Layer
 
@@ -188,7 +223,7 @@ graph TB
     style I fill:#667eea,color:#fff
 ```
 
-**Figure 3.3:** Role Specialization - A generic model becomes a specialized agent through role definition.
+**Figure 3.4:** Role Specialization - A generic model becomes a specialized agent through role definition.
 
 ### Tasks: What Should Your Agent Do?
 
@@ -227,7 +262,7 @@ graph LR
     style E fill:#667eea,color:#fff
 ```
 
-**Figure 3.4:** Task Pipeline - Tasks execute in sequence, each building on the previous results.
+**Figure 3.5:** Task Pipeline - Tasks execute in sequence, each building on the previous results.
 
 ### Tools: How Your Agent Takes Action
 
@@ -274,7 +309,7 @@ graph TB
     style G fill:#68d391,color:#000
 ```
 
-**Figure 3.5:** Tool Usage Pattern - The agent calls tools when it needs to take action or gather more information.
+**Figure 3.6:** Tool Usage Pattern - The agent calls tools when it needs to take action or gather more information.
 
 ## Putting It Together: Building Your Logging Agent
 
@@ -346,7 +381,7 @@ graph LR
     style K fill:#48bb78,color:#fff
 ```
 
-**Figure 3.6:** Complete Agent Flow - From initialization through execution to output.
+**Figure 3.7:** Complete Agent Flow - From initialization through execution to output.
 
 ### Memory: Remembering Past Analysis
 
@@ -410,7 +445,7 @@ graph LR
     style G fill:#48bb78,color:#fff
 ```
 
-**Figure 3.7:** Memory Usage - The agent checks memory before analyzing new issues.
+**Figure 3.8:** Memory Usage - The agent checks memory before analyzing new issues.
 
 ## Applying the ReAct Pattern to Your Logging Agent
 
@@ -457,7 +492,7 @@ graph LR
     style C fill:#51cf66,stroke:#2f9e44,color:#000
 ```
 
-**Figure 3.8:** ReAct Loop - Continuous cycle of thinking, acting, and observing.
+**Figure 3.9:** ReAct Loop - Continuous cycle of thinking, acting, and observing.
 
 ### Building the Thought Phase
 
@@ -532,7 +567,7 @@ graph LR
     style Res fill:#51cf66,stroke:#2f9e44,color:#000
 ```
 
-**Figure 3.9:** Action Execution Flow - Parse, validate, execute, and return results.
+**Figure 3.10:** Action Execution Flow - Parse, validate, execute, and return results.
 
 ### Processing the Observation Phase
 
@@ -608,7 +643,7 @@ graph TB
     style Continue fill:#4dabf7,color:#000
 ```
 
-**Figure 3.10:** Loop Boundaries - Multiple exit conditions ensure the agent stops appropriately.
+**Figure 3.11:** Loop Boundaries - Multiple exit conditions ensure the agent stops appropriately.
 
 ### Example: Complete ReAct Flow
 
@@ -685,7 +720,7 @@ graph LR
     style C fill:#51cf66,stroke:#2f9e44,color:#000
 ```
 
-**Figure 3.11:** Complete ReAct Example - Four iterations leading to a conclusion with recommended action.
+**Figure 3.12:** Complete ReAct Example - Four iterations leading to a conclusion with recommended action.
 
 ### Why ReAct Works for Log Analysis
 
