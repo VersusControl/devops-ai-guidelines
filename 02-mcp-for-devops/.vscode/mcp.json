@@ -2,7 +2,7 @@
 	"servers": {
 		"k8s-mcp-server": {
 			"type": "stdio",
-			"command": "${workspaceFolder}/02-mcp-for-devops/code/04/bin/k8s-mcp-server",
+			"command": "${workspaceFolder}/code/04/bin/k8s-mcp-server",
 			"args": []
 		}
 	},
