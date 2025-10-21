@@ -1,0 +1,16 @@
+2024-10-21 10:15:23 INFO Application started successfully
+2024-10-21 10:15:24 INFO Database connection pool initialized: size=10
+2024-10-21 10:15:25 INFO HTTP server listening on port 8080
+2024-10-21 10:17:42 INFO Processing request: GET /api/users
+2024-10-21 10:17:43 INFO Request completed: 200 OK (125ms)
+2024-10-21 10:18:15 WARN Slow query detected: SELECT * FROM orders (850ms)
+2024-10-21 10:19:03 ERROR Database connection timeout
+2024-10-21 10:19:04 WARN Retry attempt 1 of 3
+2024-10-21 10:19:07 ERROR Database connection timeout
+2024-10-21 10:19:08 WARN Retry attempt 2 of 3
+2024-10-21 10:19:11 ERROR Database connection timeout
+2024-10-21 10:19:12 ERROR Maximum retries exceeded
+2024-10-21 10:19:12 ERROR Request failed: 500 Internal Server Error
+2024-10-21 10:19:45 WARN High memory usage: 87%
+2024-10-21 10:20:12 ERROR Out of memory exception
+2024-10-21 10:20:13 FATAL Application shutting down
