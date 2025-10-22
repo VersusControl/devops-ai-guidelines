@@ -10,7 +10,6 @@ This README provides an outline for a beginner-friendly book series on building 
 - [Chapter 4: Setting Up Your Development Environment](#chapter-4-setting-up-your-development-environment)
 - [Chapter 5: Levels of AI Logging Systems](#chapter-5-levels-of-ai-logging-systems)
 - [Chapter 6: Introduction to LangChain for AI Logging Agents](#chapter-6-introduction-to-langchain-for-ai-logging-agents)
-- [Chapter 6: Introduction to LangChain for AI Logging Agents](#chapter-6-introduction-to-langchain-for-ai-logging-agents)
 - [Chapter 7: Hands-On: Building Your First Components](#chapter-7-hands-on-building-your-first-components)
 - [Chapter 8: Integrating Data Sources](#chapter-8-integrating-data-sources)
 - [Chapter 9: Step-by-Step Assembly of the AI Logging Agent](#chapter-9-step-by-step-assembly-of-the-ai-logging-agent)
