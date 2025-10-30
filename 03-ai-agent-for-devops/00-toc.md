@@ -32,7 +32,7 @@ This README provides an outline for a beginner-friendly book series on building 
 - How blocks integrate: High-level diagram of data flow from log input to insights and action.
 - Design patterns overview: Reflection, Tool use, ReAct, Planning, Multi-Agent.
 
-## Chapter 3: Understanding Core AI Building Blocks
+## [Chapter 3: Understanding Core AI Building Blocks](./03-understanding-core-ai-building-blocks.md)
 
 - Basic AI models: Definition and processing (e.g., via OpenAI APIs or local models).
 - Data retrieval: Basics of pulling and parsing logs from various sources.
@@ -40,7 +40,7 @@ This README provides an outline for a beginner-friendly book series on building 
 - Application to our agent: Selecting/configuring roles, tasks, tools, memory, guardrails for DevOps log analysis.
 - Pattern selection: Evaluate Reflection (self-check log interpretations), Tool Use (DevOps APIs, log APIs), ReAct (reason about log patterns then act), Planning (log analysis workflows), Multi-Agent (divide log sources); start with ReAct for simplicity.
 
-## Chapter 4: Setting Up Your Development Environment
+## [Chapter 4: Setting Up Your Development Environment](./04-setting-up-your-development-environment.md)
 
 - Step-by-step installation: Python, libraries like requests, logging, and basic AI wrappers.
 - Testing your setup: Run a hello-world script to fetch and process sample log data.
@@ -50,10 +50,10 @@ This README provides an outline for a beginner-friendly book series on building 
 
 - Level 1: Basic log parser and responder.
 - Level 2: Pattern recognition and routing decisions.
-- Level 3: Integrating multiple log sources and tools.
+- Level 3: Integrating multiple log sources and tools (Elasticsearch and AWS CloudWatch)
 - Level 4: Collaborative log analysis agents.
 - Level 5: Autonomous log management and remediation.
-- Mapping our agent build to these levels: Starting at Level 1 and progressing to Level 3 by the end.
+- Coding mapping our agent build to these levels: Starting at Level 1 and progressing to Level 3 by the end.
 
 ## Chapter 6: Introduction to LangChain for AI Logging Agents
 
