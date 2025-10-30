@@ -174,6 +174,65 @@ Instead, you need to filter intelligently:
 
 Your retrieval function should accept parameters for time window and maximum number of logs. Start narrow (5 minutes, 50 logs) and widen the search if you need more context. This keeps your API costs down and your response times fast.
 
+### Handling Volume Spikes
+
+When incidents happen, log volume can spike from hundreds to thousands of entries per minute. Your agent needs a strategy to handle this without breaking the bank or hitting context limits.
+
+The key is a two-layer approach: **filter first, summarize if needed**.
+
+
+```mermaid
+graph LR
+    A[5000 Logs/min] --> B[Filter: Severity + Dedup]
+    B --> C[200 Critical Logs]
+    C --> D{Within<br/>Context<br/>Limit?}
+    D -->|Yes| E[Send to AI]
+    D -->|No| F[Summarize with<br/>Fast Model]
+    F --> G[50 Summaries]
+    G --> E
+    
+    style A fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    style B fill:#4dabf7,color:#000
+    style D fill:#ffd43b,stroke:#fab005,color:#000
+    style E fill:#51cf66,stroke:#2f9e44,color:#000
+    style F fill:#667eea,stroke:#764ba2,color:#fff
+```
+
+#### Layer 1: Aggressive Pre-filtering
+
+Before any logs reach the AI model, apply intelligent filtering. Think of this as a bouncer at a club—only the most important entries get through.
+
+**Priority-based selection** means critical errors (FATAL, ERROR) always get analyzed first. Warnings and info messages are included only if there's room. This ensures you never miss the serious problems even when logs are flooding in.
+
+**Deduplication** is where you catch identical or nearly identical log entries. If you have the same "Connection timeout" error repeated 100 times, you don't need to send all 100. Instead, send it once with metadata:
+- How many times it occurred
+- First and last occurrence timestamps
+- Which services were affected
+
+This gives the AI the pattern without overwhelming the context window. The model can understand "this happened 127 times over 5 minutes" just as well as seeing 127 individual entries—actually better, because it gets the pattern immediately.
+
+**Service-aware filtering** means you prioritize logs from services that are actually experiencing issues. If your payment service has a 50% error rate but your auth service is fine, focus on payment logs first. You determine which services need attention based on error rates, then pull their logs preferentially.
+
+#### Layer 2: Progressive Summarization
+
+When filtering alone isn't enough, use a two-pass approach with an interesting twist: **use a cheaper, faster model for the first pass**.
+
+**Pass 1 - Quick Summarization** takes chunks of filtered logs and creates one-line summaries. The key insight is that you don't need your most expensive model for this. A fast, cheap model can create summaries like:
+
+```
+[ERROR] DB timeout (47 times, 10:15-10:18) - payment-db unreachable
+[WARN] High memory (3 times, 10:16-10:17) - api-gateway at 87% usage
+[ERROR] API 500s (23 times, 10:17-10:19) - downstream service failures
+```
+
+Each summary captures what happened, how often, when, and a brief description. This reduces 200 log lines to perhaps 20 summaries.
+
+**Pass 2 - Detailed Analysis** then sends these summaries (not the raw logs) to your main, more capable model for root cause analysis. The expensive model now sees clean, structured information instead of raw log dumps.
+
+This two-pass approach keeps you within context limits while preserving the critical information. And because the first pass uses a cheaper model, your costs don't explode during incidents.
+
+The goal is to maintain analysis quality regardless of log volume, while keeping costs predictable and response times fast. Your agent should be just as effective during a major outage as during normal operations—it just uses different strategies to get there.
+
 ## What Your Agent Needs to Know
 
 Now we get to the pieces that make an agent actually useful. A language model by itself is just a tool—it can analyze whatever you give it. An agent, on the other hand, has a specific purpose and capabilities.
