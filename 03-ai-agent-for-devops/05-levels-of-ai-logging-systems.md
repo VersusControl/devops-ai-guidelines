@@ -115,7 +115,7 @@ The jump from Level 1 to Level 2 is about decision-making. Level 1 is passive—
 This is where the ReAct pattern (Reason and Act) becomes important. The agent reasons about what it sees in the logs, then acts based on that reasoning. It's not just pattern matching with if-statements. It's using AI to understand context and make judgment calls.
 
 ```mermaid
-graph TB
+graph LR
     A[Logs] --> B[Analyze]
     B --> C{Severity?}
     

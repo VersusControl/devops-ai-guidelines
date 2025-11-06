@@ -46,7 +46,7 @@ This README provides an outline for a beginner-friendly book series on building 
 - Testing your setup: Run a hello-world script to fetch and process sample log data.
 - Common pitfalls for beginners and how to avoid them, including API key setup for models.
 
-## Chapter 5: Levels of AI Logging Systems
+## [Chapter 5: Levels of AI Logging Systems](./05-levels-of-ai-logging-systems.md)
 
 - Level 1: Basic log parser and responder.
 - Level 2: Pattern recognition and routing decisions.
