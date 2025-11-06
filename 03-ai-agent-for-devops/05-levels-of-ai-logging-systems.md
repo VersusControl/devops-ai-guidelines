@@ -317,11 +317,11 @@ This "human-in-the-loop" approach gives you the benefits of AI speed and intelli
 
 Now that you understand all five levels, let's map out the practical path for this book series.
 
-### Chapters 1-6: Foundation (Level 1 Capability)
+### Chapters 1-7: Foundation (Level 1 Capability)
 
 In the first part of this series, you're building the foundation. By the end of Chapter 6, you'll have a working Level 1 agent that can read logs and provide intelligent analysis. You'll understand the concepts, have the tools installed, and know how to structure prompts effectively.
 
-### Chapters 7-9: Integration (Level 2 Capability)
+### Chapters 8-9: Integration (Level 2 Capability)
 
 In the middle section, we'll add decision-making and basic actions. You'll learn how to structure outputs as JSON so you can route decisions to code. You'll integrate with alerting systems. You'll add memory so your agent tracks patterns over time.
 
@@ -339,15 +339,15 @@ If you want to go further, you'll have the foundation to explore Level 4 and eve
 
 ```mermaid
 graph LR
-    CH16["Chapters 1-6<br/>Foundation"] --> L1[Level 1 Agent]
-    CH79["Chapters 7-9<br/>Integration"] --> L2[Level 2 Agent]
+    CH17["Chapters 1-7<br/>Foundation"] --> L1[Level 1 Agent]
+    CH89["Chapters 8-9<br/>Integration"] --> L2[Level 2 Agent]
     CH1012["Chapters 10-12<br/>Production"] --> L3[Level 3 Agent]
     
     L3 -.-> L4[Level 4<br/>Future Enhancement]
     L4 -.-> L5[Level 5<br/>Advanced Research]
     
-    style CH16 fill:#51cf66,stroke:#2f9e44,color:#000
-    style CH79 fill:#4dabf7,color:#000
+    style CH17 fill:#51cf66,stroke:#2f9e44,color:#000
+    style CH89 fill:#4dabf7,color:#000
     style CH1012 fill:#667eea,stroke:#764ba2,color:#fff
     style L3 fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
 ```
