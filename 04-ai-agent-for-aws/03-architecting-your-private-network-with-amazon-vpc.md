@@ -694,7 +694,3 @@ If you're enjoying this series and find it helpful, I'd love for you to like and
 ## 💝 Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> **Support this project:** Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered DevOps resources.
-
----

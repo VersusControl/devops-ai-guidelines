@@ -2,13 +2,9 @@
 
 *Learn agent frameworks, multi-agent systems, and orchestration patterns to build intelligent DevOps automation*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 📚 Table of Contents
+## Table of Contents
 
 - [What are Agent Frameworks?](#what-are-agent-frameworks)
 - [Why Agents Matter in DevOps](#why-agents-matter-in-devops)
@@ -30,13 +26,13 @@
 
 ### Key Concepts
 
-**🧠 Reasoning Engine**: Agents can analyze problems and create step-by-step plans
+**Reasoning Engine**: Agents can analyze problems and create step-by-step plans
 
-**🛠️ Tool Integration**: Agents can use external tools, APIs, and services (including MCP servers)
+**Tool Integration**: Agents can use external tools, APIs, and services (including MCP servers)
 
-**🔄 Iterative Execution**: Agents can retry, adapt, and learn from failures
+**Iterative Execution**: Agents can retry, adapt, and learn from failures
 
-**🤝 Collaboration**: Multiple agents can work together on complex tasks
+**Collaboration**: Multiple agents can work together on complex tasks
 
 ### Agent vs Traditional Automation
 
@@ -73,7 +69,7 @@ graph TB
 
 ## Why Agents Matter in DevOps
 
-### 🚀 Intelligent Automation
+### Intelligent Automation
 
 **Adaptive Problem Solving**: Agents can handle unexpected situations and adapt their approach
 
@@ -81,7 +77,7 @@ graph TB
 
 **Self-Correction**: Agents can detect and fix their own mistakes
 
-### 🛠️ DevOps Use Cases
+### DevOps Use Cases
 
 1. **Incident Response**: Autonomous investigation and remediation
 2. **Infrastructure Optimization**: Continuous analysis and improvement
@@ -90,7 +86,7 @@ graph TB
 5. **Security Compliance**: Automated security audits and fixes
 6. **Cost Management**: Dynamic resource optimization
 
-### 📈 Business Impact
+### Business Impact
 
 - **Reduced MTTR**: Faster incident resolution through intelligent automation
 - **24/7 Operations**: Agents work continuously without human intervention
@@ -1264,7 +1260,7 @@ if __name__ == "__main__":
 
 ## Best Practices
 
-### 🔒 Security Considerations
+### Security Considerations
 
 ```python
 # secure_agent_config.py
@@ -1335,7 +1331,7 @@ class SecureAgentConfiguration:
         return agent_permissions
 ```
 
-### 📊 Monitoring and Observability
+### Monitoring and Observability
 
 ```python
 # agent_monitoring.py
@@ -1406,7 +1402,7 @@ class AgentMonitoring:
         return alerting_rules
 ```
 
-### 🚀 Performance Optimization
+### Performance Optimization
 
 ```python
 # performance_optimization.py
@@ -1479,28 +1475,28 @@ class AgentPerformanceOptimizer:
 
 ## Next Steps
 
-### 🎯 Immediate Actions
+### Immediate Actions
 
 1. **Choose Your Framework**: Start with LangChain for single agents or CrewAI for multi-agent systems
 2. **Build Your First Agent**: Implement the Infrastructure Health Agent example
 3. **Integrate with MCP**: Connect your agents to the MCP servers from 05-01
 4. **Test in Development**: Use the agent examples in a safe environment
 
-### 🚀 Advanced Implementations
+### Advanced Implementations
 
 1. **Custom Agent Tools**: Build domain-specific tools for your infrastructure
 2. **Workflow Orchestration**: Implement conditional and parallel workflows
 3. **Production Deployment**: Use the Kubernetes deployment templates
 4. **Monitoring Integration**: Set up comprehensive agent monitoring
 
-### 📚 Learning Resources
+### Learning Resources
 
 - [LangChain Agent Documentation](https://docs.langchain.com/docs/components/agents/)
 - [CrewAI Framework Guide](https://docs.crewai.com/)
 - [AutoGen Multi-Agent Tutorial](https://microsoft.github.io/autogen/)
 - [LangGraph State Machines](https://langchain-ai.github.io/langgraph/)
 
-### 🔗 Integration with Other Phases
+### Integration with Other Phases
 
 **From Phase 1**: Use your MCP servers (05-01) as tools in your agents
 **To Phase 2**: Scale to enterprise multi-agent platforms and custom models
@@ -1512,12 +1508,12 @@ class AgentPerformanceOptimizer:
 
 In this guide, you've learned:
 
-✅ **Agent Framework Fundamentals** - Understanding autonomous AI systems
-✅ **Single Agent Implementation** - Building intelligent DevOps agents with LangChain
-✅ **Multi-Agent Systems** - Creating collaborative agent teams with CrewAI
-✅ **Orchestration Patterns** - Sequential, parallel, and conditional workflows
-✅ **Production Deployment** - Containerized and Kubernetes-based agent deployment
-✅ **Best Practices** - Security, monitoring, and performance optimization
+- **Agent Framework Fundamentals** - Understanding autonomous AI systems
+- **Single Agent Implementation** - Building intelligent DevOps agents with LangChain
+- **Multi-Agent Systems** - Creating collaborative agent teams with CrewAI
+- **Orchestration Patterns** - Sequential, parallel, and conditional workflows
+- **Production Deployment** - Containerized and Kubernetes-based agent deployment
+- **Best Practices** - Security, monitoring, and performance optimization
 
 **Key Takeaway**: Agent frameworks transform DevOps from reactive manual processes to proactive intelligent automation. Start with single agents for specific tasks, then evolve to multi-agent systems for complex operational workflows.
 
@@ -1525,4 +1521,4 @@ In this guide, you've learned:
 
 ---
 
-*💡 **Pro Tip**: Begin with read-only agents that analyze and recommend, then gradually add action capabilities as your team builds confidence in agent decision-making.*
+* **Pro Tip**: Begin with read-only agents that analyze and recommend, then gradually add action capabilities as your team builds confidence in agent decision-making.*

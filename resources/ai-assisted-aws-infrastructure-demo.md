@@ -1,9 +1,6 @@
 # How I Use AI Assistant to Create AWS Infrastructure
 
-- ⭐ **Starring** this repository
-- 💖 **Sponsoring** continued development
-
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+> ⭐ **Starring** this repository
 
 We're living through the most transformative period in technology since the internet revolution. While everyone's talking about ChatGPT writing essays and DALL-E creating art, there's a quiet revolution happening in DevOps that's about to change everything: **AI-powered infrastructure automation**.
 
@@ -392,7 +389,7 @@ I'll use the proven MCP tools for AWS infrastructure automation. Ready to procee
 
 🌐 **Your Three-Tier Web Application Infrastructure is LIVE!**
 
-### 📊 **Infrastructure Summary**
+### Infrastructure Summary
 ```
 📡 Network Foundation:
    ├── VPC: vpc-0abc123def456789 (10.0.0.0/16)
@@ -422,17 +419,17 @@ I'll use the proven MCP tools for AWS infrastructure automation. Ready to procee
    └── Backup: 7-day retention, encrypted at rest
 ```
 
-### 📈 **Performance Metrics**
+### Performance Metrics
 - **Current Active Instances**: 4/4 healthy
 - **Load Balancer Health**: All targets healthy
 - **Database Status**: Multi-AZ, encrypted, backed up
 
-### 💰 **Cost Summary**
+### Cost Summary
 - **Monthly Estimate**: $485/month (production workload)
 - **Scaling**: Auto-scales based on demand (2-10 instances)
 - **Cost Tracking**: All resources tagged for billing
 
-**Your production three-tier infrastructure is ready for traffic! 🎯**"
+**Your production three-tier infrastructure is ready for traffic!**"
 
 ## Testing the Infrastructure: Real-World Validation
 
@@ -440,7 +437,7 @@ I'll use the proven MCP tools for AWS infrastructure automation. Ready to procee
 
 **AI Assistant:** "Excellent question! Let me run some validation tests on your infrastructure:
 
-🧪 **Infrastructure Health Check:**
+**Infrastructure Health Check:**
 - ✅ All 4 application instances healthy and serving traffic
 - ✅ Load balancer distributing requests evenly across AZs
 - ✅ Database connections successful from all app servers

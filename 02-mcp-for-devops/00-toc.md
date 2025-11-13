@@ -2,11 +2,11 @@
 
 *A comprehensive, hands-on guide to developing your own MCP server from the ground up for Kubernetes cluster management*
 
-## 🎯 Tutorial Overview
+## Tutorial Overview
 
 This tutorial series transforms theoretical MCP knowledge into practical DevOps skills through building a real-world **Kubernetes MCP Server** using **Golang**. You'll progress from basic concepts to advanced production-ready implementations while integrating with VS Code and GitHub Copilot for modern AI-powered development workflows.
 
-## �️ Table of Contents
+## Table of Contents
 
 - Chapter 1: MCP Fundamentals
 - Chapter 2: MCP Architecture Deep Dive
@@ -18,7 +18,7 @@ This tutorial series transforms theoretical MCP knowledge into practical DevOps 
 - Chapter 8: MCP Performance & Optimization
 - Chapter 9: Production Deployment & Operations
 
-## 🚀 What You'll Build
+## What You'll Build
 
 **Primary Project**: A comprehensive Kubernetes MCP Server in Golang that provides:
 
@@ -28,26 +28,26 @@ This tutorial series transforms theoretical MCP knowledge into practical DevOps 
 - **Security Management**: RBAC, network policies, secret rotation
 - **CI/CD Integration**: Deploy applications, manage releases, rollback operations
 
-### 🚀 Quick Start Options
+### Quick Start Options
 
-- **🏃‍♂️ Fast Track (Experienced DevOps)**: Skip to Chapter 3 after completing Chapter 1 environment setup.
-- **🎓 Complete Journey (New to DevOps)**: Follow all chapters sequentially for comprehensive learning.
-- **🎯 Focused Learning (Specific Needs)**: Jump to relevant chapters based on your requirements.
+- **Fast Track (Experienced DevOps)**: Skip to Chapter 3 after completing Chapter 1 environment setup.
+- **Complete Journey (New to DevOps)**: Follow all chapters sequentially for comprehensive learning.
+- **Focused Learning (Specific Needs)**: Jump to relevant chapters based on your requirements.
 
 ---
 
-## 📖 Brief of Content
+## Brief of Content
 
 ### [Chapter 1: MCP Fundamentals](01-mcp-fundamentals.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Understand what MCP is and why it matters for DevOps teams
 - Learn MCP core concepts and terminology
 - Compare MCP with traditional automation approaches
 - Identify real-world use cases where MCP provides significant value
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - What is Model Context Protocol (MCP)?
 - MCP vs traditional API integrations and automation tools
@@ -55,31 +55,31 @@ This tutorial series transforms theoretical MCP knowledge into practical DevOps 
 - MCP ecosystem and community
 - Basic protocol concepts: resources, tools, and prompts
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Install development environment (Go, Docker, kubectl)
 - Set up local Kubernetes cluster (Kind/Minikube)
 - Explore existing MCP servers and clients
 - Test basic MCP interactions with sample servers
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 DevOps team struggling with fragmented automation tools and manual processes. Learn how MCP creates unified AI interfaces for infrastructure management.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Complete understanding of MCP fundamentals with working development environment setup.
 
 ---
 
 ### [Chapter 2: MCP Architecture Deep Dive](02-mcp-architecture-deep-dive.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Master MCP protocol specifications and message flow
 - Understand the complete chain: LLM Client → MCP Client → MCP Server → External Resources
 - Learn JSON-RPC transport and communication patterns
 - Implement proper error handling and protocol compliance
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - MCP protocol specification and JSON-RPC foundation
 - Message types: initialization, resources, tools, prompts, notifications
@@ -89,7 +89,7 @@ Complete understanding of MCP fundamentals with working development environment 
 - MCP Server → External Resource integration patterns
 - Error handling and protocol compliance
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Analyze MCP message flows with protocol debugging tools
 - Build a simple MCP client to understand the protocol
@@ -97,24 +97,24 @@ Complete understanding of MCP fundamentals with working development environment 
 - Test protocol compliance and message validation
 - Debug communication between all components
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Understanding how ChatGPT or Claude uses MCP to interact with your Kubernetes infrastructure through your custom MCP server.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Deep understanding of MCP architecture with hands-on experience of the complete communication chain.
 
 ---
 
-### [Chapter 3: Building MCP Server with Go &amp; Kubernetes](03-building-mcp-server-go-kubernetes.md)
+### [Chapter 3: Building MCP Server with Go & Kubernetes](03-building-mcp-server-go-kubernetes.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
-- Build a production-ready MCP server using Golang
+- Build a production-ready MCP server using Go
 - Integrate Kubernetes client-go library for cluster interactions
 - Implement MCP resource discovery for Kubernetes objects
 - Create proper project structure and error handling
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - Go project setup and dependency management
 - MCP Go SDK integration and server initialization
@@ -123,7 +123,7 @@ Deep understanding of MCP architecture with hands-on experience of the complete 
 - Creating read_resource() handlers for detailed object information
 - Structured logging and error handling patterns
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Create Go project with proper module organization
 - Initialize MCP server with Kubernetes client integration
@@ -132,24 +132,24 @@ Deep understanding of MCP architecture with hands-on experience of the complete 
 - Add comprehensive logging and error handling
 - Test MCP server with Kubernetes cluster
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 DevOps engineer building an MCP server to provide AI assistants with read-only access to Kubernetes cluster information for troubleshooting.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Working MCP server that can discover and provide detailed information about Kubernetes resources to AI clients.
 
 ---
 
 ### [Chapter 4: Implementing Kubernetes Tools &amp; Actions](04-kubernetes-tools-actions.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Design and implement MCP tools for Kubernetes operations
 - Handle complex parameter validation and input schemas
 - Implement safe operational commands with proper authorization
 - Create comprehensive feedback and status reporting
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - MCP tool definition patterns and input schema design
 - Kubernetes operational commands: scale, restart, delete, create
@@ -157,7 +157,7 @@ Working MCP server that can discover and provide detailed information about Kube
 - Asynchronous operations and status tracking
 - Comprehensive response formatting for AI consumption
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Implement scaling tools for Deployments and StatefulSets
 - Create restart functionality for Pods and Deployments
@@ -165,24 +165,24 @@ Working MCP server that can discover and provide detailed information about Kube
 - Add log retrieval and streaming capabilities
 - Implement proper validation and error responses
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Operations team wants AI assistants to perform routine maintenance tasks like scaling applications, restarting failed pods, and retrieving logs for debugging.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Feature-complete MCP server capable of performing common Kubernetes operational tasks safely and efficiently.
 
 ---
 
 ### [Chapter 5: VS Code &amp; GitHub Copilot Integration](05-vscode-copilot-integration.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Configure VS Code for seamless MCP server integration
 - Optimize GitHub Copilot workflows with custom MCP servers
 - Create efficient development workflows combining AI and infrastructure management
 - Build custom VS Code extensions for enhanced MCP experience
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - VS Code MCP extension configuration and optimization
 - GitHub Copilot context enhancement with MCP data
@@ -191,7 +191,7 @@ Feature-complete MCP server capable of performing common Kubernetes operational 
 - Building custom VS Code extensions for MCP integration
 - AI-powered Kubernetes troubleshooting workflows
 
-**�️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Configure VS Code with MCP server integration
 - Create custom Copilot chat commands for Kubernetes operations
@@ -200,10 +200,10 @@ Feature-complete MCP server capable of performing common Kubernetes operational 
 - Create developer productivity shortcuts and automations
 - Implement AI-assisted debugging workflows
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Development team wants to integrate Kubernetes management directly into their IDE, allowing developers to query cluster status, deploy applications, and troubleshoot issues without leaving VS Code.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Fully integrated development environment where developers can seamlessly interact with Kubernetes clusters through AI-powered VS Code workflows.
 
 - Create Docker containers and Kubernetes deployment manifests
@@ -212,24 +212,24 @@ Fully integrated development environment where developers can seamlessly interac
 - Configure monitoring, alerting, and incident response
 - Create operational runbooks and documentation
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Enterprise deployment requiring 99.9% uptime, automated deployments, comprehensive monitoring, and rapid incident response for business-critical MCP services.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Enterprise-grade production deployment with high availability, automated operations, comprehensive monitoring, and established operational procedures.
 
 ---
 
 ### [Chapter 6: Authentication &amp; Security](06-authentication-security.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Implement robust authentication mechanisms for MCP servers
 - Design fine-grained authorization controls for Kubernetes operations
 - Apply security best practices for production deployments
 - Handle credential management and rotation securely
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - Kubernetes RBAC integration with MCP servers
 - Service account management and least-privilege principles
@@ -237,7 +237,7 @@ Enterprise-grade production deployment with high availability, automated operati
 - Audit logging and compliance requirements
 - Network security and TLS configuration
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Implement RBAC-based authorization checks
 - Create service accounts with minimal required permissions
@@ -245,24 +245,24 @@ Enterprise-grade production deployment with high availability, automated operati
 - Configure TLS for secure communications
 - Build credential rotation mechanisms
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Enterprise environment requiring strict access controls, audit trails, and security compliance for AI-powered infrastructure management.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Security-hardened MCP server with proper authentication, authorization, audit logging, and compliance features ready for enterprise deployment.
 
 ---
 
 ### [Chapter 7: Advanced MCP &amp; Kubernetes Patterns](06-advanced-mcp-kubernetes-patterns.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Implement advanced MCP patterns for complex Kubernetes operations
 - Build event-driven MCP servers with Kubernetes watch APIs
 - Create efficient resource caching and streaming mechanisms
 - Handle multi-cluster and multi-namespace scenarios
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - Advanced MCP server patterns and architectures
 - Kubernetes watch APIs and event streaming through MCP
@@ -272,7 +272,7 @@ Security-hardened MCP server with proper authentication, authorization, audit lo
 - Custom Resource Definitions (CRDs) integration
 - Helm and Kustomize integration patterns
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Implement Kubernetes watch API integration for real-time updates
 - Build resource caching layer for performance optimization
@@ -281,24 +281,24 @@ Security-hardened MCP server with proper authentication, authorization, audit lo
 - Implement Helm chart deployment through MCP tools
 - Build namespace-aware resource filtering
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Enterprise environment with multiple Kubernetes clusters requiring real-time monitoring, efficient resource management, and multi-tenancy support through AI interfaces.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Advanced MCP server capable of handling enterprise-scale Kubernetes environments with real-time updates and multi-cluster support.
 
 ---
 
 ### [Chapter 8: MCP Performance &amp; Optimization](07-mcp-performance-optimization.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Optimize MCP server performance for large-scale Kubernetes environments
 - Implement efficient resource querying and response strategies
 - Build comprehensive testing and debugging workflows for MCP servers
 - Monitor and profile MCP server performance
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - MCP server performance optimization techniques
 - Efficient Kubernetes API querying and pagination
@@ -309,7 +309,7 @@ Advanced MCP server capable of handling enterprise-scale Kubernetes environments
 - Debugging MCP protocol communications and bottlenecks
 - Performance monitoring and profiling tools
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Profile MCP server performance with large Kubernetes clusters
 - Implement efficient resource querying with pagination and filtering
@@ -319,17 +319,17 @@ Advanced MCP server capable of handling enterprise-scale Kubernetes environments
 - Optimize memory usage and response times
 - Debug complex MCP communication issues
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Production MCP server handling thousands of Kubernetes resources across multiple clusters, requiring optimized performance and comprehensive monitoring.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 High-performance MCP server optimized for enterprise-scale Kubernetes environments with comprehensive testing and monitoring capabilities.
 
 ---
 
-### [Chapter 9: Production Deployment &amp; Operations](09-production-deployment-operations.md)
+### [Chapter 9: Production Deployment & Operations](09-production-deployment-operations.md)
 
-**🎯 Learning Objectives:**
+**Learning Objectives:**
 
 - Deploy MCP servers in production Kubernetes environments
 - Implement high availability and disaster recovery patterns
@@ -337,7 +337,7 @@ High-performance MCP server optimized for enterprise-scale Kubernetes environmen
 - Build scalable multi-service MCP architectures
 - Create extensible frameworks for rapid MCP server development
 
-**📋 Key Topics:**
+**Key Topics:**
 
 - Container packaging and Kubernetes deployment manifests
 - High availability deployment patterns and load balancing
@@ -350,7 +350,7 @@ High-performance MCP server optimized for enterprise-scale Kubernetes environmen
 - Federated MCP servers for multi-cluster environments
 - Framework development for rapid MCP server creation
 
-**🛠️ Hands-On Lab:**
+**Hands-On Lab:**
 
 - Create Docker containers and Kubernetes deployment manifests
 - Implement multi-replica deployments with load balancing
@@ -363,16 +363,16 @@ High-performance MCP server optimized for enterprise-scale Kubernetes environmen
 - Create federated MCP server for multi-cluster management
 - Develop reusable framework for new MCP server creation
 
-**💡 Real-World Scenario:**
+**Real-World Scenario:**
 Enterprise deployment requiring 99.9% uptime, automated deployments, comprehensive monitoring, and unified AI-powered management across multiple Kubernetes clusters and complex microservice architectures.
 
-**📝 Chapter Outcome:**
+**Chapter Outcome:**
 Enterprise-grade production deployment with high availability, automated operations, comprehensive monitoring, and advanced MCP architecture patterns ready for complex multi-cluster environments.
 Advanced MCP architecture capable of managing complex, multi-service environments with patterns and frameworks for continued expansion and innovation.
 
 ---
 
-## 🎯 Prerequisites & Requirements
+## Prerequisites & Requirements
 
 ### Technical Prerequisites
 
@@ -397,6 +397,6 @@ Advanced MCP architecture capable of managing complex, multi-service environment
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 Ready to begin your MCP journey? Start with [Chapter 1: MCP Fundamentals &amp; DevOps Context](01-mcp-fundamentals.md) to build your foundation.

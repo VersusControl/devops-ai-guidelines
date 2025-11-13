@@ -2,13 +2,9 @@
 
 *Python automation workflows and AI API integration for DevOps professionals*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 🎯 **Learning Objectives**
+## Learning Objectives
 
 Upon completion of this guide, you will be able to:
 
@@ -20,7 +16,7 @@ Upon completion of this guide, you will be able to:
 
 ---
 
-## 🔌 **AI API Integration Fundamentals**
+## AI API Integration Fundamentals
 
 **Technical Definition:**
 AI API integration involves connecting external AI services to existing DevOps workflows through RESTful APIs, enabling automated decision-making and intelligent automation.
@@ -37,43 +33,43 @@ Modern DevOps teams leverage AI APIs to transform reactive manual processes into
 
 ---
 
-## 📚 **Section Overview**
+## Section Overview
 
 | **Topic** | **Duration** | **Learning Focus** | **Code Examples** | **Deliverable** |
 |-----------|--------------|-------------------|-------------------|-----------------|
-| [🔐 API Authentication & Setup](#-api-authentication--setup) | 45 min | Multi-provider configuration | Authentication code snippets | Working API connections |
-| [🏗️ CloudWatch AI System Architecture](#-building-a-cloudwatch-ai-log-analyzer-step-by-step-guide) | 30 min | System design & business value | Architecture diagrams | Understanding of approach |
-| [📋 Prerequisites & Setup](#-step-2-prerequisites-and-setup) | 20 min | AWS configuration & permissions | IAM policies & CLI setup | Production-ready environment |
-| [🚀 Implementation Strategy](#-step-3-core-implementation-strategy) | 40 min | 4-phase development approach | Code previews for each phase | Development roadmap |
-| [💻 Step-by-Step Implementation](#-step-4-implementation-walkthrough) | 90 min | Detailed component building | Complete functions with explanations | Working code components |
-| [🔧 Complete System](#-complete-implementation) | 30 min | Full integration | Production-ready implementation | Deployable CloudWatch analyzer |
-| [🎮 Usage & Integration](#-how-to-use-the-cloudwatch-ai-analyzer) | 45 min | Real-world scenarios | Multiple usage examples | Practical implementation guide |
-| [🔍 Troubleshooting & Best Practices](#-troubleshooting-common-issues) | 30 min | Production considerations | Debugging techniques | Operational excellence |
+| [API Authentication & Setup](#-api-authentication--setup) | 45 min | Multi-provider configuration | Authentication code snippets | Working API connections |
+| [CloudWatch AI System Architecture](#-building-a-cloudwatch-ai-log-analyzer-step-by-step-guide) | 30 min | System design & business value | Architecture diagrams | Understanding of approach |
+| [Prerequisites & Setup](#-step-2-prerequisites-and-setup) | 20 min | AWS configuration & permissions | IAM policies & CLI setup | Production-ready environment |
+| [Implementation Strategy](#-step-3-core-implementation-strategy) | 40 min | 4-phase development approach | Code previews for each phase | Development roadmap |
+| [Step-by-Step Implementation](#-step-4-implementation-walkthrough) | 90 min | Detailed component building | Complete functions with explanations | Working code components |
+| [Complete System](#-complete-implementation) | 30 min | Full integration | Production-ready implementation | Deployable CloudWatch analyzer |
+| [Usage & Integration](#-how-to-use-the-cloudwatch-ai-analyzer) | 45 min | Real-world scenarios | Multiple usage examples | Practical implementation guide |
+| [Troubleshooting & Best Practices](#-troubleshooting-common-issues) | 30 min | Production considerations | Debugging techniques | Operational excellence |
 
-**Total Learning Time: ~5 hours** | **Hands-on Coding: 70%** | **Theory: 30%**
+Total Learning Time: ~5 hours | Hands-on Coding: 70% | Theory: 30%
 
-### 🎯 **What You'll Build**
+### What You'll Build
 
-By the end of this tutorial, you'll have a **production-ready CloudWatch AI Log Analyzer** that:
+By the end of this tutorial, you'll have a production-ready CloudWatch AI Log Analyzer that:
 
-- ✅ **Automatically collects** logs from AWS CloudWatch using boto3
-- ✅ **Analyzes patterns** using OpenAI/Google AI with optimized prompts  
-- ✅ **Generates intelligent alerts** based on AI-detected issues
-- ✅ **Integrates with monitoring systems** (Slack, email, dashboards)
-- ✅ **Handles production scenarios** with proper error handling and logging
-- ✅ **Scales for enterprise use** with configurable thresholds and multi-service support
+- **Automatically collects** logs from AWS CloudWatch using boto3
+- **Analyzes patterns** using OpenAI/Google AI with optimized prompts  
+- **Generates intelligent alerts** based on AI-detected issues
+- **Integrates with monitoring systems** (Slack, email, dashboards)
+- **Handles production scenarios** with proper error handling and logging
+- **Scales for enterprise use** with configurable thresholds and multi-service support
 
-### 📈 **Learning Progression**
+### Learning Progression
 
 ```
-📖 Understand → 🔧 Setup → 💡 Strategy → 💻 Build → 🚀 Deploy → 🎮 Use → 🔍 Debug
+Understand → Setup → Strategy → Build → Deploy → Use → Debug
 ```
 
 ---
 
-## 🔐 **API Authentication & Setup**
+## API Authentication & Setup
 
-### **Multi-Provider Configuration**
+### Multi-Provider Configuration
 
 **Essential API Providers for DevOps:**
 
@@ -125,7 +121,7 @@ class AIProviderManager:
         return provider
 ```
 
-### **Secure Environment Management**
+### Secure Environment Management
 
 ```bash
 # .env.example - Never commit actual credentials
@@ -176,7 +172,7 @@ class SecureCredentialManager:
             return json.loads(response['SecretString'])['api_key']
 ```
 
-### **Rate Limiting & Cost Management**
+### Rate Limiting & Cost Management
 
 ```python
 # utils/rate_limiter.py
@@ -227,7 +223,7 @@ class AIAPIRateLimiter:
         return cost
 ```
 
-### **Unified AI Client Architecture**
+### Unified AI Client Architecture
 
 ```python
 # core/ai_client.py
@@ -362,13 +358,13 @@ class UnifiedAIClient:
         )
 ```
 
-## **Complete Example: AI Log Analysis System with CloudWatch**
+## Complete Example: AI Log Analysis System with CloudWatch
 
 > **Production-Ready Example:** This shows real AWS CloudWatch integration with step-by-step implementation guidance.
 
 **Real-World Scenario:** Your AWS-hosted web application is experiencing intermittent errors. You need an AI system to automatically analyze CloudWatch logs, identify issues, and alert the team.
 
-### **Prerequisites & Setup Steps:**
+### Prerequisites & Setup Steps:
 
 **1. AWS Setup:**
 
@@ -408,9 +404,9 @@ pip install boto3 openai google-generativeai asyncio
 
 ---
 
-## 🚀 **Building a CloudWatch AI Log Analyzer: Step-by-Step Guide**
+## Building a CloudWatch AI Log Analyzer: Step-by-Step Guide
 
-### **💡 What We're Building**
+### What We're Building
 
 A production-ready system that:
 
@@ -421,9 +417,9 @@ A production-ready system that:
 
 ---
 
-### **📋 Step 1: System Architecture Overview**
+### Step 1: System Architecture Overview
 
-**Understanding the Flow:**
+Understanding the Flow:
 
 ```
 CloudWatch Logs → Python Script → AI Analysis → Alert Generation → Notification Systems
@@ -432,7 +428,7 @@ CloudWatch Logs → Python Script → AI Analysis → Alert Generation → Notif
    Log Data     Collection     AI Processing   Generation        Integration
 ```
 
-**Key Components We'll Build:**
+Key Components We'll Build:
 
 1. **CloudWatch Connector**: Securely fetch logs using AWS credentials
 2. **AI Analyzer**: Process logs with intelligent pattern recognition
@@ -441,11 +437,11 @@ CloudWatch Logs → Python Script → AI Analysis → Alert Generation → Notif
 
 ---
 
-### **📋 Step 2: Prerequisites and Setup**
+### Step 2: Prerequisites and Setup
 
-**Before We Start:**
+Before We Start:
 
-**AWS Configuration:**
+AWS Configuration:
 
 ```bash
 # Install AWS CLI and configure credentials
@@ -473,7 +469,7 @@ aws configure
 }
 ```
 
-**Python Environment:**
+Python Environment:
 
 ```bash
 pip install boto3 openai google-generativeai asyncio
@@ -481,11 +477,11 @@ pip install boto3 openai google-generativeai asyncio
 
 ---
 
-### **📋 Step 3: Core Implementation Strategy**
+### Step 3: Core Implementation Strategy
 
-**Our 4-Phase Approach:**
+Our 4-Phase Approach:
 
-**Phase 1: CloudWatch Integration**
+Phase 1: CloudWatch Integration
 
 - Connect to AWS CloudWatch using boto3
 - Handle authentication and region configuration
@@ -502,7 +498,7 @@ class CloudWatchAILogAnalyzer:
         # Setup logging and error handling...
 ```
 
-**Phase 2: Log Collection Logic**
+Phase 2: Log Collection Logic
 
 - Find active log streams in specified time windows
 - Fetch and filter log events efficiently
@@ -518,7 +514,7 @@ async def collect_logs_from_cloudwatch(self, log_group_name, time_window_minutes
     return formatted_logs
 ```
 
-**Phase 3: AI Analysis Engine**
+Phase 3: AI Analysis Engine
 
 - Create CloudWatch-optimized prompts for AI models
 - Process logs with OpenAI/Google AI APIs
@@ -534,7 +530,7 @@ async def analyze_logs_with_ai(self, log_content, service_name):
     return json.loads(response.content)
 ```
 
-**Phase 4: Alert & Notification System**
+Phase 4: Alert & Notification System
 
 - Generate alerts based on AI analysis severity
 - Integrate with monitoring systems (Slack, email, etc.)
@@ -555,20 +551,20 @@ async def generate_alerts(self, analysis, service_name):
 
 ---
 
-### **📋 Step 4: Implementation Walkthrough**
+### Step 4: Implementation Walkthrough
 
-#### **4.1 Class Structure and Initialization**
+#### 4.1 Class Structure and Initialization
 
-**What We're Doing:**
+What We're Doing:
 Setting up the main analyzer class with proper AWS configuration and logging.
 
-**Key Concepts:**
+Key Concepts:
 
-- **Dependency Injection**: AI client passed during initialization
-- **Region Configuration**: Support for multi-region deployments
-- **Structured Logging**: Essential for debugging production issues
+- Dependency Injection: AI client passed during initialization
+- Region Configuration: Support for multi-region deployments
+- Structured Logging: Essential for debugging production issues
 
-**Code Example:**
+Code Example:
 
 ```python
 import boto3
@@ -614,19 +610,19 @@ class CloudWatchAILogAnalyzer:
             raise
 ```
 
-#### **4.2 CloudWatch Log Collection**
+#### 4.2 CloudWatch Log Collection
 
-**What We're Doing:**
+What We're Doing:
 Building robust log collection that handles real AWS CloudWatch data.
 
-**Key Concepts:**
+Key Concepts:
 
-- **Time Window Management**: Convert hours to CloudWatch milliseconds
-- **Stream Discovery**: Find active log streams in the time range
-- **Event Filtering**: Use CloudWatch filter patterns to reduce noise
-- **Error Handling**: Graceful handling of missing log groups and access issues
+- Time Window Management: Convert hours to CloudWatch milliseconds
+- Stream Discovery: Find active log streams in the time range
+- Event Filtering: Use CloudWatch filter patterns to reduce noise
+- Error Handling: Graceful handling of missing log groups and access issues
 
-**Code Example:**
+Code Example:
 
 ```python
 from datetime import datetime, timedelta
@@ -720,19 +716,19 @@ async def _fetch_log_events(self, log_group_name: str, log_stream_name: str,
     return response.get('events', [])
 ```
 
-#### **4.3 AI Analysis Engine**
+#### 4.3 AI Analysis Engine
 
-**What We're Doing:**
+What We're Doing:
 Processing collected logs with AI to extract meaningful insights.
 
-**Key Concepts:**
+Key Concepts:
 
-- **Prompt Engineering**: CloudWatch-specific prompts for better results
-- **Structured Output**: Force AI to return JSON for consistent processing
-- **Cost Management**: Monitor token usage and API costs
-- **Response Validation**: Ensure AI output is valid and actionable
+- Prompt Engineering: CloudWatch-specific prompts for better results
+- Structured Output: Force AI to return JSON for consistent processing
+- Cost Management: Monitor token usage and API costs
+- Response Validation: Ensure AI output is valid and actionable
 
-**Code Example:**
+Code Example:
 
 ```python
 import json
@@ -830,19 +826,19 @@ Focus on: AWS service errors, timeouts, resource limits, API throttling, databas
         }
 ```
 
-#### **4.4 Alert Generation System**
+#### 4.4 Alert Generation System
 
-**What We're Doing:**
+What We're Doing:
 Converting AI insights into actionable alerts with proper prioritization.
 
-**Key Concepts:**
+Key Concepts:
 
-- **Severity Mapping**: Critical/High/Medium/Low based on AI analysis
-- **Alert Deduplication**: Prevent alert spam from repeated issues
-- **Context Enrichment**: Include relevant metadata for faster resolution
-- **Escalation Rules**: Route alerts to appropriate teams/channels
+- Severity Mapping: Critical/High/Medium/Low based on AI analysis
+- Alert Deduplication: Prevent alert spam from repeated issues
+- Context Enrichment: Include relevant metadata for faster resolution
+- Escalation Rules: Route alerts to appropriate teams/channels
 
-**Code Example:**
+Code Example:
 
 ```python
 from datetime import datetime
@@ -939,12 +935,12 @@ async def _send_to_slack(self, alert: Dict):
     self.logger.info(f"Slack alert sent: {alert['message'][:50]}...")
 ```
 
-#### **4.5 Complete Workflow Integration**
+#### 4.5 Complete Workflow Integration
 
-**What We're Doing:**
+What We're Doing:
 Orchestrating all components into a single, cohesive workflow.
 
-**Code Example:**
+Code Example:
 
 ```python
 async def analyze_logs(self, log_group_name: str, time_range_hours: int = 1, 
@@ -1012,7 +1008,7 @@ async def analyze_logs(self, log_group_name: str, time_range_hours: int = 1,
 
 ---
 
-### **📋 Step 5: Production Considerations**
+### Step 5: Production Considerations
 
 **Security Best Practices:**
 
@@ -1020,19 +1016,19 @@ async def analyze_logs(self, log_group_name: str, time_range_hours: int = 1,
 - Implement least-privilege access policies
 - Encrypt sensitive data in transit and at rest
 
-**Performance Optimization:**
+Performance Optimization:
 
 - Implement connection pooling for AWS APIs
 - Use async processing for multiple log streams
 - Cache AI responses for similar log patterns
 
-**Monitoring & Observability:**
+Monitoring & Observability:
 
 - Track AI API costs and usage patterns
 - Monitor CloudWatch API rate limits
 - Log all operations for audit trails
 
-**Error Recovery:**
+Error Recovery:
 
 - Implement exponential backoff for API failures
 - Fallback to basic pattern matching if AI fails
@@ -1040,7 +1036,7 @@ async def analyze_logs(self, log_group_name: str, time_range_hours: int = 1,
 
 ---
 
-### **🔧 Complete Implementation**
+### Complete Implementation
 
 Now that you understand the architecture and approach, here's the complete, production-ready implementation:
 
@@ -1548,9 +1544,9 @@ if __name__ == "__main__":
 
 ---
 
-### **🎮 How to Use the CloudWatch AI Analyzer**
+### How to Use the CloudWatch AI Analyzer
 
-#### **Basic Usage Example**
+#### Basic Usage Example
 
 ```python
 import asyncio
@@ -1585,9 +1581,9 @@ async def analyze_my_service():
 asyncio.run(analyze_my_service())
 ```
 
-#### **Advanced Usage Scenarios**
+#### Advanced Usage Scenarios
 
-**1. Multi-Service Monitoring:**
+1. Multi-Service Monitoring:
 
 ```python
 async def monitor_multiple_services():
@@ -1612,7 +1608,7 @@ async def monitor_multiple_services():
         print("---")
 ```
 
-**2. Custom Filter Patterns:**
+2. Custom Filter Patterns:
 
 ```python
 # Look for specific error patterns
@@ -1630,7 +1626,7 @@ result = await analyzer.analyze_logs(
 )
 ```
 
-**3. Integration with Existing Monitoring:**
+3. Integration with Existing Monitoring:
 
 ```python
 async def production_monitoring_loop():
@@ -1658,9 +1654,9 @@ async def production_monitoring_loop():
         await asyncio.sleep(300)
 ```
 
-#### **🔧 Configuration Options**
+#### Configuration Options
 
-**Environment Variables:**
+Environment Variables:
 
 ```bash
 # AWS Configuration
@@ -1677,7 +1673,7 @@ export MAX_LOG_EVENTS=1000
 export AI_MODEL_PREFERENCE=gpt-4
 ```
 
-**Custom Alert Thresholds:**
+Custom Alert Thresholds:
 
 ```python
 analyzer = CloudWatchAILogAnalyzer()
@@ -1690,9 +1686,9 @@ analyzer.alert_config = {
 }
 ```
 
-#### **📊 Understanding the Output**
+#### Understanding the Output
 
-**Successful Analysis Response:**
+Successful Analysis Response:
 
 ```json
 {
@@ -1724,9 +1720,9 @@ analyzer.alert_config = {
 }
 ```
 
-#### **🚨 Troubleshooting Common Issues**
+#### Troubleshooting Common Issues
 
-**1. AWS Authentication Errors:**
+1. AWS Authentication Errors:
 
 ```bash
 # Check your credentials
@@ -1736,13 +1732,13 @@ aws sts get-caller-identity
 aws logs describe-log-groups --log-group-name-prefix "/aws/lambda"
 ```
 
-**2. No Logs Found:**
+2. No Logs Found:
 
 - Verify the log group name is correct (case-sensitive)
 - Check if the time range includes log activity
 - Ensure your IAM user/role has CloudWatch read permissions
 
-**3. AI Analysis Fails:**
+3. AI Analysis Fails:
 
 - Check your OpenAI/Google API keys are valid
 - Verify internet connectivity for API calls
@@ -1750,60 +1746,60 @@ aws logs describe-log-groups --log-group-name-prefix "/aws/lambda"
 
 ---
 
-## 🎯 **Checkpoint: AI Tools Integration**
+## Checkpoint: AI Tools Integration
 
-### **Knowledge Validation**
+### Knowledge Validation
 
-**Complete these practical tasks to validate your understanding:**
+Complete these practical tasks to validate your understanding:
 
-1. **API Integration Challenge:**
+1. API Integration Challenge:
 
    - Set up authenticated connections to 3 different AI providers
    - Implement rate limiting and cost tracking
    - Create fallback mechanisms for provider failures
-2. **Automation Development:**
+2. Automation Development:
 
    - Build a Python script that analyzes Docker logs with AI
    - Create an automated incident report generator
    - Implement a CI/CD pipeline with AI code review
-3. **Production Implementation:**
+3. Production Implementation:
 
    - Deploy the AI DevOps Dashboard with real metrics
    - Configure monitoring and alerting
    - Implement proper error handling and observability
 
-### **Professional Portfolio Additions**
+### Professional Portfolio Additions
 
-- **AI API Integration Framework** - Reusable library for multiple providers
-- **DevOps Automation Scripts** - Collection of AI-powered automation tools
-- **Monitoring Dashboard** - Complete AI-enhanced monitoring solution
+- AI API Integration Framework - Reusable library for multiple providers
+- DevOps Automation Scripts - Collection of AI-powered automation tools
+- Monitoring Dashboard - Complete AI-enhanced monitoring solution
 
-### **Next Learning Path**
+### Next Learning Path
 
-✅ **Completed:** AI Tools Integration - APIs & Automation
-🎯 **Current Phase:** Foundation (66% complete)
-📚 **Next Module:** [🤖 MCP &amp; Agent Basics](06-mcp-agent-basics.md)
-🔄 **Parallel Learning:** Continue practicing with real-world automation projects
+✅ Completed: AI Tools Integration - APIs & Automation
+🎯 Current Phase: Foundation (66% complete)
+📚 Next Module: [MCP & Agent Basics](06-mcp-agent-basics.md)
+🔄 Parallel Learning: Continue practicing with real-world automation projects
 
 ---
 
-## 📚 **Additional Resources**
+## Additional Resources
 
-### **AI API Documentation**
+### AI API Documentation
 
 - [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
 - [Google AI Platform](https://ai.google.dev/docs)
 - [Google Generative AI Python SDK](https://github.com/google/generative-ai-python)
 - [Google Cloud AI Platform](https://cloud.google.com/ai-platform/docs)
 
-### **Python AI Libraries**
+### Python AI Libraries
 
 - [OpenAI Python Library](https://github.com/openai/openai-python)
 - [Google Generative AI](https://pypi.org/project/google-generativeai/)
 - [LangChain](https://python.langchain.com/docs/get_started/introduction)
 - [AsyncIO Best Practices](https://docs.python.org/3/library/asyncio.html)
 
-### **DevOps Integration Tools**
+### DevOps Integration Tools
 
 - [GitHub Actions for AI](https://github.com/marketplace?type=actions&query=AI)
 - [Jenkins AI Plugins](https://plugins.jenkins.io/search?q=ai)
@@ -1816,10 +1812,6 @@ aws logs describe-log-groups --log-group-name-prefix "/aws/lambda"
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
----

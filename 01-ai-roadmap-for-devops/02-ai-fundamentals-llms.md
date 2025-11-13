@@ -2,13 +2,9 @@
 
 *A comprehensive technical guide to understanding AI foundations for DevOps professionals*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 🎯 **Learning Objectives**
+## Learning Objectives
 
 Upon completion of this guide, you will:
 - Understand the core concepts of AI, ML, and deep learning architectures
@@ -19,11 +15,11 @@ Upon completion of this guide, you will:
 
 ---
 
-## 📚 **Tutorial Sections**
+## Tutorial Sections
 
-### **Section 1: Understanding AI System Architecture**
+### Section 1: Understanding AI System Architecture
 
-#### **Artificial Intelligence vs Machine Learning vs Deep Learning**
+#### Artificial Intelligence vs Machine Learning vs Deep Learning
 
 **Conceptual Framework:**
 ```
@@ -106,9 +102,9 @@ Each model type employs different architectures and training methodologies optim
 
 ---
 
-### **Section 2: Large Language Model Architecture**
+### Section 2: Large Language Model Architecture
 
-#### **LLM Technical Characteristics**
+#### LLM Technical Characteristics
 
 **Architectural Foundation:**
 Large Language Models represent a specialized implementation of transformer neural networks, optimized for natural language understanding and generation at scale.
@@ -131,7 +127,7 @@ LLMs demonstrate capabilities not explicitly programmed, including reasoning, co
 - **Gemini (Google)**: Multimodal integration, search optimization
 - **Llama (Meta)**: Open-source architecture, customization flexibility
 
-#### **LLM Training Methodology**
+#### LLM Training Methodology
 
 **Training Pipeline:**
 ```
@@ -199,19 +195,19 @@ Constraints:
 Think of this like reviewing a junior engineer's work:
 
 ```
-✅ Coherence: Does the response make logical sense?
+Coherence: Does the response make logical sense?
    Example: If you ask about Docker networking, does it give you 
    step-by-step instructions that actually work together?
 
-✅ Relevance: Does it answer YOUR specific question?
+Relevance: Does it answer YOUR specific question?
    Example: You ask about Kubernetes troubleshooting, it gives you 
    kubectl commands, not generic advice about "checking logs"
 
-✅ Accuracy: Are the technical details correct?
+Accuracy: Are the technical details correct?
    Example: The YAML syntax is valid, the command flags exist, 
    the configuration actually works
 
-✅ Completeness: Does it cover what you need to know?
+Completeness: Does it cover what you need to know?
    Example: It explains the solution AND tells you how to prevent 
    the problem in the future
 ```
@@ -221,19 +217,19 @@ Think of this like reviewing a junior engineer's work:
 Think of this like evaluating any other service in your infrastructure:
 
 ```
-⚡ Speed: How fast does it respond?
+Speed: How fast does it respond?
    - Good: 1-3 seconds for most queries
    - Poor: 30+ seconds (too slow for interactive use)
 
-📊 Reliability: Does it work consistently?
+Reliability: Does it work consistently?
    - Good: 99%+ uptime, consistent response quality
    - Poor: Frequent timeouts or dramatically different answers
 
-💰 Cost: What does it cost per request?
+Cost: What does it cost per request?
    - Varies by model: $0.001 to $0.10 per 1000 tokens
    - Consider your usage volume for budgeting
 
-📈 Scalability: Can it handle your team's load?
+Scalability: Can it handle your team's load?
    - Important for enterprise use or high-frequency automation
 ```
 
@@ -300,22 +296,22 @@ Criteria (Rate 1-5):
 
 **Current AI Use Cases in DevOps:**
 ```
-🔍 Monitoring & Alerting:
+Monitoring & Alerting:
 - Anomaly detection in metrics
 - Intelligent alert correlation
 - Predictive failure analysis
 
-🐛 Incident Response:
+Incident Response:
 - Automated root cause analysis
 - Intelligent runbook suggestions
 - Chat-based troubleshooting
 
-📝 Documentation:
+Documentation:
 - Auto-generated documentation
 - Code explanation and comments
 - Process documentation updates
 
-🚀 Deployment & Scaling:
+Deployment & Scaling:
 - Intelligent auto-scaling
 - Deployment risk assessment
 - Configuration optimization
@@ -373,9 +369,9 @@ print(analysis)
 
 ---
 
-## 🎓 **Assessment: Test Your Understanding**
+## Assessment: Test Your Understanding
 
-### **Quiz Questions:**
+### Quiz Questions:
 1. **What's the difference between AI, ML, and Deep Learning?**
    - Give a simple analogy for each
 
@@ -397,7 +393,7 @@ Build a simple AI tool that solves a real problem from your work:
 
 ---
 
-## 📖 **Recommended Resources**
+## Recommended Resources
 
 ### **Free Learning:**
 - [ ] **Course**: [AI for Everyone by Andrew Ng](https://www.coursera.org/learn/ai-for-everyone) (Coursera)
@@ -415,7 +411,7 @@ Build a simple AI tool that solves a real problem from your work:
 
 ---
 
-## 🚀 **Next Steps**
+## Next Steps
 
 After completing this module, you should:
 - ✅ Understand what AI and LLMs can and can't do
@@ -427,7 +423,7 @@ After completing this module, you should:
 
 ---
 
-## 💡 **Key Takeaways**
+## Key Takeaways
 
 1. **AI is a tool, not magic** - Understanding its limitations is as important as knowing its capabilities
 2. **Start simple** - You don't need to build complex models to get value from AI
@@ -439,10 +435,6 @@ After completing this module, you should:
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
----

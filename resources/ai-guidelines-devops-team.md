@@ -10,7 +10,7 @@
 
 ---
 
-## 🎯 **Part I: The Foundation Assessment**
+## Part I: The Foundation Assessment
 
 ### Before You Start: The Team AI Readiness Audit
 
@@ -26,21 +26,21 @@
 
 **Your Readiness Score: ___/25**
 
-📋 **Click on your score range for detailed action plans:**
-- [🚀 **20-25: Ready for advanced implementation**](./ai-readiness-assessment-detailed.md#-score-20-25-ready-for-advanced-implementation)
-- [🏗️ **15-19: Need basic framework first**](./ai-readiness-assessment-detailed.md#️-score-15-19-need-basic-framework-first)
-- [📚 **10-14: Require foundational training**](./ai-readiness-assessment-detailed.md#-score-10-14-require-foundational-training)
-- [🚨 **Below 10: Start with pilot program**](./ai-readiness-assessment-detailed.md#-score-below-10-start-with-pilot-program)
+**Click on your score range for detailed action plans:**
+- [**20-25: Ready for advanced implementation**](./ai-readiness-assessment-detailed.md#-score-20-25-ready-for-advanced-implementation)
+- [**15-19: Need basic framework first**](./ai-readiness-assessment-detailed.md#️-score-15-19-need-basic-framework-first)
+- [**10-14: Require foundational training**](./ai-readiness-assessment-detailed.md#-score-10-14-require-foundational-training)
+- [**Below 10: Start with pilot program**](./ai-readiness-assessment-detailed.md#-score-below-10-start-with-pilot-program)
 
-💡 **Each detailed section includes specific tools, books, courses, budgets, and implementation examples tailored to your readiness level.**
+**Each detailed section includes specific tools, books, courses, budgets, and implementation examples tailored to your readiness level.**
 
 ---
 
-## 🛠 **Part II: The Implementation Playbook**
+## Part II: The Implementation Playbook
 
 ### Phase 1: Establish Your AI Command Center (Week 1)
 
-#### **Step 1.1: Create Your AI Tool Registry**
+#### Step 1.1: Create Your AI Tool Registry
 
 **Approved Tools Matrix:**
 
@@ -61,18 +61,18 @@ RESTRICTED (Requires Approval)
 └── Third-party AI services
 ```
 
-#### **Step 1.2: Define Your Data Classification**
+#### Step 1.2: Define Your Data Classification
 
 **The Four-Tier System:**
 
-🔴 **PROHIBITED**: Customer data, API keys, passwords, proprietary algorithms
-🟡 **RESTRICTED**: Internal documentation, architecture diagrams, deployment configs
-🟢 **INTERNAL**: Learning materials, public documentation, generic scripts
-⚪ **PUBLIC**: Open-source code, published articles, community content
+**PROHIBITED**: Customer data, API keys, passwords, proprietary algorithms
+**RESTRICTED**: Internal documentation, architecture diagrams, deployment configs
+**INTERNAL**: Learning materials, public documentation, generic scripts
+**PUBLIC**: Open-source code, published articles, community content
 
 ### Phase 2: Build Your Safety Framework (Week 2)
 
-#### **Step 2.1: The 4-Layer Security Model**
+#### Step 2.1: The 4-Layer Security Model
 
 **Layer 1: Input Validation**
 - [ ] Never paste credentials or sensitive configurations
@@ -96,7 +96,7 @@ RESTRICTED (Requires Approval)
 
 ---
 
-## 📋 **Part III: Daily Operations Checklist**
+## Part III: Daily Operations Checklist
 
 ### The Morning AI Safety Check
 
@@ -131,7 +131,7 @@ RESTRICTED (Requires Approval)
 
 ---
 
-## 🎓 **Part IV: Team Training Workshop**
+## Part IV: Team Training Workshop
 
 ### Session 1: AI Prompt Engineering for DevOps (2 hours)
 
@@ -176,7 +176,7 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 📊 **Part V: Measurement and Optimization**
+## Part V: Measurement and Optimization
 
 ### Key Performance Indicators (KPIs)
 
@@ -216,7 +216,7 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 🚀 **Quick Start: Your First 48 Hours**
+## Quick Start: Your First 48 Hours
 
 ### Day 1: Assessment and Planning
 - [ ] Complete the readiness audit (30 min)
@@ -238,11 +238,11 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 💡 **Emergency Response Procedures**
+## Emergency Response Procedures
 
 ### If Things Go Wrong: The AI Incident Playbook
 
-**🚨 Immediate Actions (Within 15 minutes):**
+**Immediate Actions (Within 15 minutes):**
 
 1. **Contain the Issue**
    - [ ] Stop deployment if in progress
@@ -259,7 +259,7 @@ Exercise 3: Design prompts for your three most common tasks:
    - [ ] Update stakeholders
    - [ ] Begin incident log
 
-**📝 Post-Incident Actions (Within 24 hours):**
+**Post-Incident Actions (Within 24 hours):**
 - [ ] Root cause analysis
 - [ ] Guidelines review and updates
 - [ ] Team debrief and learning session
@@ -267,7 +267,7 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 🎯 **Success Metrics: What Good Looks Like**
+## Success Metrics: What Good Looks Like
 
 ### 30-Day Success Indicators
 - Zero security incidents from AI-generated code
@@ -285,7 +285,7 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 📚 About This Guide
+## About This Guide
 
 *This article is based on concepts from my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) - a comprehensive guide to leveraging AI for DevOps workflows. The book covers everything from basic prompt engineering to building team-wide AI-assisted practices, with real-world examples for Kubernetes, CI/CD, cloud infrastructure, and more.*
 
@@ -301,11 +301,9 @@ Exercise 3: Design prompts for your three most common tasks:
 
 ---
 
-## 💝 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> **Support this project:** If these guidelines have helped your team implement AI safely and effectively, consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more comprehensive DevOps resources.
 
 ---
 

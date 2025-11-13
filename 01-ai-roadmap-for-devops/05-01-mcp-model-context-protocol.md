@@ -2,13 +2,9 @@
 
 *Learn the fundamentals of Model Context Protocol and build practical MCP servers for DevOps automation*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 📚 Table of Contents
+## Table of Contents
 
 - [What is Model Context Protocol (MCP)?](#what-is-model-context-protocol-mcp)
 - [Why MCP Matters in DevOps](#why-mcp-matters-in-devops)
@@ -29,13 +25,13 @@
 
 ### Key Concepts
 
-**🔌 Protocol Bridge**: MCP acts as a standardized communication layer between AI models and external systems.
+**Protocol Bridge**: MCP acts as a standardized communication layer between AI models and external systems.
 
-**🛡️ Security First**: Built with security principles, ensuring safe interactions between AI and external services.
+**Security First**: Built with security principles, ensuring safe interactions between AI and external services.
 
-**🔄 Bidirectional Communication**: Allows AI models to both read from and write to external systems.
+**Bidirectional Communication**: Allows AI models to both read from and write to external systems.
 
-**📦 Resource Management**: Provides structured access to files, databases, APIs, and other resources.
+**Resource Management**: Provides structured access to files, databases, APIs, and other resources.
 
 ### MCP vs Traditional APIs
 
@@ -68,7 +64,7 @@ graph TB
 
 ## Why MCP Matters in DevOps
 
-### 🚀 Acceleration Benefits
+### Acceleration Benefits
 
 **Standardized Automation**: Instead of writing custom integrations for each AI tool, MCP provides a standard interface.
 
@@ -76,7 +72,7 @@ graph TB
 
 **Ecosystem Compatibility**: MCP servers work across different AI applications and platforms.
 
-### 🛠️ DevOps Use Cases
+### DevOps Use Cases
 
 1. **Infrastructure Monitoring**: AI agents can query metrics, logs, and alerts
 2. **Deployment Automation**: AI can trigger deployments, rollbacks, and scaling operations
@@ -84,7 +80,7 @@ graph TB
 4. **Resource Management**: AI can optimize cloud resource allocation and costs
 5. **Security Compliance**: AI can check configurations against security policies
 
-### 📈 Business Impact
+### Business Impact
 
 - **Reduced Manual Work**: Automate routine DevOps tasks through natural language
 - **Faster Incident Resolution**: AI can quickly gather context and suggest solutions
@@ -756,7 +752,7 @@ if __name__ == "__main__":
 
 This section shows how to integrate your EC2 MCP server with VS Code and GitHub Copilot for seamless AI-powered DevOps workflows.
 
-### 🛠️ Prerequisites
+### Prerequisites
 
 Before configuring MCP with VS Code, ensure you have:
 
@@ -769,7 +765,7 @@ Before configuring MCP with VS Code, ensure you have:
 - MCP extension for VS Code
 ```
 
-### ⚙️ VS Code Configuration
+### VS Code Configuration
 
 #### Install MCP Extension
 
@@ -854,17 +850,17 @@ Found 5 EC2 instances. Let me check the web servers specifically:
 
 [MCP calls get_instance_status for each web server]
 
-📊 Web Server Status Report:
+Web Server Status Report:
 • web-server-1 (i-0123456789abcdef0): ✅ Running - Healthy
 • web-server-2 (i-0987654321fedcba0): ✅ Running - Healthy  
 • web-server-3 (i-0456789123abcdef0): ⚠️  Running - System check failed
 
-🔍 Issue Details for web-server-3:
+Issue Details for web-server-3:
 - Instance Status: Running
 - System Status: impaired
 - Failed Checks: Instance reachability check
 
-� Recommendation: Consider restarting web-server-3 or investigating network connectivity.
+Recommendation: Consider restarting web-server-3 or investigating network connectivity.
 ```
 
 **VS Code Copilot Command**: `@mcp Show me all running EC2 instances and their health status`
@@ -885,15 +881,15 @@ Found database server: db-primary-1 (i-0db123456789abcde0)
 - Attached Volumes: 2 (root + data volume)
 
 [MCP calls create_snapshot tool]
-📸 Creating snapshots for database server...
+Creating snapshots for database server...
 
-✅ Snapshots initiated:
+Snapshots initiated:
 • /dev/sda1 (vol-0123456789abcdef0) → snap-0abc123456789def0
 • /dev/sdf (vol-0987654321fedcba0) → snap-0def987654321abc0
 
-⏳ Snapshots are being created in the background (typically takes 5-10 minutes).
+Snapshots are being created in the background (typically takes 5-10 minutes).
 
-�️ Once snapshots complete, you can safely restart the instance. Would you like me to:
+Once snapshots complete, you can safely restart the instance. Would you like me to:
 1. Monitor snapshot progress
 2. Restart the instance when snapshots are complete
 3. Just notify you when snapshots are ready
@@ -912,9 +908,9 @@ I'll analyze your stopped instances and calculate potential savings.
 
 [MCP calls list_resources() and read_resource() for each instance]
 
-💰 Stopped Instance Analysis:
+Stopped Instance Analysis:
 
-📊 Currently Stopped (not charged for compute):
+Currently Stopped (not charged for compute):
 • test-server-1 (i-0test123456789abc0)
   - Type: t3.medium ($30.37/month when running)
   - Stopped: 15 days ago
@@ -930,12 +926,12 @@ I'll analyze your stopped instances and calculate potential savings.
   - Stopped: 45 days ago
   - Last activity: Legacy backup process
 
-� Recommendations:
+Recommendations:
 • Consider terminating old-backup-server (saved: $62.28/month)
 • test-server-1 could be replaced with spot instances for testing
 • staging-db: Schedule automatic start/stop for business hours only
 
-🎯 Potential monthly savings: $217.21 if optimized properly
+Potential monthly savings: $217.21 if optimized properly
 ```
 
 **VS Code Copilot Command**: `@mcp Analyze stopped instances and calculate cost optimization opportunities`
@@ -944,7 +940,7 @@ I'll analyze your stopped instances and calculate potential savings.
 
 ## Best Practices for DevOps
 
-### 🔒 Security Considerations
+### Security Considerations
 
 1. **IAM Permissions**: Create dedicated IAM roles with minimal required permissions
 
@@ -1012,13 +1008,13 @@ graph TB
 
 ---
 
-### 📚 Learning Resources
+### Learning Resources
 
 - [MCP Official Documentation](https://modelcontextprotocol.io/)
 - [AWS Boto3 Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
 - [Python Async Programming Guide](https://docs.python.org/3/library/asyncio.html)
 
-### 🔗 Community and Support
+### Community and Support
 
 - [MCP GitHub Repository](https://github.com/modelcontextprotocol)
 - [AWS DevOps Community](https://aws.amazon.com/developer/community/)
@@ -1032,7 +1028,7 @@ graph TB
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 

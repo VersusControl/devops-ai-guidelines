@@ -2,13 +2,9 @@
 
 *Understanding the Model Context Protocol and its transformative role in modern DevOps automation*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 📚 Chapter of Contents
+## Chapter of Contents
 
 - [1.1 Introduction to Model Context Protocol (MCP)](#11-introduction-to-model-context-protocol-mcp)
 - [1.2 MCP vs Traditional Automation Approaches](#12-mcp-vs-traditional-automation-approaches)
