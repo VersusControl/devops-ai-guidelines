@@ -2,11 +2,9 @@
 
 *Implementing robust security measures for production-ready MCP servers in enterprise environments*
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+> ⭐ **Starring** this repository to support this work
 
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 🎯 Learning Objectives
+## Learning Objectives
 
 By the end of this chapter, you will be able to:
 
@@ -17,7 +15,7 @@ By the end of this chapter, you will be able to:
 - Configure TLS and secure communication channels
 - Handle credential management and rotation securely
 
-## 🔐 Chapter Overview
+## Chapter Overview
 
 Security is paramount when deploying MCP servers in production environments, especially when they have access to critical Kubernetes infrastructure. This chapter transforms our basic MCP server into a security-hardened system suitable for enterprise deployment.
 
@@ -343,7 +341,7 @@ func (j *JWTAuthenticator) GenerateToken(identity string, permissions []string, 
 
 ---
 
-## 🛡️ Part 2: Role-Based Access Control (RBAC)
+## Part 2: Role-Based Access Control (RBAC)
 
 ### 2.1 RBAC Architecture
 
@@ -835,7 +833,7 @@ func (s *SecureMCPServer) HandleRequest(ctx context.Context, request *MCPRequest
 
 ---
 
-## 🔐 Part 5: TLS and Transport Security
+## Part 5: TLS and Transport Security
 
 ### 5.1 TLS Configuration
 
@@ -903,7 +901,7 @@ func NewTLSConfig(certFile, keyFile, caFile string) (*tls.Config, error) {
 
 ---
 
-## 🛠️ Part 6: Hands-On Lab - Implementing Secure MCP Server
+## Part 6: Hands-On Lab - Implementing Secure MCP Server
 
 ### Lab Setup
 
@@ -1162,7 +1160,7 @@ groups:
 
 ---
 
-## 🎯 Part 8: Real-World Security Scenarios
+## Part 8: Real-World Security Scenarios
 
 ### Scenario 1: SOC 2 Compliance
 
@@ -1249,7 +1247,7 @@ func (s *SecurityMiddleware) EnforceTenantIsolation(ctx context.Context, authInf
 
 In this chapter, we've built a comprehensive security system for our MCP server that includes:
 
-### ✅ What We've Accomplished
+### What We've Accomplished
 
 1. **Multi-Factor Authentication**
    - API key authentication with constant-time comparison
@@ -1287,7 +1285,7 @@ In this chapter, we've built a comprehensive security system for our MCP server 
 - **Zero Trust Ready**: Never trust, always verify
 - **Enterprise Grade**: SOC 2 and ISO 27001 compliance support
 
-### 🚀 Next Steps
+### Next Steps
 
 In Chapter 7, we'll explore advanced MCP patterns including:
 - Event-driven MCP servers with Kubernetes watch APIs
@@ -1300,7 +1298,7 @@ The security foundation we've built in this chapter will support all these advan
 
 ---
 
-## 💡 Key Takeaways
+## Key Takeaways
 
 1. **Security is Not Optional**: Production MCP servers must implement comprehensive security measures
 2. **Layered Defense**: Combine authentication, authorization, audit, and transport security

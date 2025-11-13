@@ -2,6 +2,8 @@
 
 *Do not use in production after completing Chapter 9.*
 
+> ⭐ **Starring** this repository to support this work
+
 ## What We're Building
 
 In Chapter 3, we built an MCP server that could read Kubernetes resources. Now we'll add the ability to **perform actions** - scaling deployments, restarting pods, managing configs, and retrieving logs. This transforms our server from read-only to a full operational tool.
@@ -1651,7 +1653,7 @@ Your MCP server is now a powerful operational tool that can safely perform commo
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 

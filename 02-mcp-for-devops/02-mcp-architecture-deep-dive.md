@@ -2,11 +2,7 @@
 
 *Understanding how all the pieces fit together in the MCP ecosystem*
 
-## 📚 Support This Work
-
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+> ⭐ **Starring** this repository to support this work
 
 ## What We're Building Towards
 
@@ -14,7 +10,7 @@ By the end of this chapter, you'll understand how your AI assistant talks to you
 
 Your AI assistant is smart but doesn't know your infrastructure. The MCP server bridges this gap, turning AI questions like "What pods are running?" into actual Kubernetes API calls that return real data.
 
-## 📚 Chapter of Contents
+## Chapter of Contents
 
 - [2.1 The Complete Flow](#21-the-complete-flow)
 - [2.2 MCP Protocol: The Foundation](#22-mcp-protocol-the-foundation)
@@ -738,7 +734,7 @@ The architecture patterns we covered will guide our implementation in Chapter 3,
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 

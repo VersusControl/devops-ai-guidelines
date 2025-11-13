@@ -519,7 +519,7 @@ The cloud architecture skills you'll build will serve you long after you pass th
 
 ---
 
-## 📚 About This Guide
+## About This Guide
 
 *This article is based on concepts from my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) - a comprehensive guide to leveraging AI for DevOps workflows. The book covers everything from basic prompt engineering to building team-wide AI-assisted practices, with real-world examples for Kubernetes, CI/CD, cloud infrastructure, and more.*
 
@@ -535,8 +535,7 @@ The cloud architecture skills you'll build will serve you long after you pass th
 
 ---
 
-## 💝 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 
-> **Support this project:** If this AWS learning system has accelerated your certification journey, consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered learning resources.

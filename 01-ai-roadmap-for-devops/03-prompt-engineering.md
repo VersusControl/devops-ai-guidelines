@@ -2,13 +2,9 @@
 
 *Advanced communication strategies for AI system optimization*
 
-## 📚 Support This Work
+> ⭐ **Starring** this repository to support this work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
-## 🎯 **Learning Objectives**
+## Learning Objectives
 
 Upon completion of this guide, you will be able to:
 - Design and implement effective prompt architectures for consistent AI performance
@@ -19,7 +15,7 @@ Upon completion of this guide, you will be able to:
 
 ---
 
-## 🧠 **Prompt Engineering Fundamentals**
+## Prompt Engineering Fundamentals
 
 **Technical Definition:**
 Prompt engineering is the systematic design of input instructions to optimize large language model performance for specific tasks and domains.
@@ -36,11 +32,11 @@ Effective prompt engineering transforms general AI capabilities into specialized
 
 ---
 
-## 📚 **Technical Framework**
+## Technical Framework
 
-### **Section 1: Prompt Architecture Design**
+### Section 1: Prompt Architecture Design
 
-#### **Structured Prompt Framework**
+#### Structured Prompt Framework
 
 **C.R.A.F.T Architecture Pattern:**
 ```
@@ -228,9 +224,9 @@ Solution: Add validation criteria and quality checkpoints
 
 ---
 
-### **Section 2: Advanced Prompting Methodologies**
+### Section 2: Advanced Prompting Methodologies
 
-#### **Chain-of-Thought Reasoning**
+#### Chain-of-Thought Reasoning
 
 **Technical Framework:**
 Chain-of-thought prompting enhances model reasoning by requiring explicit intermediate step documentation, improving both accuracy and transparency of complex problem-solving tasks.
@@ -293,7 +289,7 @@ Provide detailed reasoning for each assessment step."
 - [ ] Write a chain of thought prompt for it
 - [ ] See if AI reaches the same conclusion as you did
 
-#### **Few-Shot Learning (Examples)**
+#### Few-Shot Learning (Examples)
 
 **Show the AI what "good" looks like:**
 
@@ -363,7 +359,7 @@ An RDS PostgreSQL database for a staging environment
 - [ ] Test with AI to generate new K8s resources
 - [ ] Compare quality with and without examples
 
-#### **Role-Based Prompting**
+#### Role-Based Prompting
 
 **Give the AI a specific expertise role:**
 
@@ -409,7 +405,7 @@ productivity."
 
 ---
 
-### **Section 3: Debugging and Optimizing Prompts**
+### Section 3: Debugging and Optimizing Prompts
 
 #### **When Prompts Don't Work**
 
@@ -457,7 +453,7 @@ and I can connect with psql. What Docker networking issues should I check?"
 - [ ] Did I include relevant error messages/logs?
 - [ ] Would a human understand what I want?
 
-#### **A/B Testing Your Prompts**
+#### A/B Testing Your Prompts
 
 **Systematic Prompt Improvement:**
 
@@ -492,7 +488,7 @@ Requirements:
 - [ ] Test each and rate the results
 - [ ] Identify the best techniques for your use case
 
-#### **Building Prompt Templates**
+#### Building Prompt Templates
 
 **Create Reusable Prompt Patterns:**
 
@@ -564,9 +560,9 @@ Format: [OUTPUT_FORMAT]"
 
 ---
 
-### **Section 4: DevOps-Specific Prompt Engineering**
+### Section 4: DevOps-Specific Prompt Engineering
 
-#### **Infrastructure Automation Prompts**
+#### Infrastructure Automation Prompts
 
 **Terraform Generation:**
 ```
@@ -607,7 +603,7 @@ Provide:
 Format as a runbook that I can follow and share with my team."
 ```
 
-#### **Monitoring and Alerting Prompts**
+#### Monitoring and Alerting Prompts
 
 **Prometheus Query Generation:**
 ```
@@ -650,7 +646,7 @@ Provide:
 4. Action items prioritized by impact"
 ```
 
-#### **Security and Compliance Prompts**
+#### Security and Compliance Prompts
 
 **Security Review:**
 ```
@@ -695,9 +691,9 @@ Format as audit-ready documentation with references to supporting evidence."
 
 ---
 
-## 🎓 **Assessment: Master Your Prompt Engineering**
+## Assessment: Master Your Prompt Engineering
 
-### **Practical Challenges:**
+### Practical Challenges:
 
 **Challenge 1: The Multi-Step Infrastructure Deploy**
 Create a prompt that gets AI to help you deploy a complete application stack with proper error handling and rollback procedures.
@@ -717,9 +713,9 @@ By the end of this week, create:
 
 ---
 
-## 🛠️ **Hands-On Projects**
+## Hands-On Projects
 
-### **Project 1: AI-Powered Runbook Generator**
+### Project 1: AI-Powered Runbook Generator
 ```python
 # Create a script that takes infrastructure components 
 # and generates troubleshooting runbooks
@@ -741,15 +737,15 @@ def generate_runbook(component_type, component_config):
     return call_ai_api(prompt)
 ```
 
-### **Project 2: Intelligent Configuration Validator**
+### Project 2: Intelligent Configuration Validator
 Build prompts that can review and validate configuration files for best practices and security issues.
 
-### **Project 3: Documentation Assistant**
+### Project 3: Documentation Assistant
 Create a system that automatically generates documentation for your infrastructure code using AI.
 
 ---
 
-## 📊 **Prompt Performance Metrics**
+## Prompt Performance Metrics
 
 **How to Measure Your Prompt Quality:**
 
@@ -771,25 +767,25 @@ Notes: [WHAT_WORKED_WELL_OR_POORLY]
 
 ---
 
-## 📚 **Advanced Resources**
+## Advanced Resources
 
-### **Prompt Engineering Guides:**
+### Prompt Engineering Guides:
 - [ ] [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
 - [ ] [Anthropic Prompt Library](https://docs.anthropic.com/claude/prompt-library)
 - [ ] [Prompt Engineering Guide by DAIR.AI](https://www.promptingguide.ai/)
 
-### **DevOps-Specific Prompt Collections:**
+### DevOps-Specific Prompt Collections:
 - [ ] [PromptOps: From YAML to AI](https://leanpub.com/promptops-from-yaml-to-ai)
 - [ ] [AI-Assisted Infrastructure](https://github.com/topics/ai-devops)
 
-### **Tools for Prompt Development:**
+### Tools for Prompt Development:
 - [ ] [PromptBase](https://promptbase.com/) - Marketplace for prompts
 - [ ] [LangChain Prompt Templates](https://python.langchain.com/docs/modules/model_io/prompts/)
 - [ ] [Weights & Biases Prompts](https://wandb.ai/site/prompts) - Prompt experimentation
 
 ---
 
-## 🚀 **Next Steps**
+## Next Steps
 
 After mastering prompt engineering, you'll be ready for:
 - ✅ More effective AI tool usage
@@ -801,7 +797,7 @@ After mastering prompt engineering, you'll be ready for:
 
 ---
 
-## 💡 **Key Takeaways**
+## Key Takeaways
 
 1. **Specificity is king** - Vague prompts get vague results
 2. **Context matters** - The more relevant context, the better the output
@@ -814,25 +810,25 @@ After mastering prompt engineering, you'll be ready for:
 
 ---
 
-## 🔧 **Prompt Cheat Sheet**
+## Prompt Cheat Sheet
 
 **C.R.A.F.T Quick Reference:**
 
 ```
-�️ C.R.A.F.T Framework: 
+C.R.A.F.T Framework: 
 Context: [BACKGROUND_SITUATION] 
 Role: "You are a [JOB_TITLE] with [EXPERTISE]" 
 Action: [SPECIFIC_TASK_WITH_DELIVERABLES] 
 Format: [OUTPUT_STRUCTURE] 
 Tone: [COMMUNICATION_STYLE]
 
-🧠 Chain of thought: "Think through this step by step: 1) [STEP] 2) [STEP]..."
+Chain of thought: "Think through this step by step: 1) [STEP] 2) [STEP]..."
 
-📋 Structured output: "Format your response as: ✅ [GOOD] ❌ [ISSUES] 💡 [SUGGESTIONS]"
+Structured output: "Format your response as: ✅ [GOOD] ❌ [ISSUES] 💡 [SUGGESTIONS]"
 
- Few-shot: "Here are examples: [EXAMPLE_1] [EXAMPLE_2] Now do: [YOUR_TASK]"
+Few-shot: "Here are examples: [EXAMPLE_1] [EXAMPLE_2] Now do: [YOUR_TASK]"
 
-🔧 DevOps Template: 
+DevOps Template: 
 Context: "[SYSTEM_STATE] [RECENT_CHANGES] [CONSTRAINTS]"
 Role: "You are a [DevOps/SRE/Platform Engineer] with [X years] experience"
 Action: "[ANALYZE/CREATE/DEBUG/OPTIMIZE] [SPECIFIC_COMPONENT]"
@@ -844,10 +840,6 @@ Tone: "[TECHNICAL/EXECUTIVE/URGENT] for [AUDIENCE]"
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
-
----

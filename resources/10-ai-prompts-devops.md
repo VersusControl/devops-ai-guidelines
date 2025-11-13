@@ -44,7 +44,7 @@ Format the response as an executive summary followed by detailed findings with r
 
 ---
 
-## 2. The Incident Response Commander 🚨
+## 2. The Incident Response Commander
 
 **Copy this prompt:**
 
@@ -67,7 +67,7 @@ Incident symptoms: [DESCRIBE THE ISSUE]
 
 ---
 
-## 3. The Kubernetes Troubleshooter 🔧
+## 3. The Kubernetes Troubleshooter
 
 **Copy this prompt:**
 
@@ -92,7 +92,7 @@ Format as a troubleshooting runbook with copy-paste commands.
 
 ---
 
-## 4. The Cost Optimization Detective 💰
+## 4. The Cost Optimization Detective
 
 **Copy this prompt:**
 
@@ -117,7 +117,7 @@ Format as a cost optimization action plan with ROI calculations.
 
 ---
 
-## 5. The Production-Ready Code Generator 🏗️
+## 5. The Production-Ready Code Generator
 
 **Copy this prompt:**
 
@@ -144,7 +144,7 @@ Provide the complete implementation with explanations for each decision.
 
 ---
 
-## 6. The Monitoring and Alerting Architect 📊
+## 6. The Monitoring and Alerting Architect
 
 **Copy this prompt:**
 
@@ -168,7 +168,7 @@ Provide specific configurations for [MONITORING TOOL] and justify each monitorin
 
 ---
 
-## 7. The Disaster Recovery Planner 🛡️
+## 7. The Disaster Recovery Planner
 
 **Copy this prompt:**
 
@@ -197,7 +197,7 @@ Format as an executable disaster recovery playbook.
 
 ---
 
-## 8. The Automation Script Builder 🤖
+## 8. The Automation Script Builder
 
 **Copy this prompt:**
 
@@ -223,7 +223,7 @@ Provide the complete script with installation instructions and usage examples.
 
 ---
 
-## 9. The Security Compliance Auditor 🔐
+## 9. The Security Compliance Auditor
 
 **Copy this prompt:**
 
@@ -249,7 +249,7 @@ Format as a compliance remediation plan with timelines.
 
 ---
 
-## 10. The Performance Optimization Engineer ⚡
+## 10. The Performance Optimization Engineer
 
 **Copy this prompt:**
 
@@ -332,7 +332,7 @@ AI is transforming DevOps, but only for those who know how to use it effectively
 
 ---
 
-## 📚 About This Guide
+## About This Guide
 
 *This article is based on concepts from my book ["PromptOps: From YAML to AI"](https://leanpub.com/promptops-from-yaml-to-ai) - a comprehensive guide to leveraging AI for DevOps workflows. The book covers everything from basic prompt engineering to building team-wide AI-assisted practices, with real-world examples for Kubernetes, CI/CD, cloud infrastructure, and more.*
 
@@ -351,8 +351,6 @@ AI is transforming DevOps, but only for those who know how to use it effectively
 ## 💝 Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> **Support this project:** If these prompts have boosted your DevOps productivity, consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered DevOps resources.
 
 ---
 

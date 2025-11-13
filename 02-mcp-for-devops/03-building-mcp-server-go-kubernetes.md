@@ -1,10 +1,6 @@
 # Chapter 3: Building Production MCP Server for Kubernetes with Go
 
-## 📚 Support This Work
-
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+> ⭐ **Starring** this repository to support this work
 
 ## What We're Building
 
@@ -1413,7 +1409,7 @@ You now have a production-ready MCP server that connects AI assistants to your K
 
 ---
 
-## 📚 Support This Work
+## Support This Work
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
 
