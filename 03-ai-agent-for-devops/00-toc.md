@@ -56,7 +56,7 @@ This README provides an outline for a beginner-friendly book series on building 
 - Level 5: Autonomous log management and remediation.
 - Coding mapping our agent build to these levels: Starting at Level 1 and progressing to Level 3 by the end.
 
-## Chapter 6: Introduction to LangChain for AI Logging Agents
+## [Chapter 6: Introduction to LangChain for AI Logging Agents](./06-introduction-to-langchain.md)
 
 - What is LangChain: A framework for building AI applications with language models.
 - Why use LangChain for logging agents: Simplifies prompt management, chains, memory, and tool integration.
