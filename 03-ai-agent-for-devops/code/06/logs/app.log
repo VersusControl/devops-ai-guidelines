@@ -1,0 +1,6 @@
+[2025-01-15 10:23:45] INFO Application started
+[2025-01-15 10:23:46] INFO Connected to database
+[2025-01-15 10:24:12] ERROR Database connection timeout
+[2025-01-15 10:24:13] ERROR Failed to execute query
+[2025-01-15 10:24:14] INFO Retrying connection
+[2025-01-15 10:24:15] INFO Connection successful
