@@ -1,0 +1,4 @@
+python-dotenv>=1.2.1
+requests>=2.32.5
+langchain>=1.0.5
+langchain-google-genai>=3.0.3
