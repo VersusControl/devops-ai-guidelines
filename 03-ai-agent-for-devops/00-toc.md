@@ -3,7 +3,7 @@
 This README provides an outline for a beginner-friendly book series on building an AI Logging Agent from scratch. The series guides readers from basic theory to step-by-step implementation, no prior AI experience is required. By the end, you'll have a runnable AI agent for DevOps log analysis and management.
 
 <h1 align="center" style="border-bottom: none">
-  <img alt="Practical DevOps AI" src="images/Practical DevOps AI.png">
+  <img alt="Practical DevOps AI" src="images/Practical DevOps AI.png" width="500">
 </h1>
 
 If you like the book version, check here to download: [Practical DevOps AI](https://groups.google.com/g/practical-devops-ai).
