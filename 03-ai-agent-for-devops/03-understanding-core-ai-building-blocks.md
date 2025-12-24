@@ -526,21 +526,21 @@ This continues until the agent reaches a conclusion or hits a maximum iteration 
 
 ```mermaid
 graph LR
-    Start[Start: Initial Logs] --> T1[💭 Thought 1:<br/>What do I know?]
-    T1 --> A1[⚡ Action 1:<br/>Use a tool]
-    A1 --> O1[👁 Observation 1:<br/>Process results]
+    Start[Start: Initial Logs] --> T1[Thought 1:<br/>What do I know?]
+    T1 --> A1[Action 1:<br/>Use a tool]
+    A1 --> O1[Observation 1:<br/>Process results]
     
-    O1 --> T2[💭 Thought 2:<br/>What does this mean?]
-    T2 --> A2[⚡ Action 2:<br/>Use another tool]
-    A2 --> O2[👁 Observation 2:<br/>Process results]
+    O1 --> T2[Thought 2:<br/>What does this mean?]
+    T2 --> A2[Action 2:<br/>Use another tool]
+    A2 --> O2[Observation 2:<br/>Process results]
     
     O2 --> D{Solved?}
-    D -->|No| T3[💭 Thought 3:<br/>What else?]
-    T3 --> A3[⚡ Action 3]
-    A3 --> O3[👁 Observation 3]
+    D -->|No| T3[Thought 3:<br/>What else?]
+    T3 --> A3[Action 3]
+    A3 --> O3[Observation 3]
     O3 --> D
     
-    D -->|Yes| C[✅ Conclusion:<br/>Report findings]
+    D -->|Yes| C[Conclusion:<br/>Report findings]
     
     style T1 fill:#ffd43b,stroke:#fab005,color:#000
     style T2 fill:#ffd43b,stroke:#fab005,color:#000
