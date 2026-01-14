@@ -1,0 +1,34 @@
+[2025-01-15 10:24:12] ERROR [DatabaseConnector] Connection timeout: postgres://db-prod-01:5432/app_db
+  Details: Connection attempt timed out after 30 seconds
+  Stack trace:
+    at DatabaseConnector.connect (db.js:45)
+    at QueryExecutor.execute (query.js:23)
+    at UserRepository.findById (user.js:89)
+
+[2025-01-15 10:24:13] ERROR [QueryExecutor] Query execution failed
+  Query: SELECT * FROM users WHERE id = 123
+  Error: Connection lost during query execution
+  Retry: Will retry in 1000ms
+
+[2025-01-15 10:35:22] ERROR [AuthenticationService] Failed login attempt
+  User: invalid.user@example.com
+  Reason: Invalid credentials
+  IP: 203.0.113.42
+  Attempts: 3/5 before lockout
+
+[2025-01-15 10:45:00] ERROR [FileUploadHandler] File upload failed
+  File: large_dataset.csv
+  Size: 512MB
+  Error: Exceeded maximum upload size (500MB)
+  User: data.analyst@company.com
+
+[2025-01-15 11:00:15] ERROR [MemoryMonitor] Memory threshold exceeded
+  Current: 3.8GB / 4.0GB (95%)
+  Process: worker-pool-3
+  Action: Triggering garbage collection
+
+[2025-01-15 11:15:30] ERROR [APIGateway] External service timeout
+  Service: payment-processor-api
+  Endpoint: https://api.payments.example.com/v1/charge
+  Timeout: 10s
+  Retry: 2/3 attempts remaining

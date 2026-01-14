@@ -1,0 +1,21 @@
+[2025-01-15 10:23:45] INFO Application started successfully
+[2025-01-15 10:23:46] INFO Connected to database: postgres://db-prod-01:5432/app_db
+[2025-01-15 10:23:47] INFO Loading configuration from /etc/app/config.yaml
+[2025-01-15 10:23:48] INFO Starting HTTP server on port 8080
+[2025-01-15 10:23:49] INFO Health check endpoint: /health
+[2025-01-15 10:24:00] INFO User 'admin' logged in from 192.168.1.100
+[2025-01-15 10:24:12] ERROR Database connection timeout after 30s
+[2025-01-15 10:24:13] ERROR Failed to execute query: SELECT * FROM users WHERE id = 123
+[2025-01-15 10:24:13] WARN Retrying database connection (attempt 1/3)
+[2025-01-15 10:24:14] INFO Retrying database connection...
+[2025-01-15 10:24:15] INFO Connection successful to postgres://db-prod-01:5432/app_db
+[2025-01-15 10:24:16] INFO Query executed successfully
+[2025-01-15 10:24:30] WARN High memory usage: 85% of 4GB allocated
+[2025-01-15 10:24:45] INFO User 'john.doe' logged in from 10.0.1.50
+[2025-01-15 10:25:00] INFO Processing batch job: data_export_2025_01_15
+[2025-01-15 10:25:30] INFO Batch job completed: 10,523 records exported
+[2025-01-15 10:26:00] WARN API rate limit approaching: 950/1000 requests in last hour
+[2025-01-15 10:26:15] INFO Cache hit rate: 94.5%
+[2025-01-15 10:27:00] INFO Scheduled backup started
+[2025-01-15 10:28:30] INFO Backup completed: 2.3GB written to s3://backups/app-backup-2025-01-15.tar.gz
+[2025-01-15 10:29:00] INFO Active users: 45, Active sessions: 67
