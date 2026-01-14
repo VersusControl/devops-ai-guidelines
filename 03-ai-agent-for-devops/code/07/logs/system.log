@@ -1,0 +1,13 @@
+[2025-01-15 09:00:00] INFO System boot completed
+[2025-01-15 09:00:01] INFO CPU: 8 cores, Memory: 16GB, Disk: 500GB SSD
+[2025-01-15 09:00:05] INFO Docker daemon started
+[2025-01-15 09:00:10] INFO Kubernetes node joined cluster: prod-cluster-01
+[2025-01-15 09:00:15] INFO All health checks passed
+[2025-01-15 10:00:00] INFO Scheduled system health check
+[2025-01-15 10:00:01] WARN Disk usage on /var/log: 78% (390GB/500GB)
+[2025-01-15 10:00:02] INFO CPU usage: 45% average over last hour
+[2025-01-15 10:00:03] INFO Network: 2.3GB in, 1.8GB out (last hour)
+[2025-01-15 11:00:00] WARN Container restart detected: app-worker-3
+[2025-01-15 11:00:01] INFO Container app-worker-3 restarted successfully
+[2025-01-15 11:00:02] INFO Load balancer health check: all backends healthy
+[2025-01-15 12:00:00] INFO Log rotation completed: archived 15 log files
