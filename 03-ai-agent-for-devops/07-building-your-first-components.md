@@ -82,6 +82,8 @@ graph TD
     style D fill:#f3e5f5
 ```
 
+**Figure 7.1:** The Architecture
+
 Each layer has a purpose. Let me explain why we need each one.
 
 ## Layer 1: Configuration (config.py)
@@ -825,8 +827,10 @@ You've just built a production-quality AI agent with six well-defined layers:
 
 Each layer exists for a reason. Together, they create a system that's maintainable, testable, and extensible.
 
-This is a simple agent. It reads logs and answers questions. But the architecture you've learned here scales to much more complex systems. In Chapter 8, we'll add decision-making and routing. In Chapter 9, we'll add persistent memory. In Chapters 10-12, we'll integrate multiple data sources and deploy to production.
+More importantly, you've learned why architecture matters. The clean separation between layers means we can swap out the interface without touching the business logic. We can change the AI model without rewriting the tools. We can add new capabilities without breaking existing code.
 
-The foundation is solid. Now we build upward.
+This is a terminal-based agent. It works great for developers, but not everyone on your team is comfortable with the command line. Your manager wants to check logs. Your product team needs insights. Your support engineers need quick answers.
 
-In the next chapter, we'll teach this agent to make decisions—to route different types of issues to different teams, to assign severity levels, to know when something needs immediate attention. That's when it starts feeling truly intelligent.
+The foundation is solid. Now we make it accessible.
+
+In the next chapter, we'll wrap this agent in a web-based chat interface using Streamlit. Same agent, same capabilities, but with a user-friendly interface that anyone can use from their browser. No terminal knowledge required. That's when the tool becomes useful to your entire team, not just the developers.
