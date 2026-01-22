@@ -1,0 +1,15 @@
+2024-01-20 10:15:30 INFO  [system] System boot completed
+2024-01-20 10:15:31 INFO  [system] CPU: Intel Xeon E5-2670 @ 2.60GHz, 8 cores
+2024-01-20 10:15:31 INFO  [system] Memory: 16GB DDR4
+2024-01-20 10:15:31 INFO  [system] Disk: 500GB SSD
+2024-01-20 10:15:32 INFO  [network] Network interface eth0 up: 192.168.1.50/24
+2024-01-20 10:15:33 INFO  [network] Default gateway: 192.168.1.1
+2024-01-20 12:00:00 INFO  [system] System health check: OK
+2024-01-20 12:00:01 INFO  [system] Load average: 0.85, 0.92, 0.88
+2024-01-20 12:00:02 INFO  [disk] Disk usage: / 60% (300GB/500GB)
+2024-01-20 12:00:03 INFO  [memory] Memory usage: 8.2GB/16GB (51%)
+2024-01-20 14:30:00 WARN  [system] High CPU usage detected: 85%
+2024-01-20 14:30:01 INFO  [system] Top process: python (PID 1234, CPU: 65%)
+2024-01-20 14:30:15 INFO  [system] CPU usage normalized: 45%
+2024-01-20 18:00:00 INFO  [system] Scheduled backup started
+2024-01-20 18:15:22 INFO  [system] Backup completed: /backups/2024-01-20.tar.gz (2.1GB)

@@ -1,0 +1,29 @@
+2024-01-20 10:24:12 ERROR [database] Connection timeout
+Stack trace:
+  File "/app/database.py", line 45, in connect
+    conn = psycopg2.connect(dsn)
+  File "/usr/lib/python3.9/psycopg2/__init__.py", line 127, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+psycopg2.OperationalError: could not connect to server: Connection timed out
+
+2024-01-20 10:24:13 ERROR [api] Query execution failed
+Stack trace:
+  File "/app/api/handlers.py", line 123, in execute_query
+    result = db.query(sql)
+  File "/app/database.py", line 78, in query
+    raise DatabaseError("Connection lost")
+DatabaseError: Connection lost
+
+2024-01-20 11:45:30 ERROR [auth] Invalid credentials for user: hacker@evil.com
+2024-01-20 11:45:31 WARN  [auth] Multiple failed login attempts from IP: 192.168.1.100
+
+2024-01-20 13:22:10 ERROR [worker] Background job failed: send_notifications
+Stack trace:
+  File "/app/workers/notifications.py", line 56, in send_notifications
+    smtp.send(message)
+  File "/usr/lib/python3.9/smtplib.py", line 867, in send
+    raise SMTPException("Server not responding")
+SMTPException: Server not responding
+
+2024-01-20 14:05:15 ERROR [api] Rate limit exceeded for API key: key_abc123
+2024-01-20 14:05:16 WARN  [api] Blocking API key: key_abc123 for 1 hour

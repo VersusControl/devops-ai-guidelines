@@ -1,0 +1,20 @@
+2024-01-20 10:15:32 INFO  [main] Application started successfully
+2024-01-20 10:15:33 INFO  [main] Loading configuration from config.yaml
+2024-01-20 10:15:34 INFO  [database] Connecting to database: postgresql://localhost:5432/appdb
+2024-01-20 10:15:35 INFO  [database] Database connection established
+2024-01-20 10:16:12 INFO  [api] Starting API server on port 8080
+2024-01-20 10:16:13 INFO  [api] API server is ready to accept connections
+2024-01-20 10:24:10 WARN  [database] Connection pool running low: 2 connections available
+2024-01-20 10:24:12 ERROR [database] Database connection timeout after 30 seconds
+2024-01-20 10:24:13 ERROR [api] Failed to execute query: connection lost
+2024-01-20 10:24:15 INFO  [database] Attempting to reconnect to database
+2024-01-20 10:24:16 INFO  [database] Database connection re-established
+2024-01-20 10:24:17 INFO  [api] Service recovered, resuming normal operations
+2024-01-20 10:45:22 INFO  [auth] User login: admin@example.com
+2024-01-20 10:45:23 INFO  [auth] Session created: sess_abc123
+2024-01-20 11:12:45 WARN  [cache] Cache miss rate high: 45% over last 5 minutes
+2024-01-20 11:12:46 INFO  [cache] Warming up cache with popular queries
+2024-01-20 11:30:00 INFO  [scheduler] Running scheduled job: daily_cleanup
+2024-01-20 11:30:01 INFO  [scheduler] Cleanup completed: removed 1,234 expired sessions
+2024-01-20 12:00:00 INFO  [metrics] Hourly metrics: 15,432 requests, avg response time 125ms
+2024-01-20 12:00:01 INFO  [metrics] CPU: 45%, Memory: 2.1GB/4GB, Disk: 60%
