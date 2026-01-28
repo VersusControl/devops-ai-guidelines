@@ -1,0 +1,31 @@
+2024-01-28 08:00:00 INFO  [main] o.s.boot.SpringApplication - Starting JavaApplication v1.0.0 on pod-java-app-7d9f8b6c5-xk2m9
+2024-01-28 08:00:01 INFO  [main] o.s.boot.SpringApplication - Running with Spring Boot v3.2.1, Spring v6.1.2
+2024-01-28 08:00:02 INFO  [main] o.s.context.support.GenericApplicationContext - Refreshing application context
+2024-01-28 08:00:05 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080
+2024-01-28 08:00:06 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-01-28 08:00:06 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-01-28 08:00:10 INFO  [main] o.s.boot.SpringApplication - Started JavaApplication in 10.234 seconds
+2024-01-28 08:05:30 INFO  [http-nio-8080-exec-1] c.e.controller.HealthController - Health check: OK
+2024-01-28 08:10:15 INFO  [http-nio-8080-exec-3] c.e.service.DataProcessor - Processing batch of 1000 records
+2024-01-28 08:15:45 WARN  [http-nio-8080-exec-5] c.e.service.CacheService - Cache size growing: 450MB used
+2024-01-28 08:20:10 INFO  [http-nio-8080-exec-7] c.e.service.DataProcessor - Processing batch of 5000 records
+2024-01-28 08:25:30 WARN  [http-nio-8080-exec-9] c.e.service.CacheService - Cache size growing: 820MB used
+2024-01-28 08:28:15 WARN  [http-nio-8080-exec-12] o.s.web.servlet.mvc.method.annotation - High memory usage detected: 85% of heap
+2024-01-28 08:30:00 ERROR [http-nio-8080-exec-15] c.e.service.DataProcessor - Failed to process large batch: java.lang.OutOfMemoryError: Java heap space
+2024-01-28 08:30:01 ERROR [http-nio-8080-exec-15] o.a.catalina.core.StandardWrapperValve - Servlet.service() for servlet [dispatcherServlet] threw exception
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3512)
+	at java.base/java.util.ArrayList.grow(ArrayList.java:237)
+	at java.base/java.util.ArrayList.add(ArrayList.java:454)
+	at com.example.service.DataProcessor.processBatch(DataProcessor.java:89)
+	at com.example.controller.ApiController.handleRequest(ApiController.java:45)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2024-01-28 08:30:02 ERROR [http-nio-8080-exec-16] c.e.service.DataProcessor - OutOfMemoryError: GC overhead limit exceeded
+2024-01-28 08:30:03 ERROR [http-nio-8080-exec-17] o.s.web.servlet.DispatcherServlet - Handler dispatch failed
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+2024-01-28 08:30:05 FATAL [main] o.s.boot.SpringApplication - Application context failed to start due to OOM
+2024-01-28 08:30:06 ERROR [container-monitor] Kubernetes detected pod crash: CrashLoopBackOff
+2024-01-28 08:30:07 ERROR [container-monitor] Pod: pod-java-app-7d9f8b6c5-xk2m9, Namespace: production, Status: Error
+2024-01-28 08:30:08 INFO  [container-monitor] Container exit code: 137 (OOMKilled)
+2024-01-28 08:30:09 WARN  [kubelet] Pod memory limit: 1Gi, Memory usage at crash: 1.02Gi
+2024-01-28 08:30:10 ERROR [kubelet] Container killed by OOM killer

@@ -19,11 +19,12 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - [Chapter 7: Hands-On: Building Your First Components](#chapter-7-hands-on-building-your-first-components)
 - [Chapter 8: Building a Web Interface with Streamlit](#chapter-8-building-a-web-interface-with-streamlit)
 - [Chapter 9: Adding Decision-Making and Actions](#chapter-9-adding-decision-making-and-actions)
-- [Chapter 10: Memory and State Management](#chapter-10-memory-and-state-management)
-- [Chapter 11: Multi-Source Log Integration](#chapter-11-multi-source-log-integration)
-- [Chapter 12: Cross-System Correlation and Analysis](#chapter-12-cross-system-correlation-and-analysis)
-- [Chapter 13: Production Deployment](#chapter-13-production-deployment)
-- [Chapter 14: Future](#chapter-14-future)
+- [Chapter 10: Building a Complex Agent with Actions](#chapter-10-building-a-complex-agent-with-actions)
+- [Chapter 11: Memory and State Management](#chapter-11-memory-and-state-management)
+- [Chapter 12: Multi-Source Log Integration](#chapter-12-multi-source-log-integration)
+- [Chapter 13: Cross-System Correlation and Analysis](#chapter-13-cross-system-correlation-and-analysis)
+- [Chapter 14: Production Deployment](#chapter-14-production-deployment)
+- [Chapter 15: Future](#chapter-15-future)
 
 ## [Chapter 1: Introduction to AI Agents for Logging](./01-introduction-to-ai-agents-for-logging.md)
 
@@ -103,7 +104,20 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Implementing basic actions: Integrate with PagerDuty, Slack, or email for notifications.
 - Testing and validation: Start with read-only actions before moving to automated responses.
 
-## Chapter 10: Memory and State Management
+## Chapter 10: Building Real Actions for Common DevOps Scenarios
+
+- Identifying repetitive manual tasks: Map common log issues to DevOps actions you do manually every day.
+- Real action implementations: Move from placeholders to actual kubectl, docker, and system commands.
+- Scenario 1: Cache management (cache hit rate drops → clear Redis/Memcached).
+- Scenario 2: Disk space recovery (disk full errors → clean old logs, temp files).
+- Scenario 3: Service health checks and restarts (service unresponsive → health check → restart if needed).
+- Scenario 4: Database connection pool management (connection errors → check pool status → adjust limits).
+- Scenario 5: Queue management (queue backup warnings → purge old messages, scale consumers).
+- Building action chains: Combine multiple actions for complex recovery workflows.
+- Testing real actions safely: Dry-run modes, rollback mechanisms, and validation checks.
+- Action result verification: Confirm actions succeeded before marking incidents resolved.
+
+## Chapter 11: Memory and State Management
 
 - Understanding agent memory: Why memory matters for log analysis patterns.
 - Types of memory in LangChain: Buffer memory, summary memory, and conversation memory.
@@ -113,7 +127,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Memory optimization: Balancing context retention with performance.
 - Practical examples: Building a memory system that remembers past incidents and learns from patterns.
 
-## Chapter 11: Multi-Source Log Integration
+## Chapter 12: Multi-Source Log Integration
 
 - Understanding the challenge: Moving from single log files to real infrastructure.
 - Building API clients: Connect to Elasticsearch, Kubernetes, and AWS CloudWatch.
@@ -123,7 +137,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Log format normalization: Create a unified structure from different log formats.
 - Testing each connector: Verify each integration works before combining them.
 
-## Chapter 12: Cross-System Correlation and Analysis
+## Chapter 13: Cross-System Correlation and Analysis
 
 - The power of correlation: Understanding how events connect across systems.
 - Building the aggregation pipeline: Combine logs from multiple sources into a unified view.
@@ -133,7 +147,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Implementing the full analysis loop: Pull logs, aggregate, correlate, analyze, and report.
 - Testing correlation logic: Verify the agent correctly identifies related events.
 
-## Chapter 13: Production Deployment
+## Chapter 14: Production Deployment
 
 - Making it production-ready: Add proper error handling, logging, and monitoring.
 - Configuration management: Use environment variables and config files for different environments.
@@ -145,6 +159,6 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Complete system assembly: Bringing all components together into a production deployment.
 - What you've achieved: Review the Level 3 capabilities you've built.
 
-## Chapter 14: Future
+## Chapter 15: Future
 - Future enhancements: Paths to Level 4 (multi-agent) and Level 5 (autonomous remediation).
 - Next steps: Ideas for customization and expansion based on your specific needs.
