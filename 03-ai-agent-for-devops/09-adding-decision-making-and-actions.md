@@ -93,7 +93,19 @@ The UI we're building demonstrates the core workflow. Later chapters will show y
 
 ## Understanding the Workflow
 
-Let's walk through a complete incident response flow to understand what we're building.
+Let's walk through a complete incident response flow to understand what we're building. The demo:
+
+<h1 align="center" style="border-bottom: none">
+  <img alt="The AI Agent with Decision Making" src="images/09.01.png" width="800">
+</h1>
+
+**Figure 9.1:** The AI Agent with Decision Making
+
+<h1 align="center" style="border-bottom: none">
+  <img alt="The AI Agent Executes Action" src="images/09.02.png" width="800">
+</h1>
+
+**Figure 9.2:** The AI Agent Executes Action
 
 **Step 1: Log Analysis**
 User asks: "Check app.log for issues"
