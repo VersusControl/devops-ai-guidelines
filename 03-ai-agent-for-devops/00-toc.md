@@ -20,11 +20,12 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - [Chapter 8: Building a Web Interface with Streamlit](#chapter-8-building-a-web-interface-with-streamlit)
 - [Chapter 9: Adding Decision-Making and Actions](#chapter-9-adding-decision-making-and-actions)
 - [Chapter 10: Building a Complex Agent with Actions](#chapter-10-building-a-complex-agent-with-actions)
-- [Chapter 11: Memory and State Management](#chapter-11-memory-and-state-management)
-- [Chapter 12: Multi-Source Log Integration](#chapter-12-multi-source-log-integration)
-- [Chapter 13: Cross-System Correlation and Analysis](#chapter-13-cross-system-correlation-and-analysis)
-- [Chapter 14: Production Deployment](#chapter-14-production-deployment)
-- [Chapter 15: Future](#chapter-15-future)
+- [Chapter 11: Understanding AI Memory](#chapter-11-understanding-ai-memory)
+- [Chapter 12: Implementing Memory and State Management](#chapter-12-implementing-memory-and-state-management)
+- [Chapter 13: Multi-Source Log Integration](#chapter-13-multi-source-log-integration)
+- [Chapter 14: Cross-System Correlation and Analysis](#chapter-14-cross-system-correlation-and-analysis)
+- [Chapter 15: Production Deployment](#chapter-15-production-deployment)
+- [Chapter 16: Future](#chapter-16-future)
 
 ## [Chapter 1: Introduction to AI Agents for Logging](./01-introduction-to-ai-agents-for-logging.md)
 
@@ -121,17 +122,31 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Complete workflow implementation: From log detection to resolution with full observability.
 - Production note: How to extend this to read logs directly from CloudWatch or Kubernetes in real deployments.
 
-## Chapter 11: Memory and State Management
+## [Chapter 11: Understanding AI Memory](./11-understanding-ai-memory.md)
 
-- Understanding agent memory: Why memory matters for log analysis patterns.
-- Types of memory in LangChain: Buffer memory, summary memory, and conversation memory.
-- Implementing memory for log agents: Track recurring errors, escalation patterns, and historical context.
-- State management patterns: Maintaining state between runs to avoid alert fatigue.
+- The memory problem: Why stateless AI models fail in real-world agent scenarios.
+- What AI memory actually is: Conversation context, not human memory. Tokens in, tokens out.
+- How LLMs process context: The context window as working memory, its limits, and what happens when it fills up.
+- Types of AI agent memory: Conversation buffer, sliding window, summary, token-aware, and semantic memory.
+- Trade-offs of each type: When to use which, cost vs. recall vs. accuracy.
+- Short-term vs. long-term memory: Session memory vs. persistent storage patterns.
+- Memory architecture for agents: Where memory sits in the agent loop, how it flows into prompts.
+- The forgetting problem: Why agents lose context, and strategies to manage it.
+- Memory in DevOps context: Why incident history, recurring patterns, and past resolutions matter for log analysis.
+- Choosing the right memory strategy: Decision framework based on use case, conversation length, and cost constraints.
+- What's next: Preparing to implement memory in our logging agent.
+
+## Chapter 12: Implementing Memory and State Management
+
+- Implementing memory for the logging agent: Adding conversation persistence to the Chapter 10 agent.
+- Types of memory in LangChain: Buffer memory, summary memory, and conversation memory in practice.
+- Session memory: Track recurring errors, escalation patterns, and historical context within a session.
 - Persistent storage: Using databases or files to store agent memory across restarts.
-- Memory optimization: Balancing context retention with performance.
+- State management patterns: Maintaining state between runs to avoid alert fatigue.
+- Memory optimization: Balancing context retention with token cost and performance.
 - Practical examples: Building a memory system that remembers past incidents and learns from patterns.
 
-## Chapter 12: Multi-Source Log Integration
+## Chapter 13: Multi-Source Log Integration
 
 - Understanding the challenge: Moving from single log files to real infrastructure.
 - Building API clients: Connect to Elasticsearch, Kubernetes, and AWS CloudWatch.
@@ -141,7 +156,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Log format normalization: Create a unified structure from different log formats.
 - Testing each connector: Verify each integration works before combining them.
 
-## Chapter 13: Cross-System Correlation and Analysis
+## Chapter 14: Cross-System Correlation and Analysis
 
 - The power of correlation: Understanding how events connect across systems.
 - Building the aggregation pipeline: Combine logs from multiple sources into a unified view.
@@ -151,7 +166,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Implementing the full analysis loop: Pull logs, aggregate, correlate, analyze, and report.
 - Testing correlation logic: Verify the agent correctly identifies related events.
 
-## Chapter 14: Production Deployment
+## Chapter 15: Production Deployment
 
 - Making it production-ready: Add proper error handling, logging, and monitoring.
 - Configuration management: Use environment variables and config files for different environments.
@@ -163,6 +178,6 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Complete system assembly: Bringing all components together into a production deployment.
 - What you've achieved: Review the Level 3 capabilities you've built.
 
-## Chapter 15: Future
+## Chapter 16: Future
 - Future enhancements: Paths to Level 4 (multi-agent) and Level 5 (autonomous remediation).
 - Next steps: Ideas for customization and expansion based on your specific needs.
