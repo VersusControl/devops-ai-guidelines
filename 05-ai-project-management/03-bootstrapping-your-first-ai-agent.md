@@ -16,7 +16,7 @@ Here's the target for this chapter:
 4. An agent that ties it all together — receives a question in Slack, reads from JIRA, and responds.
 
 <div align="center" style="border-bottom: none">
-  <img alt="End-to-end flow" src="images/03-01-user-agent-jira-flow.png" width="600">
+  <img alt="End-to-end flow" src="images/03-01-user-agent-jira-flow.png" style="max-width: 900px; width: 100%; height: auto;">
 </div>
 
 We'll move through this step by step. Each section ends with a verification — a quick test to confirm that piece is working before moving on. If something breaks, the troubleshooting notes at the end of each section will help you diagnose it.
