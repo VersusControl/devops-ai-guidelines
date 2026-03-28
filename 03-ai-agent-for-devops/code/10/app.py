@@ -151,7 +151,7 @@ def sidebar():
         st.markdown("---")
 
         st.subheader("Configuration")
-        provider = {"gemini": "Gemini", "github": "GitHub Models"}.get(
+        provider = {"gemini": "Gemini", "github": "GitHub Models", "minimax": "MiniMax"}.get(
             Config.LLM_PROVIDER, Config.LLM_PROVIDER,
         )
         st.markdown(f"- Provider: **{provider}**")

@@ -332,9 +332,13 @@ def create_model():
         from .github_openai import GitHubModel
         return GitHubModel()
 
+    if provider == "minimax":
+        from .minimax import MiniMaxModel
+        return MiniMaxModel()
+
     raise ValueError(
         f"Unknown LLM_PROVIDER '{provider}'. "
-        "Supported values: gemini, github"
+        "Supported values: gemini, github, minimax"
     )
 ```
 
@@ -382,6 +386,27 @@ GITHUB_MODEL=openai/gpt-4.1
 ```
 
 The GitHub Models endpoint is OpenAI-compatible, so we use `ChatOpenAI` from `langchain-openai` with a custom `base_url`. This is a pattern you'll see frequently—many AI providers expose OpenAI-compatible APIs.
+
+Adding a third provider like [MiniMax](https://www.minimax.io) follows the same pattern:
+
+```python
+# src/models/minimax.py
+
+class MiniMaxModel:
+    def __init__(self):
+        temperature = max(Config.TEMPERATURE, 0.01)  # MiniMax requires > 0
+        self.llm = ChatOpenAI(
+            model=Config.MINIMAX_MODEL,
+            api_key=Config.MINIMAX_API_KEY,
+            base_url=Config.MINIMAX_ENDPOINT,
+            temperature=temperature,
+        )
+
+    def get_llm_with_tools(self, tools: list):
+        return self.llm.bind_tools(tools)
+```
+
+MiniMax's API is also OpenAI-compatible, so we reuse `ChatOpenAI` with a different `base_url`. The only twist is temperature clamping—MiniMax requires a strictly positive value, so we clamp `0.0` to `0.01`.
 
 ## The Agent
 
@@ -695,18 +720,23 @@ The `Config` class manages all environment variables in one place:
 # src/config.py
 
 class Config:
-    # LLM Provider selection: 'gemini' (default) or 'github'
+    # LLM Provider selection: 'gemini' (default), 'github', or 'minimax'
     LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'gemini').lower()
-    
+
     # Gemini
     GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
     GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
-    
+
     # GitHub Models
     GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
     GITHUB_MODEL = os.getenv('GITHUB_MODEL', 'openai/gpt-5')
     GITHUB_ENDPOINT = os.getenv('GITHUB_ENDPOINT', 'https://models.github.ai/inference')
-    
+
+    # MiniMax
+    MINIMAX_API_KEY = os.getenv('MINIMAX_API_KEY', '')
+    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M2.7')
+    MINIMAX_ENDPOINT = os.getenv('MINIMAX_ENDPOINT', 'https://api.minimax.io/v1')
+
     # AWS
     AWS_REGION = os.getenv('AWS_REGION', 'us-east-1')
     AWS_RDS_INSTANCE_ID = os.getenv('AWS_RDS_INSTANCE_ID', '')
@@ -732,6 +762,10 @@ def validate(cls):
     if cls.LLM_PROVIDER == 'github' and not cls.GITHUB_TOKEN:
         raise ValueError(
             "LLM_PROVIDER=github but GITHUB_TOKEN is not set."
+        )
+    if cls.LLM_PROVIDER == 'minimax' and not cls.MINIMAX_API_KEY:
+        raise ValueError(
+            "LLM_PROVIDER=minimax but MINIMAX_API_KEY is not set."
         )
 ```
 
@@ -958,6 +992,11 @@ GEMINI_API_KEY=your_api_key_here
 # LLM_PROVIDER=github
 # GITHUB_TOKEN=your_github_token_here
 # GITHUB_MODEL=openai/gpt-4.1
+
+# Option C: MiniMax
+# LLM_PROVIDER=minimax
+# MINIMAX_API_KEY=your_minimax_api_key_here
+# MINIMAX_MODEL=MiniMax-M2.7
 ```
 
 4. Start the application:
