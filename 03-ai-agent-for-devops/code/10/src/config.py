@@ -16,13 +16,18 @@ class Config:
     GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
     TEMPERATURE = float(os.getenv('TEMPERATURE', '0.1'))
     
-    # LLM Provider selection: 'gemini' (default) or 'github'
+    # LLM Provider selection: 'gemini' (default), 'github', or 'minimax'
     LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'gemini').lower()
-    
+
     # GitHub Models Configuration
     GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
     GITHUB_MODEL = os.getenv('GITHUB_MODEL', 'openai/gpt-5')
     GITHUB_ENDPOINT = os.getenv('GITHUB_ENDPOINT', 'https://models.github.ai/inference')
+
+    # MiniMax Configuration
+    MINIMAX_API_KEY = os.getenv('MINIMAX_API_KEY', '')
+    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M2.7')
+    MINIMAX_ENDPOINT = os.getenv('MINIMAX_ENDPOINT', 'https://api.minimax.io/v1')
     
     # Paths
     LOG_DIRECTORY = os.getenv('LOG_DIRECTORY', 'logs')
@@ -74,6 +79,11 @@ class Config:
         if cls.LLM_PROVIDER == 'github' and not cls.GITHUB_TOKEN:
             raise ValueError(
                 "LLM_PROVIDER=github but GITHUB_TOKEN is not set. "
+                "Please set it in .env file or environment variables."
+            )
+        if cls.LLM_PROVIDER == 'minimax' and not cls.MINIMAX_API_KEY:
+            raise ValueError(
+                "LLM_PROVIDER=minimax but MINIMAX_API_KEY is not set. "
                 "Please set it in .env file or environment variables."
             )
         

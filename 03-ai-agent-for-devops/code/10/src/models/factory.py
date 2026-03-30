@@ -4,6 +4,7 @@ Model factory — selects the LLM provider from the LLM_PROVIDER env variable.
 Supported values:
   gemini   — Google Gemini (default)
   github   — GitHub Models (OpenAI-compatible endpoint)
+  minimax  — MiniMax (OpenAI-compatible endpoint)
 """
 from ..config import Config
 
@@ -25,7 +26,11 @@ def create_model():
         from .github_openai import GitHubModel
         return GitHubModel()
 
+    if provider == "minimax":
+        from .minimax import MiniMaxModel
+        return MiniMaxModel()
+
     raise ValueError(
         f"Unknown LLM_PROVIDER '{provider}'. "
-        "Supported values: gemini, github"
+        "Supported values: gemini, github, minimax"
     )

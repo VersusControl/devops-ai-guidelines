@@ -47,9 +47,12 @@ Three-Tier Application on AWS:
 ├── system_prompt.txt         # AI agent instructions (AWS-focused)
 ├── src/
 │   ├── __init__.py
-│   ├── config.py            # Configuration (Gemini + AWS + Slack)
+│   ├── config.py            # Configuration (Gemini + GitHub + MiniMax + AWS + Slack)
 │   ├── models/
-│   │   └── gemini.py
+│   │   ├── gemini.py        # Google Gemini provider
+│   │   ├── github_openai.py # GitHub Models provider
+│   │   ├── minimax.py       # MiniMax provider
+│   │   └── factory.py       # Provider selection factory
 │   ├── tools/
 │   │   ├── log_reader.py    # Log reading tools
 │   │   ├── actions.py       # Kubernetes pod restart
@@ -84,8 +87,18 @@ pip install -r requirements.txt
 3. **Set up environment:**
 ```bash
 cp .env.example .env
-# Edit .env and add your GEMINI_API_KEY
+# Edit .env and add your API key for the chosen provider
 ```
+
+**Supported LLM providers:**
+
+| Provider | Env Var | Default Model |
+|----------|---------|---------------|
+| Google Gemini | `GEMINI_API_KEY` | `gemini-2.5-flash` |
+| GitHub Models | `GITHUB_TOKEN` | `openai/gpt-5` |
+| [MiniMax](https://www.minimax.io) | `MINIMAX_API_KEY` | `MiniMax-M2.7` |
+
+Set `LLM_PROVIDER` to `gemini`, `github`, or `minimax` in your `.env` file.
 
 ## Usage
 
