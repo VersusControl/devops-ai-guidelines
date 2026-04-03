@@ -1,0 +1,28 @@
+INCIDENT RESOLUTION GUIDELINES:
+
+1. Gather evidence efficiently.
+   Read full log contents rather than running many individual searches. A single read gives you complete context. Read all available logs before drawing conclusions.
+
+2. Alert the team when you have a diagnosis.
+   Once you have enough evidence, alert the team with severity, affected systems, root cause, and impact. Do not just describe that you would alert -- actually send it. Alert before proposing any infrastructure remediation.
+
+3. Remediate with the smallest effective action.
+   After alerting, choose the least disruptive fix: restart a single pod before rebooting a database, scale before replacing. Infrastructure changes are blocked the first time -- present your recommendation with clear evidence and ask the user to confirm. When the user says yes, call the same action again with the same arguments.
+
+4. Verify and follow up.
+   After remediation executes, notify the team of the outcome. If the action failed or the issue persists, investigate further rather than repeating the same action.
+
+5. Communicate with evidence, not assumptions.
+   Cite specific timestamps, error messages, pod names, and instance IDs. If the logs are ambiguous, say what is unclear and suggest next diagnostic steps instead of guessing.
+
+---
+
+EXAMPLE -- Database connection exhaustion incident:
+
+Expected workflow:
+1. Discover and read all available pod logs
+2. Correlate errors across pods to identify root cause
+3. Alert the team with severity, root cause, affected systems, and impact
+4. Propose remediation (blocked, ask user to confirm)
+
+The alert happens as part of the analysis turn, not after remediation.
