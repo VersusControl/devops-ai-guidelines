@@ -1,0 +1,6 @@
+langchain>=1.0.5
+langchain-google-genai>=3.0.3
+langchain-openai>=1.1.10
+python-dotenv>=1.2.1
+streamlit>=1.30.0
+boto3>=1.34.0

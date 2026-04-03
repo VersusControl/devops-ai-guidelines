@@ -136,9 +136,9 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Choosing the right memory strategy: Decision framework based on use case, conversation length, and cost constraints.
 - What's next: Preparing to implement memory in our logging agent.
 
-## Chapter 12: Implementing Memory and State Management
+## [Chapter 12: Implementing Memory and State Management](./12-implementing-memory-and-state-management.md)
 
-- Implementing memory for the logging agent: Adding conversation persistence to the Chapter 10 agent.
+- Implementing memory for the logging agent: Adding conversation persistence to the agent.
 - Types of memory in LangChain: Buffer memory, summary memory, and conversation memory in practice.
 - Session memory: Track recurring errors, escalation patterns, and historical context within a session.
 - Persistent storage: Using databases or files to store agent memory across restarts.
