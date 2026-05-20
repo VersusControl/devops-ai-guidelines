@@ -1,0 +1,53 @@
+{
+    "name": "k8s-mcp-helpers",
+    "displayName": "K8s MCP Helpers",
+    "description": "Palette commands that drive the k8s-mcp-server through GitHub Copilot Chat",
+    "version": "0.1.0",
+    "publisher": "devops-ai-guidelines",
+    "engines": {
+        "vscode": "^1.94.0"
+    },
+    "categories": ["Other"],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "k8sMcp.listPods",
+                "title": "MCP: List Pods",
+                "category": "K8s MCP"
+            },
+            {
+                "command": "k8sMcp.scaleDeployment",
+                "title": "MCP: Scale Deployment",
+                "category": "K8s MCP"
+            },
+            {
+                "command": "k8sMcp.tailLogs",
+                "title": "MCP: Tail Pod Logs",
+                "category": "K8s MCP"
+            }
+        ],
+        "configuration": {
+            "title": "K8s MCP Helpers",
+            "properties": {
+                "k8sMcp.defaultNamespace": {
+                    "type": "string",
+                    "default": "default",
+                    "description": "Namespace used when commands do not prompt for one."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.0",
+        "@types/vscode": "^1.94.0",
+        "typescript": "^5.4.5"
+    }
+}

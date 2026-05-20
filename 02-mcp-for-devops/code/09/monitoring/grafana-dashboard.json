@@ -1,0 +1,70 @@
+{
+  "title": "K8s MCP Server",
+  "uid": "k8s-mcp-server",
+  "schemaVersion": 38,
+  "version": 1,
+  "tags": ["mcp", "kubernetes"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "time": { "from": "now-6h", "to": "now" },
+  "templating": {
+    "list": [
+      {
+        "name": "tool",
+        "type": "query",
+        "datasource": "Prometheus",
+        "query": "label_values(mcp_tool_calls_total, tool)",
+        "includeAll": true,
+        "multi": true
+      }
+    ]
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Tool calls / sec",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        { "expr": "sum(rate(mcp_tool_calls_total{tool=~\"$tool\"}[5m]))" }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Error rate (5m)",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(rate(mcp_tool_errors_total{tool=~\"$tool\"}[5m])) / sum(rate(mcp_tool_calls_total{tool=~\"$tool\"}[5m]))"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "percentunit" } }
+    },
+    {
+      "type": "timeseries",
+      "title": "P50 / P95 / P99 latency by tool",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum by (le, tool) (rate(mcp_tool_duration_seconds_bucket{tool=~\"$tool\"}[5m])))",
+          "legendFormat": "p50 {{tool}}"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum by (le, tool) (rate(mcp_tool_duration_seconds_bucket{tool=~\"$tool\"}[5m])))",
+          "legendFormat": "p95 {{tool}}"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum by (le, tool) (rate(mcp_tool_duration_seconds_bucket{tool=~\"$tool\"}[5m])))",
+          "legendFormat": "p99 {{tool}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Rate-limited requests",
+      "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 },
+      "targets": [
+        { "expr": "sum by (identity) (rate(mcp_ratelimit_rejected_total[5m]))", "legendFormat": "{{identity}}" }
+      ]
+    }
+  ]
+}

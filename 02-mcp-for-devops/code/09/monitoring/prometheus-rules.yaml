@@ -1,0 +1,62 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: k8s-mcp-server
+  namespace: mcp
+  labels:
+    role: alert-rules
+    prometheus: platform
+spec:
+  groups:
+    - name: k8s-mcp.slo
+      interval: 30s
+      rules:
+        - alert: MCPHighToolErrorRate
+          expr: |
+            sum(rate(mcp_tool_errors_total[5m]))
+              /
+            sum(rate(mcp_tool_calls_total[5m])) > 0.01
+          for: 10m
+          labels:
+            severity: warning
+            slo: availability
+          annotations:
+            summary: MCP tool error rate above 1%
+            description: |
+              Tool error rate is {{ printf "%.2f%%" (mul (div (sum(rate(mcp_tool_errors_total[5m]))) (sum(rate(mcp_tool_calls_total[5m])))) 100) }}.
+
+        - alert: MCPHighToolLatency
+          expr: |
+            histogram_quantile(
+              0.95,
+              sum by (le, tool) (rate(mcp_tool_duration_seconds_bucket[5m]))
+            ) > 0.5
+          for: 15m
+          labels:
+            severity: warning
+            slo: latency
+          annotations:
+            summary: MCP P95 tool latency above 500ms
+            description: |
+              Tool {{ $labels.tool }} P95 latency is {{ $value }}s.
+
+        - alert: MCPRateLimitSurge
+          expr: |
+            sum(rate(mcp_ratelimit_rejected_total[5m])) > 10
+          for: 5m
+          labels:
+            severity: warning
+            slo: saturation
+          annotations:
+            summary: MCP server rate limiting > 10 req/s
+            description: |
+              Either upstream caller is misbehaving or limits need tuning.
+
+        - alert: MCPPodCrashLooping
+          expr: |
+            increase(kube_pod_container_status_restarts_total{namespace="mcp"}[15m]) > 3
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: MCP pod {{ $labels.pod }} crash-looping

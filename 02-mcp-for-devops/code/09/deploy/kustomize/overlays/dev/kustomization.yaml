@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: mcp
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: Deployment
+      name: k8s-mcp-k8s-mcp-server
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1

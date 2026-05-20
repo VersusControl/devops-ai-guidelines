@@ -1,1035 +1,478 @@
-# 05-01 MCP (Model Context Protocol) Foundations
+# Model Context Protocol (MCP)
 
-*Learn the fundamentals of Model Context Protocol and build practical MCP servers for DevOps automation*
+*Phase 1, chapter 5.1 — the protocol that lets an LLM call your tools instead of just reading what you paste at it.*
 
-> ⭐ **Starring** this repository to support this work
+> ⭐ Star this repo if you find it useful.
 
-## Table of Contents
-
-- [What is Model Context Protocol (MCP)?](#what-is-model-context-protocol-mcp)
-- [Why MCP Matters in DevOps](#why-mcp-matters-in-devops)
-- [MCP Architecture Overview](#mcp-architecture-overview)
-- [Hands-On: Building an AWS EC2 MCP Server](#hands-on-building-an-aws-ec2-mcp-server)
-- [Step-by-Step Implementation](#step-by-step-implementation)
-- [Testing and Integration](#testing-and-integration)
-- [Best Practices for DevOps](#best-practices-for-devops)
-- [Next Steps](#next-steps)
-
-**Note:** This guide provides a brief overview and a basic understanding of how MCP can be applied to DevOps. For a deeper understanding and step-by-step tutorial, please visit **[MCP for DevOps](/02-mcp-for-devops/00-toc.md)**.
+> This chapter is the foundation. For a full deep-dive — auth, transports, production servers in Go — see **[MCP for DevOps](/02-mcp-for-devops/00-toc.md)**.
 
 ---
 
-## What is Model Context Protocol (MCP)?
+## The Problem MCP Solves
 
-**Model Context Protocol (MCP)** is an open standard that enables AI applications to securely connect with external data sources and services. Think of it as a standardized bridge between Large Language Models (LLMs) and the real world.
+Last year I built an internal tool that let our team ask Claude questions about our AWS account. It worked by giving Claude a list of `aws` CLI commands in the prompt and letting it suggest one. We'd copy the suggestion, run it, paste the output back, and ask the follow-up.
 
-### Key Concepts
+It was useful. It was also stupid. The model knew what command to run. The shell knew how to run it. We were the JSON-RPC layer in between, by hand.
 
-**Protocol Bridge**: MCP acts as a standardized communication layer between AI models and external systems.
+That's the gap MCP closes. The Model Context Protocol is a standard for letting an LLM call tools and read resources on the other side of a process boundary. The model says "run `describe_instances`" and a server actually runs it. No copy-paste, no humans-as-API-glue.
 
-**Security First**: Built with security principles, ensuring safe interactions between AI and external services.
+By the end of this chapter you'll have:
 
-**Bidirectional Communication**: Allows AI models to both read from and write to external systems.
+- A working MCP server in Python that exposes EC2 operations
+- A clear mental model of resources, tools, and prompts
+- Claude Desktop and VS Code Copilot both talking to your server
+- Enough understanding to build MCP servers for whatever your team needs
 
-**Resource Management**: Provides structured access to files, databases, APIs, and other resources.
+---
 
-### MCP vs Traditional APIs
+## What MCP Actually Is
 
-```mermaid
-graph TB
-    subgraph Traditional["Traditional API Integration"]
-        App1[Application] --> API1[REST API]
-        App2[Another App] --> API2[GraphQL API]
-        App3[Third App] --> API3[Custom API]
-        LLM1[LLM] --> Custom1[Custom Integration]
-        LLM1 --> Custom2[Custom Integration]
-        LLM1 --> Custom3[Custom Integration]
-    end
-  
-    subgraph MCP["MCP Architecture"]
-        LLM2[LLM] --> MCP_Client[MCP Client]
-        MCP_Client --> MCP_Server1[MCP Server 1]
-        MCP_Client --> MCP_Server2[MCP Server 2]
-        MCP_Client --> MCP_Server3[MCP Server 3]
-        MCP_Server1 --> Service1[AWS]
-        MCP_Server2 --> Service2[Database]
-        MCP_Server3 --> Service3[File System]
-    end
-  
-    style MCP fill:#e1f5fe
-    style Traditional fill:#fff3e0
+MCP is a small JSON-RPC protocol that runs over stdio or HTTP. It defines three things a server can expose to a client:
+
+- **Resources** — read-only data the model can fetch by URI. Logs, configs, files, query results.
+- **Tools** — functions the model can call with structured arguments. The verbs.
+- **Prompts** — reusable prompt templates the user (not the model) can invoke.
+
+The client — Claude Desktop, VS Code Copilot, your custom app — handles the LLM. The server handles your systems. Neither knows what the other looks like internally; they just speak the protocol.
+
+```
+┌──────────────────┐   JSON-RPC over stdio/HTTP   ┌──────────────────┐
+│   MCP Client     │ ◀──────────────────────────▶ │   MCP Server     │
+│ (Claude Desktop, │                              │ (Your code:      │
+│  VS Code, …)     │   tools/list, tools/call,    │  EC2, k8s, RDS…) │
+│                  │   resources/read, …          │                  │
+└──────────────────┘                              └──────────────────┘
+        │                                                  │
+        ▼                                                  ▼
+       LLM                                          External systems
 ```
 
----
-
-## Why MCP Matters in DevOps
-
-### Acceleration Benefits
-
-**Standardized Automation**: Instead of writing custom integrations for each AI tool, MCP provides a standard interface.
-
-**Rapid Prototyping**: DevOps teams can quickly connect AI models to infrastructure tools without reinventing the wheel.
-
-**Ecosystem Compatibility**: MCP servers work across different AI applications and platforms.
-
-### DevOps Use Cases
-
-1. **Infrastructure Monitoring**: AI agents can query metrics, logs, and alerts
-2. **Deployment Automation**: AI can trigger deployments, rollbacks, and scaling operations
-3. **Incident Response**: AI assistants can gather diagnostic information and suggest fixes
-4. **Resource Management**: AI can optimize cloud resource allocation and costs
-5. **Security Compliance**: AI can check configurations against security policies
-
-### Business Impact
-
-- **Reduced Manual Work**: Automate routine DevOps tasks through natural language
-- **Faster Incident Resolution**: AI can quickly gather context and suggest solutions
-- **Improved Documentation**: AI can automatically update runbooks and procedures
-- **Cost Optimization**: AI can analyze usage patterns and suggest optimizations
+The win is composability. Once a tool is exposed via MCP, every MCP-aware client can use it. You write the EC2 server once. It works in Claude Desktop, in Copilot, in Cursor, in your own agent loop.
 
 ---
 
-## MCP Architecture Overview
+## MCP vs. Function Calling vs. REST
 
-### Core Components
+People ask this constantly. Short version:
 
-```mermaid
-graph TD
-    subgraph Client["MCP Client (AI Application)"]
-        App["AI Application"]
-        Client_SDK["MCP Client SDK"]
-    end
-  
-    subgraph Protocol["MCP Protocol Layer"]
-        Transport["Transport Layer<br/>JSON-RPC over stdio/HTTP"]
-        Messages["Message Types<br/>Resources, Tools, Prompts"]
-    end
-  
-    subgraph Server["MCP Server"]
-        Server_SDK["MCP Server SDK"]
-        Handlers["Request Handlers<br/>list_resources, read_resource<br/>list_tools, call_tool"]
-        Integration["Service Integration<br/>AWS SDK, APIs, etc."]
-    end
-  
-    subgraph External["External Services"]
-        AWS["AWS Services"]
-        DB["Databases"]
-        FS["File Systems"]
-        APIs["Third-party APIs"]
-    end
-  
-    App --> Client_SDK
-    Client_SDK <--> Transport
-    Transport <--> Server_SDK
-    Server_SDK --> Handlers
-    Handlers --> Integration
-    Integration --> AWS
-    Integration --> DB
-    Integration --> FS
-    Integration --> APIs
-  
-    style Client fill:#e3f2fd
-    style Protocol fill:#f3e5f5
-    style Server fill:#e8f5e8
-    style External fill:#fff3e0
-```
+- **REST API** — your service exposes endpoints. The LLM has no idea they exist.
+- **Function calling** — you describe functions in the LLM provider's format (OpenAI tools, Anthropic tools). The LLM picks one. You run it. Provider-specific.
+- **MCP** — same idea as function calling, but standardized across providers and clients. The server is reusable.
 
-### Message Flow
-
-1. **Discovery**: Client discovers available resources and tools
-2. **Request**: Client requests specific operations
-3. **Execution**: Server executes operations on external services
-4. **Response**: Server returns structured results to client
+If you're building one LLM app that calls one set of functions, function calling is fine. If you're exposing the same operations to multiple LLM apps, multiple teams, or both, write an MCP server.
 
 ---
 
-## Hands-On: Building an AWS EC2 MCP Server
+## Setting Up
 
-Let's build a practical MCP server that interacts with AWS EC2. This will demonstrate how DevOps teams can create AI-powered infrastructure management tools.
-
-### Project Overview
-
-Our MCP server will provide:
-
-- **Resources**: List EC2 instances, security groups, VPCs
-- **Tools**: Start/stop instances, create snapshots, check instance health
-
-### Prerequisites
+The official Python SDK is on PyPI as `mcp`. It includes `FastMCP`, a decorator-based API that hides most of the boilerplate.
 
 ```bash
-# Required tools
-python >= 3.8
-aws-cli configured
-boto3 library
-mcp library
+pip install "mcp[cli]>=1.2" "boto3>=1.34" "pydantic>=2.7"
 ```
+
+Configure AWS however you normally do:
+
+```bash
+aws configure   # or use AWS_PROFILE and an SSO config
+```
+
+Permissions for the server (read-only and start/stop only — never grant `ec2:TerminateInstances` to anything an LLM can reach):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "ec2:DescribeInstances",
+      "ec2:DescribeInstanceStatus",
+      "ec2:DescribeVpcs",
+      "ec2:StartInstances",
+      "ec2:StopInstances",
+      "ec2:CreateSnapshot"
+    ],
+    "Resource": "*"
+  }]
+}
+```
+
+Lock the `Resource` down to specific instance ARNs or tag conditions in production. Don't grant blanket `ec2:StartInstances` and call it a day.
 
 ---
 
-## Step-by-Step Implementation
+## The Server, End to End
 
-### Step 1: Project Setup
+We'll build an MCP server that exposes:
 
-First, let's create our project structure and install dependencies.
+- A **resource** for each EC2 instance (read details by URI)
+- A **resource** for each VPC
+- Four **tools**: get status, start, stop, create snapshot
 
-```python
-# requirements.txt
-mcp>=1.0.0
-boto3>=1.26.0
-pydantic>=2.0.0
-```
-
-**What this does**:
-
-- `mcp`: The official MCP SDK for Python
-- `boto3`: AWS SDK for Python to interact with EC2 services
-- `pydantic`: Data validation and serialization (used by MCP)
-
-**Why we need this**: These libraries provide the foundation for building MCP servers and connecting to AWS services securely.
-
-### Step 2: Basic MCP Server Structure
+This is the entire file. Save as `ec2_mcp_server.py`.
 
 ```python
 # ec2_mcp_server.py
-import asyncio
+"""MCP server exposing read-only and safe-write EC2 operations."""
+from __future__ import annotations
 import logging
-from typing import Any, Sequence
+from typing import Annotated
 
 import boto3
-from mcp.server.models import InitializationOptions
-from mcp.server import NotificationOptions, Server
-from mcp.types import Resource, Tool, TextContent, ImageContent, EmbeddedResource
-from pydantic import AnyUrl
+from botocore.exceptions import ClientError
+from mcp.server.fastmcp import FastMCP
+from pydantic import Field
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+log = logging.getLogger("ec2-mcp")
 
-# Initialize the MCP server
-server = Server("aws-ec2-mcp")
+mcp = FastMCP("aws-ec2")
+ec2 = boto3.client("ec2")
 
-# Initialize AWS EC2 client
-ec2_client = boto3.client('ec2')
-```
 
-**What this does**:
+# ---- helpers ----------------------------------------------------------------
 
-- Sets up the basic MCP server with the name "aws-ec2-mcp"
-- Creates a boto3 EC2 client for AWS interactions
-- Configures logging for debugging and monitoring
+def _name_from_tags(tags: list[dict] | None) -> str:
+    for t in tags or []:
+        if t["Key"] == "Name":
+            return t["Value"]
+    return "(unnamed)"
 
-**Why this matters**: The server name identifies our MCP server to clients, and the EC2 client will handle all AWS API calls securely using your configured AWS credentials.
 
-### Step 3: Implementing Resource Discovery
+def _serialize_instance(inst: dict) -> dict:
+    return {
+        "instance_id": inst["InstanceId"],
+        "name": _name_from_tags(inst.get("Tags")),
+        "type": inst["InstanceType"],
+        "state": inst["State"]["Name"],
+        "private_ip": inst.get("PrivateIpAddress"),
+        "public_ip": inst.get("PublicIpAddress"),
+        "vpc_id": inst.get("VpcId"),
+        "subnet_id": inst.get("SubnetId"),
+        "launch_time": inst["LaunchTime"].isoformat(),
+        "tags": {t["Key"]: t["Value"] for t in inst.get("Tags", [])},
+    }
 
-```python
-@server.list_resources()
-async def handle_list_resources() -> list[Resource]:
-    """
-    List available AWS EC2 resources that the AI can access.
-    This is like a table of contents for what data is available.
-    """
+
+# ---- resources --------------------------------------------------------------
+
+@mcp.resource("ec2://instance/{instance_id}")
+def get_instance(instance_id: str) -> dict:
+    """Return detailed information about one EC2 instance."""
+    resp = ec2.describe_instances(InstanceIds=[instance_id])
+    for r in resp["Reservations"]:
+        for inst in r["Instances"]:
+            return _serialize_instance(inst)
+    raise ValueError(f"instance {instance_id} not found")
+
+
+@mcp.resource("ec2://vpc/{vpc_id}")
+def get_vpc(vpc_id: str) -> dict:
+    """Return detailed information about one VPC."""
+    resp = ec2.describe_vpcs(VpcIds=[vpc_id])
+    if not resp["Vpcs"]:
+        raise ValueError(f"vpc {vpc_id} not found")
+    v = resp["Vpcs"][0]
+    return {
+        "vpc_id": v["VpcId"],
+        "state": v["State"],
+        "cidr_block": v["CidrBlock"],
+        "is_default": v["IsDefault"],
+        "tags": {t["Key"]: t["Value"] for t in v.get("Tags", [])},
+    }
+
+
+# ---- tools ------------------------------------------------------------------
+
+@mcp.tool()
+def list_instances(
+    state: Annotated[str | None,
+        Field(description="Filter by state: running, stopped, pending, etc.")] = None,
+) -> list[dict]:
+    """List EC2 instances in the account, optionally filtered by state."""
+    filters = [{"Name": "instance-state-name", "Values": [state]}] if state else []
+    resp = ec2.describe_instances(Filters=filters)
+    out = []
+    for r in resp["Reservations"]:
+        for inst in r["Instances"]:
+            out.append(_serialize_instance(inst))
+    return out
+
+
+@mcp.tool()
+def get_instance_status(
+    instance_id: Annotated[str, Field(description="EC2 instance ID, e.g. i-0abc1234")],
+) -> dict:
+    """Return state plus system and instance status checks."""
     try:
-        # Get EC2 instances
-        instances_response = ec2_client.describe_instances()
-    
-        resources = []
-    
-        # Create resource entries for each instance
-        for reservation in instances_response['Reservations']:
-            for instance in reservation['Instances']:
-                instance_id = instance['InstanceId']
-                instance_name = get_instance_name(instance)
-            
-                resources.append(Resource(
-                    uri=AnyUrl(f"ec2://instance/{instance_id}"),
-                    name=f"EC2 Instance: {instance_name} ({instance_id})",
-                    description=f"EC2 instance {instance_id} - {instance.get('State', {}).get('Name', 'unknown')}",
-                    mimeType="application/json"
-                ))
-    
-        # Add VPC resources
-        vpcs_response = ec2_client.describe_vpcs()
-        for vpc in vpcs_response['Vpcs']:
-            vpc_id = vpc['VpcId']
-            resources.append(Resource(
-                uri=AnyUrl(f"ec2://vpc/{vpc_id}"),
-                name=f"VPC: {vpc_id}",
-                description=f"Virtual Private Cloud {vpc_id}",
-                mimeType="application/json"
-            ))
-    
-        logger.info(f"Listed {len(resources)} EC2 resources")
-        return resources
-    
-    except Exception as e:
-        logger.error(f"Error listing resources: {e}")
-        return []
-
-def get_instance_name(instance):
-    """Extract instance name from tags"""
-    tags = instance.get('Tags', [])
-    for tag in tags:
-        if tag['Key'] == 'Name':
-            return tag['Value']
-    return 'Unnamed'
-```
-
-**What this does**:
-
-- The `@server.list_resources()` decorator registers this function to handle resource listing requests
-- It queries AWS for EC2 instances and VPCs
-- Creates Resource objects with unique URIs that AI clients can reference
-- Returns a structured list of available resources
-
-**Why this is important**: This function acts like a directory listing. When an AI wants to know "what can I see in this AWS account?", it calls this function. The URIs (like `ec2://instance/i-1234567890abcdef0`) become handles that the AI can use to request specific data.
-
-### Step 4: Implementing Resource Reading
-
-```python
-@server.read_resource()
-async def handle_read_resource(uri: AnyUrl) -> str:
-    """
-    Read detailed information about a specific resource.
-    This is like opening a file to see its contents.
-    """
-    try:
-        uri_str = str(uri)
-        logger.info(f"Reading resource: {uri_str}")
-    
-        if uri_str.startswith("ec2://instance/"):
-            # Extract instance ID from URI
-            instance_id = uri_str.split("/")[-1]
-            return await get_instance_details(instance_id)
-        
-        elif uri_str.startswith("ec2://vpc/"):
-            # Extract VPC ID from URI
-            vpc_id = uri_str.split("/")[-1]
-            return await get_vpc_details(vpc_id)
-        
-        else:
-            return f"Unknown resource type: {uri_str}"
-        
-    except Exception as e:
-        logger.error(f"Error reading resource {uri}: {e}")
-        return f"Error reading resource: {e}"
-
-async def get_instance_details(instance_id: str) -> str:
-    """Get detailed information about an EC2 instance"""
-    try:
-        response = ec2_client.describe_instances(InstanceIds=[instance_id])
-    
-        for reservation in response['Reservations']:
-            for instance in reservation['Instances']:
-                # Format instance information in a readable way
-                instance_info = {
-                    'InstanceId': instance['InstanceId'],
-                    'InstanceType': instance['InstanceType'],
-                    'State': instance['State']['Name'],
-                    'PublicIpAddress': instance.get('PublicIpAddress', 'N/A'),
-                    'PrivateIpAddress': instance.get('PrivateIpAddress', 'N/A'),
-                    'LaunchTime': instance['LaunchTime'].isoformat(),
-                    'VpcId': instance.get('VpcId', 'N/A'),
-                    'SubnetId': instance.get('SubnetId', 'N/A'),
-                    'SecurityGroups': [sg['GroupName'] for sg in instance.get('SecurityGroups', [])],
-                    'Tags': {tag['Key']: tag['Value'] for tag in instance.get('Tags', [])}
-                }
-            
-                return f"EC2 Instance Details:\n{json.dumps(instance_info, indent=2, default=str)}"
-            
-        return f"Instance {instance_id} not found"
-    
-    except Exception as e:
-        return f"Error getting instance details: {e}"
-
-async def get_vpc_details(vpc_id: str) -> str:
-    """Get detailed information about a VPC"""
-    try:
-        response = ec2_client.describe_vpcs(VpcIds=[vpc_id])
-    
-        if response['Vpcs']:
-            vpc = response['Vpcs'][0]
-            vpc_info = {
-                'VpcId': vpc['VpcId'],
-                'State': vpc['State'],
-                'CidrBlock': vpc['CidrBlock'],
-                'IsDefault': vpc['IsDefault'],
-                'Tags': {tag['Key']: tag['Value'] for tag in vpc.get('Tags', [])}
-            }
-        
-            return f"VPC Details:\n{json.dumps(vpc_info, indent=2)}"
-        
-        return f"VPC {vpc_id} not found"
-    
-    except Exception as e:
-        return f"Error getting VPC details: {e}"
-```
-
-**What this does**:
-
-- The `@server.read_resource()` decorator handles requests for specific resource data
-- It parses the URI to determine what type of resource is being requested
-- Calls AWS APIs to get detailed information about instances or VPCs
-- Returns formatted JSON data that AI can understand and process
-
-**DevOps Context**: This is like having a smart `aws ec2 describe-instances` command that an AI can call. The AI might ask "Show me details about instance i-1234567890abcdef0" and get back comprehensive information about CPU, memory, network, security groups, etc.
-
-### Step 5: Implementing Tools (Actions)
-
-```python
-@server.list_tools()
-async def handle_list_tools() -> list[Tool]:
-    """
-    List available tools (actions) that the AI can perform.
-    These are like commands the AI can execute.
-    """
-    return [
-        Tool(
-            name="start_instance",
-            description="Start an EC2 instance",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "instance_id": {
-                        "type": "string",
-                        "description": "The EC2 instance ID to start"
-                    }
-                },
-                "required": ["instance_id"]
-            }
-        ),
-        Tool(
-            name="stop_instance",
-            description="Stop an EC2 instance",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "instance_id": {
-                        "type": "string",
-                        "description": "The EC2 instance ID to stop"
-                    }
-                },
-                "required": ["instance_id"]
-            }
-        ),
-        Tool(
-            name="get_instance_status",
-            description="Get the current status and health of an EC2 instance",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "instance_id": {
-                        "type": "string",
-                        "description": "The EC2 instance ID to check"
-                    }
-                },
-                "required": ["instance_id"]
-            }
-        ),
-        Tool(
-            name="create_snapshot",
-            description="Create a snapshot of an EC2 instance's EBS volumes",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "instance_id": {
-                        "type": "string",
-                        "description": "The EC2 instance ID to snapshot"
-                    },
-                    "description": {
-                        "type": "string",
-                        "description": "Description for the snapshot",
-                        "default": "Automated snapshot via MCP"
-                    }
-                },
-                "required": ["instance_id"]
-            }
+        details = ec2.describe_instances(InstanceIds=[instance_id])
+        inst = details["Reservations"][0]["Instances"][0]
+        info = _serialize_instance(inst)
+        status = ec2.describe_instance_status(
+            InstanceIds=[instance_id], IncludeAllInstances=True
         )
-    ]
-```
+        if status["InstanceStatuses"]:
+            s = status["InstanceStatuses"][0]
+            info["system_status"] = s["SystemStatus"]["Status"]
+            info["instance_status"] = s["InstanceStatus"]["Status"]
+        return info
+    except ClientError as e:
+        log.error("get_instance_status failed: %s", e)
+        raise
 
-**What this does**:
 
-- Defines the "verbs" or actions that AI can perform on AWS resources
-- Each tool has a name, description, and input schema (like a function signature)
-- The input schema tells the AI what parameters each tool expects
+@mcp.tool()
+def start_instance(
+    instance_id: Annotated[str, Field(description="EC2 instance ID to start")],
+) -> dict:
+    """Start a stopped EC2 instance. No-op if already running."""
+    current = ec2.describe_instances(InstanceIds=[instance_id])
+    state = current["Reservations"][0]["Instances"][0]["State"]["Name"]
+    if state == "running":
+        return {"instance_id": instance_id, "previous_state": state, "action": "noop"}
+    ec2.start_instances(InstanceIds=[instance_id])
+    return {"instance_id": instance_id, "previous_state": state, "action": "started"}
 
-**Why this matters**: This is where the real power lies. Instead of just reading data, the AI can now take actions. Think of these as smart DevOps commands that the AI can execute based on natural language requests.
 
-### Step 6: Tool Implementation (Actions)
+@mcp.tool()
+def stop_instance(
+    instance_id: Annotated[str, Field(description="EC2 instance ID to stop")],
+) -> dict:
+    """Stop a running EC2 instance. No-op if already stopped/stopping."""
+    current = ec2.describe_instances(InstanceIds=[instance_id])
+    state = current["Reservations"][0]["Instances"][0]["State"]["Name"]
+    if state in ("stopped", "stopping"):
+        return {"instance_id": instance_id, "previous_state": state, "action": "noop"}
+    ec2.stop_instances(InstanceIds=[instance_id])
+    return {"instance_id": instance_id, "previous_state": state, "action": "stopping"}
 
-```python
-@server.call_tool()
-async def handle_call_tool(name: str, arguments: dict | None) -> list[TextContent]:
-    """
-    Execute a tool (perform an action) based on the AI's request.
-    This is like running a command with specific parameters.
-    """
-    try:
-        if name == "start_instance":
-            return await start_instance_tool(arguments or {})
-        elif name == "stop_instance":
-            return await stop_instance_tool(arguments or {})
-        elif name == "get_instance_status":
-            return await get_instance_status_tool(arguments or {})
-        elif name == "create_snapshot":
-            return await create_snapshot_tool(arguments or {})
-        else:
-            return [TextContent(type="text", text=f"Unknown tool: {name}")]
-        
-    except Exception as e:
-        logger.error(f"Error executing tool {name}: {e}")
-        return [TextContent(type="text", text=f"Error executing {name}: {e}")]
 
-async def start_instance_tool(arguments: dict) -> list[TextContent]:
-    """Start an EC2 instance"""
-    instance_id = arguments.get("instance_id")
-    if not instance_id:
-        return [TextContent(type="text", text="Error: instance_id is required")]
-  
-    try:
-        # Check current state first
-        response = ec2_client.describe_instances(InstanceIds=[instance_id])
-        current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
-    
-        if current_state == 'running':
-            return [TextContent(type="text", text=f"Instance {instance_id} is already running")]
-    
-        # Start the instance
-        ec2_client.start_instances(InstanceIds=[instance_id])
-    
-        result = f"✅ Successfully initiated start for instance {instance_id}\n"
-        result += f"Previous state: {current_state}\n"
-        result += "Instance is starting up... This may take a few minutes."
-    
-        return [TextContent(type="text", text=result)]
-    
-    except Exception as e:
-        return [TextContent(type="text", text=f"Failed to start instance {instance_id}: {e}")]
-
-async def stop_instance_tool(arguments: dict) -> list[TextContent]:
-    """Stop an EC2 instance"""
-    instance_id = arguments.get("instance_id")
-    if not instance_id:
-        return [TextContent(type="text", text="Error: instance_id is required")]
-  
-    try:
-        # Check current state first
-        response = ec2_client.describe_instances(InstanceIds=[instance_id])
-        current_state = response['Reservations'][0]['Instances'][0]['State']['Name']
-    
-        if current_state in ['stopped', 'stopping']:
-            return [TextContent(type="text", text=f"Instance {instance_id} is already {current_state}")]
-    
-        # Stop the instance
-        ec2_client.stop_instances(InstanceIds=[instance_id])
-    
-        result = f"✅ Successfully initiated stop for instance {instance_id}\n"
-        result += f"Previous state: {current_state}\n"
-        result += "Instance is shutting down... This may take a few minutes."
-    
-        return [TextContent(type="text", text=result)]
-    
-    except Exception as e:
-        return [TextContent(type="text", text=f"Failed to stop instance {instance_id}: {e}")]
-
-async def get_instance_status_tool(arguments: dict) -> list[TextContent]:
-    """Get comprehensive status of an EC2 instance"""
-    instance_id = arguments.get("instance_id")
-    if not instance_id:
-        return [TextContent(type="text", text="Error: instance_id is required")]
-  
-    try:
-        # Get instance status
-        status_response = ec2_client.describe_instance_status(
-            InstanceIds=[instance_id],
-            IncludeAllInstances=True
+@mcp.tool()
+def create_snapshot(
+    instance_id: Annotated[str, Field(description="EC2 instance ID to snapshot")],
+    description: Annotated[str, Field(description="Snapshot description")] = "Created via MCP",
+) -> list[dict]:
+    """Snapshot every EBS volume attached to the instance."""
+    inst = ec2.describe_instances(InstanceIds=[instance_id])["Reservations"][0]["Instances"][0]
+    snaps = []
+    for bdm in inst.get("BlockDeviceMappings", []):
+        vol_id = bdm["Ebs"]["VolumeId"]
+        device = bdm["DeviceName"]
+        resp = ec2.create_snapshot(
+            VolumeId=vol_id,
+            Description=f"{description} - {instance_id} - {device}",
+            TagSpecifications=[{
+                "ResourceType": "snapshot",
+                "Tags": [
+                    {"Key": "CreatedBy", "Value": "mcp-server"},
+                    {"Key": "SourceInstance", "Value": instance_id},
+                ],
+            }],
         )
-    
-        # Get instance details
-        instances_response = ec2_client.describe_instances(InstanceIds=[instance_id])
-        instance = instances_response['Reservations'][0]['Instances'][0]
-    
-        status_info = {
-            'InstanceId': instance_id,
-            'State': instance['State']['Name'],
-            'InstanceType': instance['InstanceType'],
-            'LaunchTime': instance['LaunchTime'].isoformat(),
-            'Monitoring': instance.get('Monitoring', {}).get('State', 'N/A'),
-        }
-    
-        # Add status checks if available
-        if status_response['InstanceStatuses']:
-            status = status_response['InstanceStatuses'][0]
-            status_info.update({
-                'SystemStatus': status['SystemStatus']['Status'],
-                'InstanceStatus': status['InstanceStatus']['Status'],
-                'SystemStatusDetails': [check['Status'] for check in status['SystemStatus']['Details']],
-                'InstanceStatusDetails': [check['Status'] for check in status['InstanceStatus']['Details']]
-            })
-    
-        result = f"📊 Instance Status Report for {instance_id}:\n"
-        result += json.dumps(status_info, indent=2, default=str)
-    
-        return [TextContent(type="text", text=result)]
-    
-    except Exception as e:
-        return [TextContent(type="text", text=f"Failed to get status for instance {instance_id}: {e}")]
+        snaps.append({"snapshot_id": resp["SnapshotId"], "volume_id": vol_id, "device": device})
+    return snaps
 
-async def create_snapshot_tool(arguments: dict) -> list[TextContent]:
-    """Create snapshots of all EBS volumes attached to an instance"""
-    instance_id = arguments.get("instance_id")
-    description = arguments.get("description", "Automated snapshot via MCP")
-  
-    if not instance_id:
-        return [TextContent(type="text", text="Error: instance_id is required")]
-  
-    try:
-        # Get instance details to find attached volumes
-        response = ec2_client.describe_instances(InstanceIds=[instance_id])
-        instance = response['Reservations'][0]['Instances'][0]
-    
-        snapshots_created = []
-    
-        # Create snapshots for each attached volume
-        for block_device in instance.get('BlockDeviceMappings', []):
-            volume_id = block_device['Ebs']['VolumeId']
-            device_name = block_device['DeviceName']
-        
-            snapshot_description = f"{description} - {instance_id} - {device_name}"
-        
-            snapshot_response = ec2_client.create_snapshot(
-                VolumeId=volume_id,
-                Description=snapshot_description
-            )
-        
-            snapshots_created.append({
-                'SnapshotId': snapshot_response['SnapshotId'],
-                'VolumeId': volume_id,
-                'DeviceName': device_name
-            })
-    
-        result = f"📸 Successfully initiated snapshots for instance {instance_id}:\n"
-        for snap in snapshots_created:
-            result += f"  • {snap['DeviceName']} ({snap['VolumeId']}) → {snap['SnapshotId']}\n"
-        result += "\n⏳ Snapshots are being created in the background..."
-    
-        return [TextContent(type="text", text=result)]
-    
-    except Exception as e:
-        return [TextContent(type="text", text=f"Failed to create snapshots for instance {instance_id}: {e}")]
+
+# ---- prompts ----------------------------------------------------------------
+
+@mcp.prompt()
+def triage_instance(instance_id: str) -> str:
+    """Reusable prompt to triage a misbehaving instance."""
+    return (
+        f"Investigate EC2 instance {instance_id}. Steps:\n"
+        f"1. Call get_instance_status({instance_id}).\n"
+        f"2. If system_status or instance_status is impaired, summarize why.\n"
+        f"3. Suggest one concrete remediation. Do NOT call stop_instance unless "
+        f"the user explicitly confirms.\n"
+    )
+
+
+if __name__ == "__main__":
+    mcp.run()  # stdio transport by default
 ```
 
-**What this does**:
+A few things to note about this code:
 
-- Each tool function implements a specific DevOps action
-- Tools validate input parameters and check current state before making changes
-- They provide informative feedback about what actions were taken
-- Error handling ensures graceful failures with helpful messages
+- **`FastMCP` does the heavy lifting.** Decorators generate the JSON Schema that the client sends to the LLM. Type hints + `Field(description=...)` become tool documentation the model actually sees.
+- **No `asyncio.run` or `stdio_server` boilerplate.** `mcp.run()` handles it. The older `Server(...)` API with `stdio_server()` still works but is more verbose.
+- **`Annotated[..., Field(...)]`** is the modern Pydantic way to attach descriptions to parameters. Old `description=` arguments on functions don't propagate.
+- **Snapshots are tagged** with `CreatedBy=mcp-server`. That way you can find and clean them up later.
 
-**Real-world Impact**: An AI assistant can now respond to requests like:
+> **Warning:** Notice there's no `terminate_instance` tool. Don't expose destructive operations to an MCP server reachable by an LLM. The model will eventually call something you didn't expect.
 
-- "Start the web server instance" → `start_instance_tool`
-- "Create a backup of the database server" → `create_snapshot_tool`
-- "Check if all our production instances are healthy" → `get_instance_status_tool`
+---
 
-### Step 7: Server Entry Point
+## Running and Testing
+
+The fastest way to see if it works is the MCP CLI inspector, which ships with `mcp[cli]`:
+
+```bash
+mcp dev ec2_mcp_server.py
+```
+
+This launches an interactive UI where you can list tools, call them with arguments, and see exactly what the protocol traffic looks like. It's invaluable during development.
+
+For an automated smoke test, use the MCP client SDK:
 
 ```python
-import json
+# test_client.py
+import asyncio
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
 
 async def main():
-    """Main entry point for the MCP server"""
-    # Import and add the missing import at the top
-    from mcp.server.stdio import stdio_server
-  
-    try:
-        logger.info("Starting AWS EC2 MCP Server...")
-    
-        # Run the server using stdio transport
-        async with stdio_server() as (read_stream, write_stream):
-            await server.run(
-                read_stream,
-                write_stream,
-                InitializationOptions(
-                    server_name="aws-ec2-mcp",
-                    server_version="1.0.0",
-                    capabilities=server.get_capabilities(
-                        notification_options=NotificationOptions(),
-                        experimental_capabilities={}
-                    )
-                )
+    params = StdioServerParameters(command="python", args=["ec2_mcp_server.py"])
+    async with stdio_client(params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+
+            tools = await session.list_tools()
+            print("tools:", [t.name for t in tools.tools])
+
+            result = await session.call_tool(
+                "list_instances", arguments={"state": "running"}
             )
-        
-    except Exception as e:
-        logger.error(f"Server error: {e}")
-        raise
+            print("running instances:")
+            for item in result.content:
+                print(" -", item.text[:120])
+
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-**What this does**:
+Run it:
 
-- Sets up the main server loop using stdio transport (standard input/output)
-- Defines server capabilities and version information
-- Handles graceful startup and error handling
+```bash
+python test_client.py
+```
 
-**Why stdio transport**: MCP servers typically communicate through stdin/stdout, making them easy to integrate with various AI clients and tools.
+If `list_instances` returns something sensible, the server works.
 
 ---
 
-## Testing and Integration
+## Wiring It Into Claude Desktop
 
-### Step 8: Testing the MCP Server
-
-Create a simple test client to verify our server works:
-
-```python
-# test_client.py
-import asyncio
-import json
-import subprocess
-import sys
-from mcp.client.stdio import stdio_client
-
-async def test_mcp_server():
-    """Test our EC2 MCP server"""
-  
-    # Start the MCP server as a subprocess
-    server_process = subprocess.Popen(
-        [sys.executable, "ec2_mcp_server.py"],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
-  
-    try:
-        # Connect to the server
-        async with stdio_client(server_process.stdin, server_process.stdout) as (read, write):
-        
-            # Test 1: List available resources
-            print("🔍 Testing resource listing...")
-            resources = await read.list_resources()
-            print(f"Found {len(resources)} resources:")
-            for resource in resources[:3]:  # Show first 3
-                print(f"  - {resource.name}")
-        
-            # Test 2: List available tools
-            print("\n🛠️  Testing tool listing...")
-            tools = await read.list_tools()
-            print(f"Found {len(tools)} tools:")
-            for tool in tools:
-                print(f"  - {tool.name}: {tool.description}")
-        
-            # Test 3: Read a resource (if any exist)
-            if resources:
-                print(f"\n📖 Testing resource reading...")
-                resource_content = await read.read_resource(resources[0].uri)
-                print(f"Resource content preview: {str(resource_content)[:200]}...")
-        
-            # Test 4: Get instance status (example)
-            print(f"\n⚡ Testing tool execution...")
-            if tools:
-                # This would require a real instance ID
-                # result = await read.call_tool("get_instance_status", {"instance_id": "i-1234567890abcdef0"})
-                print("Tool execution test skipped (requires real instance ID)")
-        
-    except Exception as e:
-        print(f"Test failed: {e}")
-    finally:
-        server_process.terminate()
-        server_process.wait()
-
-if __name__ == "__main__":
-    asyncio.run(test_mcp_server())
-```
-
-**What this does**: Creates a minimal test harness to verify that our MCP server can start up, list resources and tools, and respond to basic requests.
-
-### Step 9: VS Code + Copilot + MCP Integration Guide
-
-This section shows how to integrate your EC2 MCP server with VS Code and GitHub Copilot for seamless AI-powered DevOps workflows.
-
-### Prerequisites
-
-Before configuring MCP with VS Code, ensure you have:
-
-```bash
-# Required installations
-- VS Code (latest version)
-- GitHub Copilot extension
-- Python 3.8+ with our MCP server
-- AWS CLI configured
-- MCP extension for VS Code
-```
-
-### VS Code Configuration
-
-#### Install MCP Extension
-
-1. Open VS Code Extensions (Ctrl/Cmd + Shift + X)
-2. Search for "Model Context Protocol" or "MCP"
-3. Install the official MCP extension
-4. Restart VS Code
-
-#### Configure VS Code Settings
-
-Create or update your VS Code settings (`Ctrl/Cmd + ,` then "Open Settings JSON"):
+Claude Desktop reads `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS (`%APPDATA%\Claude\claude_desktop_config.json` on Windows):
 
 ```json
 {
-  // VS Code MCP Configuration
-  "mcp.servers": {
-    "aws-ec2-devops": {
-      "name": "AWS EC2 DevOps Server",
+  "mcpServers": {
+    "aws-ec2": {
       "command": "python",
-      "args": ["/path/to/your/ec2_mcp_server.py"],
-      "cwd": "/path/to/your/mcp-server-directory",
+      "args": ["/absolute/path/to/ec2_mcp_server.py"],
       "env": {
-        "AWS_PROFILE": "devops-team",
-        "AWS_REGION": "us-west-2",
-        "AWS_DEFAULT_REGION": "us-west-2",
-        "LOG_LEVEL": "INFO"
-      },
-      "timeout": 30000,
-      "restart": "onFailure"
+        "AWS_PROFILE": "default",
+        "AWS_REGION": "us-east-1"
+      }
     }
-  },
-  
-  // GitHub Copilot Configuration for DevOps
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": true,
-    "dockerfile": true,
-    "terraform": true
   }
 }
 ```
 
-#### Workspace-Specific Configuration
+Restart Claude Desktop. You should see a tools icon appear in the chat. Ask: *"List my running EC2 instances."* Claude will call `list_instances(state="running")` and summarize what comes back.
 
-For DevOps projects, create a `.vscode/settings.json` in your project root:
+---
+
+## Wiring It Into VS Code Copilot
+
+VS Code's GitHub Copilot Chat supports MCP servers as of late 2025. Add to your workspace `.vscode/mcp.json` (or user-level `mcp.json`):
 
 ```json
 {
-  "mcp.enabledServers": ["aws-ec2-devops"],
-  "mcp.autoStart": true,
-  
-  // DevOps-specific file associations
-  "files.associations": {
-    "*.yml": "yaml",
-    "*.yaml": "yaml",
-    "Dockerfile*": "dockerfile",
-    "*.tf": "terraform"
-  },
-  
-  // Copilot context for DevOps
-  "github.copilot.chat.welcomeMessage": "DevOps Assistant Ready! I can help with AWS infrastructure via MCP."
+  "servers": {
+    "aws-ec2": {
+      "command": "python",
+      "args": ["${workspaceFolder}/ec2_mcp_server.py"],
+      "env": {
+        "AWS_PROFILE": "default",
+        "AWS_REGION": "us-east-1"
+      }
+    }
+  }
 }
 ```
 
-### Copilot Chat Integration with Real-World Examples
-
-1. **Open Copilot Chat** (Ctrl/Cmd + Shift + I)
-2. **Reference MCP server** by typing `@mcp` to access your EC2 server
-3. **Ask DevOps questions** using natural language
-
-#### Example 1: Infrastructure Health Check
-
-**User Request**: "Check the status of all our web servers"
-
-**AI Response**:
-
-```
-I'll check the status of your EC2 instances for you.
-
-[MCP calls list_resources() to discover instances]
-Found 5 EC2 instances. Let me check the web servers specifically:
-
-[MCP calls get_instance_status for each web server]
-
-Web Server Status Report:
-• web-server-1 (i-0123456789abcdef0): ✅ Running - Healthy
-• web-server-2 (i-0987654321fedcba0): ✅ Running - Healthy  
-• web-server-3 (i-0456789123abcdef0): ⚠️  Running - System check failed
-
-Issue Details for web-server-3:
-- Instance Status: Running
-- System Status: impaired
-- Failed Checks: Instance reachability check
-
-Recommendation: Consider restarting web-server-3 or investigating network connectivity.
-```
-
-**VS Code Copilot Command**: `@mcp Show me all running EC2 instances and their health status`
-
-#### Example 2: Automated Incident Response
-
-**User Request**: "Our database server seems slow, can you create a snapshot before we restart it?"
-
-**AI Response**:
-
-```
-I'll help you create a safety snapshot before restarting the database server.
-
-[MCP calls read_resource() to get database server details]
-Found database server: db-primary-1 (i-0db123456789abcde0)
-- Instance Type: r5.xlarge
-- State: running
-- Attached Volumes: 2 (root + data volume)
-
-[MCP calls create_snapshot tool]
-Creating snapshots for database server...
-
-Snapshots initiated:
-• /dev/sda1 (vol-0123456789abcdef0) → snap-0abc123456789def0
-• /dev/sdf (vol-0987654321fedcba0) → snap-0def987654321abc0
-
-Snapshots are being created in the background (typically takes 5-10 minutes).
-
-Once snapshots complete, you can safely restart the instance. Would you like me to:
-1. Monitor snapshot progress
-2. Restart the instance when snapshots are complete
-3. Just notify you when snapshots are ready
-```
-
-**VS Code Copilot Command**: `@mcp Create a snapshot of instance i-0db123456789abcde0 before maintenance`
-
-#### Example 3: Resource Optimization
-
-**User Request**: "Show me all stopped instances and estimate cost savings"
-
-**AI Response**:
-
-```
-I'll analyze your stopped instances and calculate potential savings.
-
-[MCP calls list_resources() and read_resource() for each instance]
-
-Stopped Instance Analysis:
-
-Currently Stopped (not charged for compute):
-• test-server-1 (i-0test123456789abc0)
-  - Type: t3.medium ($30.37/month when running)
-  - Stopped: 15 days ago
-  - Last activity: Development testing
-
-• staging-db (i-0stage987654321def0)  
-  - Type: r5.large ($124.56/month when running)
-  - Stopped: 7 days ago
-  - Last activity: Staging environment
-
-• old-backup-server (i-0backup456789123abc0)
-  - Type: m5.large ($62.28/month when running)  
-  - Stopped: 45 days ago
-  - Last activity: Legacy backup process
-
-Recommendations:
-• Consider terminating old-backup-server (saved: $62.28/month)
-• test-server-1 could be replaced with spot instances for testing
-• staging-db: Schedule automatic start/stop for business hours only
-
-Potential monthly savings: $217.21 if optimized properly
-```
-
-**VS Code Copilot Command**: `@mcp Analyze stopped instances and calculate cost optimization opportunities`
+Reload the window. In Copilot Chat, use Agent mode and reference the tools by name, or just ask in plain language. Copilot will pick the right tool based on the descriptions you wrote.
 
 ---
 
-## Best Practices for DevOps
+## What Good Tool Design Looks Like
 
-### Security Considerations
+You'll write more MCP tools. A few lessons from writing too many:
 
-1. **IAM Permissions**: Create dedicated IAM roles with minimal required permissions
+**Names are part of the prompt.** The LLM picks tools by name and description. `list_instances` is good. `do_ec2_stuff` is not. Match the verb-noun convention every cloud API uses.
 
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:DescribeInstances",
-                "ec2:DescribeInstanceStatus",
-                "ec2:StartInstances",
-                "ec2:StopInstances",
-                "ec2:CreateSnapshot"
-            ],
-            "Resource": "<your-aws-arn>"
-        }
-    ]
-}
+**Descriptions matter more than docstrings.** The model reads the description, not the function body. Two crisp sentences > a five-paragraph docstring. Say what the tool does and what it returns.
+
+**Return structured data.** Models handle JSON better than English prose. Let the client format it.
+
+**Make idempotency obvious.** `start_instance` on a running instance should return `"action": "noop"`, not error. Models retry on errors. You don't want them retrying state mutations.
+
+**Surface errors as data, not exceptions, when the error is the model's fault.** Bad instance ID? Return `{"error": "instance not found", "instance_id": "i-0abc"}`. The model can recover from data. Stack traces just confuse it.
+
+**Pre-validate destructive operations.** If you must expose a tool that mutates state, require the model to call a `describe` tool first. Or take a confirmation token: `stop_instance(instance_id, confirm=True)`.
+
+---
+
+## A Failure Story
+
+We added a `delete_snapshot` tool to a development MCP server. "Just for testing." A coworker ran a chat session that started "clean up old snapshots from staging" and ended with the model deleting two production snapshots because their `CreatedBy` tag was missing.
+
+Three things went wrong:
+
+1. The tool was destructive.
+2. The tool didn't take a confirmation argument.
+3. The IAM role didn't scope by tag, so the model had power it shouldn't have had.
+
+The fix wasn't a smarter prompt. It was: remove the tool. We replaced it with `mark_snapshot_for_deletion`, which adds a tag. A separate, non-LLM cron job actually deletes snapshots that have been tagged for 7+ days.
+
+This pattern — LLM proposes, system disposes — is the right shape for anything destructive. The model is fast and wrong sometimes. Your deletion pipeline should not be both.
+
+---
+
+## Beyond stdio — When to Use HTTP
+
+stdio is great for desktop clients. The server runs as a subprocess of the client. Simple, secure, no networking.
+
+You'll want HTTP (specifically MCP's SSE or streamable HTTP transport) when:
+
+- The server runs in a different process / container / host than the client
+- Multiple clients should share one server
+- You need to put auth in front of it (OAuth, JWT, mTLS)
+
+`FastMCP` supports HTTP transport with a flag:
+
+```python
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")  # serves on http://127.0.0.1:8000/mcp
 ```
 
-### Multi-Service Integration
-
-```mermaid
-graph TB
-    subgraph AI_Client["AI Client (Claude, ChatGPT, etc.)"]
-        User[User Request]
-        Orchestrator[AI Orchestrator]
-    end
-  
-    subgraph MCP_Servers["MCP Server Ecosystem"]
-        EC2_MCP[EC2 MCP Server]
-        RDS_MCP[RDS MCP Server]
-        S3_MCP[S3 MCP Server]
-        Monitor_MCP[Monitoring MCP Server]
-        Deploy_MCP[Deployment MCP Server]
-    end
-  
-    subgraph AWS_Services["AWS Services"]
-        EC2[EC2 Instances]
-        RDS[RDS Databases]
-        S3[S3 Buckets]
-        CloudWatch[CloudWatch]
-        CodeDeploy[CodeDeploy]
-    end
-  
-    User --> Orchestrator
-    Orchestrator --> EC2_MCP
-    Orchestrator --> RDS_MCP
-    Orchestrator --> S3_MCP
-    Orchestrator --> Monitor_MCP
-    Orchestrator --> Deploy_MCP
-  
-    EC2_MCP --> EC2
-    RDS_MCP --> RDS
-    S3_MCP --> S3
-    Monitor_MCP --> CloudWatch
-    Deploy_MCP --> CodeDeploy
-  
-    style AI_Client fill:#e3f2fd
-    style MCP_Servers fill:#e8f5e8
-    style AWS_Services fill:#fff3e0
-```
+But putting an MCP server on a network is a bigger conversation — authn, authz, audit logs, rate limits. That's covered in [MCP for DevOps](/02-mcp-for-devops/00-toc.md). For local development and personal tools, stay on stdio.
 
 ---
 
-### Learning Resources
+## Chapter Summary
 
-- [MCP Official Documentation](https://modelcontextprotocol.io/)
-- [AWS Boto3 Documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
-- [Python Async Programming Guide](https://docs.python.org/3/library/asyncio.html)
+- MCP standardizes how LLMs talk to tools. One server, many clients.
+- `FastMCP` decorators turn Python functions into MCP tools and resources with minimal boilerplate.
+- Resources are read-only and addressed by URI. Tools are verbs the model can call.
+- Tool names and descriptions are part of the prompt — write them carefully.
+- Never expose destructive operations directly. Mark-for-deletion + async cleanup.
+- Start with stdio. Reach for HTTP only when you need network-facing servers.
 
-### Community and Support
-
-- [MCP GitHub Repository](https://github.com/modelcontextprotocol)
-- [AWS DevOps Community](https://aws.amazon.com/developer/community/)
-- [DevOps Stack Exchange](https://devops.stackexchange.com/)
-
----
-
-## Next Steps
-
-**Ready for the next step?** Continue to [05-02 Agent Frameworks](05-02-agent-frameworks.md) to learn how to build intelligent agents that can orchestrate multiple MCP servers for complex DevOps workflows.
+Next: [AI Agents](05-02-ai-agent.md) — building loops that call these tools to actually get work done.
 
 ---
 
-## Support This Work
+## Resources
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+- [Model Context Protocol — spec & docs](https://modelcontextprotocol.io/)
+- [`modelcontextprotocol/python-sdk`](https://github.com/modelcontextprotocol/python-sdk)
+- [Awesome MCP servers](https://github.com/punkpeye/awesome-mcp-servers)
+- [MCP for DevOps (this repo's deep dive)](/02-mcp-for-devops/00-toc.md)
 
-> Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) or check out my book [&#34;PromptOps: From YAML to AI&#34;](https://leanpub.com/promptops-from-yaml-to-ai) to help create more AI-powered DevOps resources.
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)

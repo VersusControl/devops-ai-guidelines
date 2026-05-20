@@ -1,0 +1,15 @@
+# Cluster registry consumed by `pkg/multicluster.Manager`.
+#
+# Each entry registers a logical name (used in MCP tool arguments) and the
+# kubeconfig context that backs it. `kubeconfig` is optional; when empty the
+# default ($KUBECONFIG or ~/.kube/config) is used.
+clusters:
+  - name: dev
+    context: kind-dev
+  - name: staging
+    kubeconfig: ~/.kube/staging.yaml
+    context: staging
+  - name: prod
+    kubeconfig: ~/.kube/prod.yaml
+    context: prod
+    readOnly: true

@@ -1,845 +1,478 @@
-# Phase 1: Prompt Engineering
+# Prompt Engineering for DevOps
 
-*Advanced communication strategies for AI system optimization*
+*Turning the model into a reliable component instead of a chat partner.*
 
-> ⭐ **Starring** this repository to support this work
-
-## Learning Objectives
-
-Upon completion of this guide, you will be able to:
-- Design and implement effective prompt architectures for consistent AI performance
-- Apply advanced prompting methodologies for complex technical tasks
-- Systematically debug and optimize prompt performance
-- Develop prompt engineering frameworks for DevOps and infrastructure automation
-- Create reusable prompt templates for enterprise workflows
+> ⭐ Star this repo if you find it useful.
 
 ---
 
-## Prompt Engineering Fundamentals
+## The Problem with "Just Ask Better"
 
-**Technical Definition:**
-Prompt engineering is the systematic design of input instructions to optimize large language model performance for specific tasks and domains.
+The first time I shipped an LLM-powered tool to production, I had spent two days polishing the prompt. It worked great in my terminal. The morning it went live, a teammate ran it on a different log file and got a confident, completely wrong analysis.
 
-**Professional Context:**
-```
-Ineffective Approach: "Fix the server issue"
-Optimized Approach: "Analyze the web server error logs from the past 60 minutes, 
-identify HTTP 500 errors, determine root causes based on error patterns, 
-and provide three prioritized remediation strategies with implementation steps"
-```
+Prompts that work once aren't prompts. They're lucky outputs. The job of prompt engineering is to make the lucky outputs the only kind.
 
-Effective prompt engineering transforms general AI capabilities into specialized, reliable tools for professional workflows.
+This chapter is about how to do that — for real DevOps tasks, with real APIs, in real production code. Not the "write better prompts" content you've seen ten times.
 
----
+By the end you'll be able to:
 
-## Technical Framework
-
-### Section 1: Prompt Architecture Design
-
-#### Structured Prompt Framework
-
-**C.R.A.F.T Architecture Pattern:**
-```
-[CONTEXT] + [ROLE] + [ACTION] + [FORMAT] + [TONE] = Optimal Prompt
-```
-
-**Component Specifications:**
-
-**Context Definition:**
-```
-Purpose: Establish background information and current operational environment.
-
-Implementation: System state, environmental constraints, relevant history.
-
-Example: "Our production Kubernetes cluster is experiencing intermittent pod failures. 
-The cluster runs 200+ microservices with 5000 daily deployments. Recent changes 
-include a CNI upgrade and increased traffic load..."
-```
-
-**Role Assignment:**
-```
-Purpose: Define the AI's expertise level and professional perspective.
-
-Implementation: Job title, experience level, domain specialization.
-
-Example: "You are a senior Site Reliability Engineer with 8 years of experience 
-managing large-scale Kubernetes deployments in financial services..."
-```
-
-**Action Specification:**
-```
-Purpose: Define precise objectives and expected deliverables.
-
-Implementation: Clear action verbs, specific tasks, success criteria.
-
-Example: "Analyze the pod failure patterns, identify the root cause, and create 
-a comprehensive remediation plan with both immediate fixes and long-term prevention strategies..."
-```
-
-**Format Requirements:**
-```
-Purpose: Structure output for optimal readability and downstream processing.
-
-Implementation: Templates, schemas, markup specifications, organization patterns.
-
-Example: "Provide your analysis in this format:
-1. Executive Summary (2-3 sentences)
-2. Root Cause Analysis (technical details)
-3. Immediate Actions (steps to implement now)
-4. Long-term Prevention (architectural improvements)
-5. Timeline and Resources Required"
-```
-
-**Tone Specification:**
-```
-Purpose: Define communication style and professional approach.
-
-Implementation: Formality level, technical depth, audience consideration.
-
-Example: "Use a professional, technical tone suitable for presenting to both 
-development teams and executive leadership. Include specific metrics and 
-avoid overly complex jargon..."
-```
-
-**C.R.A.F.T Implementation Example:**
-
-```
-CONTEXT: "Our e-commerce platform experiences 3x traffic during Black Friday. 
-Last year, we had a 2-hour outage due to database connection pool exhaustion. 
-This year, we've upgraded to PostgreSQL 14 and implemented connection pooling."
-
-ROLE: "You are a database performance specialist with expertise in high-traffic 
-e-commerce systems and PostgreSQL optimization."
-
-ACTION: "Create a comprehensive database monitoring and scaling strategy for 
-Black Friday traffic that prevents connection pool issues and ensures 99.9% uptime."
-
-FORMAT: "Provide a structured response with:
-- Pre-event preparation checklist
-- Real-time monitoring dashboard requirements  
-- Automated scaling triggers and thresholds
-- Incident response procedures
-- Post-event analysis framework"
-
-TONE: "Use a detailed, technical approach suitable for the database team, 
-but include executive summary points for leadership visibility."
-```
-
-**Implementation Exercise:**
-- [ ] Take a current infrastructure challenge from your work
-- [ ] Apply the C.R.A.F.T framework to structure your prompt
-- [ ] Test the prompt and compare results with a basic request
-- [ ] Refine each component based on response quality
-
-#### **Precision vs Ambiguity in Technical Prompts**
-
-**Comparative Analysis:**
-
-**Low-Precision Prompts:**
-```
-❌ "Help with monitoring"
-❌ "Debug the application" 
-❌ "Optimize performance"
-❌ "Review security"
-```
-
-**High-Precision C.R.A.F.T Prompts:**
-
-```
-✅ Infrastructure Monitoring Example:
-CONTEXT: "Production Node.js application serving 10M+ requests/day on EKS cluster v1.24"
-ROLE: "You are a monitoring specialist experienced with Prometheus and Grafana"
-ACTION: "Generate comprehensive alerting rules for application performance monitoring"
-FORMAT: "Provide YAML alerting rules with: rule names, PromQL queries, thresholds, 
-annotations, and runbook links. Include dashboard query suggestions."
-TONE: "Technical precision for DevOps team implementation, include best practices"
-
-✅ Incident Response Example:
-CONTEXT: "Docker container startup failure in production. Error: 'OCI runtime create failed: 
-container_linux.go:367'. EKS cluster v1.24, containerd runtime. Working 48 hours ago. 
-Recent change: Updated base image alpine:3.15 to alpine:3.18"
-ROLE: "You are a senior container platform engineer with extensive debugging experience"
-ACTION: "Provide systematic root cause analysis and step-by-step remediation plan"
-FORMAT: "Structure as: Problem Summary, Investigation Steps, Root Cause Analysis, 
-Immediate Fix, Prevention Strategy, Testing Verification"
-TONE: "Urgent but methodical, suitable for incident response documentation"
-```
-
-**Professional Standards with C.R.A.F.T:**
-- **Context**: Include specific versions, scale metrics, and recent changes
-- **Role**: Match expertise to the problem domain and complexity level
-- **Action**: Use precise technical verbs and define clear deliverables
-- **Format**: Specify structure that integrates with existing workflows
-- **Tone**: Align communication style with audience and urgency level
-
-#### **Iterative Prompt Optimization**
-
-**Systematic Improvement Methodology:**
-```
-1. Initial Prompt Design
-   ├── Define baseline requirements
-   ├── Implement basic structure
-   └── Document expected outcomes
-
-2. Performance Evaluation
-   ├── Test with representative inputs
-   ├── Measure output quality metrics
-   └── Identify failure patterns
-
-3. Analytical Refinement
-   ├── Diagnose specific issues
-   ├── Adjust architectural components
-   └── Enhance constraint definitions
-
-4. Validation Testing
-   ├── Verify improvements
-   ├── Conduct edge case testing
-   └── Document optimization results
-
-5. Production Deployment
-   ├── Implement in workflow
-   ├── Monitor performance metrics
-   └── Establish maintenance procedures
-```
-
-**Common Optimization Patterns:**
-```
-Issue: Generic or irrelevant responses
-Solution: Enhance context specificity and domain constraints
-
-Issue: Incorrect output formatting
-Solution: Implement explicit format templates and examples
-
-Issue: Task misinterpretation
-Solution: Decompose complex tasks into sequential steps
-
-Issue: Inconsistent quality across iterations
-Solution: Add validation criteria and quality checkpoints
-```
-
-**Practical Implementation:**
-- [ ] Select a critical automation task from your environment
-- [ ] Apply the 5-step optimization methodology
-- [ ] Document performance improvements and lessons learned
+- Write prompts that produce structured, parseable output every time
+- Debug a prompt that works 80% of the time and figure out the 20%
+- Build reusable templates for the tasks you do every week
+- Know when prompt engineering is the wrong answer and you need tools, retrieval, or a different model
 
 ---
 
-### Section 2: Advanced Prompting Methodologies
+## What a Prompt Actually Is
 
-#### Chain-of-Thought Reasoning
+A prompt is not "the thing you type." A prompt is **every token the model sees before it generates its first response token.** That includes:
 
-**Technical Framework:**
-Chain-of-thought prompting enhances model reasoning by requiring explicit intermediate step documentation, improving both accuracy and transparency of complex problem-solving tasks.
+- The system message (your standing instructions)
+- The conversation history
+- Any retrieved documents you stuffed in
+- Tool definitions and their schemas
+- The user's actual message
+- Any few-shot examples
 
-**Implementation Pattern:**
+All of that competes for the same context window. If you have 32K tokens of history and 100 tokens of instructions, the instructions are background noise. This is the single most common reason prompts "stop working" — the prompt didn't change, the context around it did.
+
+---
+
+## The Five-Part Structure
+
+Most production prompts have the same shape. Memorize it:
+
+1. **Role** — who the model is
+2. **Context** — what it needs to know
+3. **Task** — what it should do
+4. **Format** — what the output looks like
+5. **Constraints** — what it must not do
+
+Here's the same instruction with and without that structure.
+
+**Lazy:**
+
 ```
-Standard Approach:
-"Evaluate this server configuration for security compliance"
-
-Chain-of-Thought Enhancement:
-"Evaluate this server configuration using systematic security analysis:
-
-Step 1: Network Security Assessment
-- Analyze firewall rules and port configurations
-- Evaluate network segmentation implementation
-- Document exposure risks and mitigation status
-
-Step 2: Access Control Evaluation  
-- Review user permission matrices
-- Assess authentication mechanisms
-- Validate privilege escalation controls
-
-Step 3: Data Protection Analysis
-- Examine encryption implementation (at-rest/in-transit)
-- Evaluate backup security procedures
-- Assess data access logging
-
-Step 4: Compliance Verification
-- Map controls to relevant frameworks (SOC2, ISO27001)
-- Identify compliance gaps
-- Prioritize remediation activities
-
-Provide detailed reasoning for each assessment step."
+Look at these logs and tell me what's wrong.
 ```
 
-**DevOps Chain of Thought Examples:**
+**Structured:**
 
-**Troubleshooting:**
 ```
-"Debug this deployment failure step by step:
-1. Check the error message and identify the immediate cause
-2. Trace back through the deployment pipeline to find where it started
-3. Consider what changed recently that might cause this
-4. List 3 possible root causes with evidence
-5. Recommend the most likely fix and why"
-```
+You are a senior SRE triaging an incident.
 
-**Architecture Review:**
-```
-"Evaluate this microservices architecture by working through:
-1. Service dependencies and potential bottlenecks
-2. Data flow and consistency considerations  
-3. Scaling challenges and solutions
-4. Security boundaries and concerns
-5. Overall recommendation with pros/cons"
-```
+Context:
+- Service: payments-api (Node.js, on EKS)
+- Symptom: latency p99 climbed from 200ms to 4s starting 09:14 UTC
+- Last deploy: 08:45 UTC, image tag payments-api:v2.41.3
 
-**Practice:**
-- [ ] Take a complex DevOps problem you've solved
-- [ ] Write a chain of thought prompt for it
-- [ ] See if AI reaches the same conclusion as you did
+Task: Read the log excerpt and identify the most likely root cause.
 
-#### Few-Shot Learning (Examples)
-
-**Show the AI what "good" looks like:**
-
-**Pattern:**
-```
-Here are examples of good [task]:
-
-Example 1:
-Input: [example input]
-Output: [example output]
-
-Example 2:
-Input: [example input]  
-Output: [example output]
-
-Now do the same for:
-Input: [your actual input]
-```
-
-**DevOps Example - Writing Git Commit Messages:**
-```
-Here are examples of good commit messages:
-
-Example 1:
-Changes: Added health check endpoint to user service
-Commit: "feat(user-service): add /health endpoint for load balancer checks"
-
-Example 2:  
-Changes: Fixed memory leak in image processing worker
-Commit: "fix(worker): resolve memory leak in image resize function"
-
-Example 3:
-Changes: Updated Kubernetes deployment to use latest Redis image
-Commit: "chore(k8s): update Redis image to 7.0.5 for security patches"
-
-Now write a commit message for:
-Changes: Modified the CI pipeline to run tests in parallel and cache dependencies
-```
-
-**Infrastructure as Code Example:**
-```
-Here are examples of well-documented Terraform resources:
-
-Example 1:
-resource "aws_instance" "web_server" {
-  # Production web server for customer-facing application
-  # Instance type chosen for consistent performance under load
-  instance_type = "t3.medium"  
-  ami           = data.aws_ami.amazon_linux.id
-  
-  # Security group allows only HTTPS traffic from load balancer
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-  
-  tags = {
-    Name        = "prod-web-server"
-    Environment = "production"
-    Purpose     = "customer-facing-web-app"
-  }
+Output format (strict JSON, no prose):
+{
+  "root_cause": "<one sentence>",
+  "evidence": ["<log line snippet>", ...],
+  "confidence": "low | medium | high",
+  "next_step": "<one concrete kubectl or curl command>"
 }
 
-Now write a well-documented Terraform resource for:
-An RDS PostgreSQL database for a staging environment
+Constraints:
+- If logs are insufficient, set root_cause to "insufficient evidence"
+  and list what's missing in evidence.
+- Do not invent log lines. Quote them verbatim.
 ```
 
-**Practice:**
-- [ ] Create few-shot examples for writing Kubernetes YAML
-- [ ] Test with AI to generate new K8s resources
-- [ ] Compare quality with and without examples
-
-#### Role-Based Prompting
-
-**Give the AI a specific expertise role:**
-
-**DevOps Roles:**
-```
-"You are a senior Site Reliability Engineer with 10 years of experience 
-running high-traffic web applications..."
-
-"You are a security-focused DevOps engineer who specializes in 
-compliance and cloud security best practices..."
-
-"You are a Kubernetes expert who helps teams migrate from traditional 
-infrastructure to cloud-native architectures..."
-```
-
-**Role + Task Examples:**
-
-**SRE Perspective:**
-```
-"You are an experienced SRE who has managed systems at scale. 
-A junior engineer asks you: 'Our API response times are getting slower. 
-How should I investigate this?'
-
-Respond as you would to a team member - be practical, mention specific 
-tools, and include both immediate actions and longer-term monitoring."
-```
-
-**Security Engineer Perspective:**
-```
-"You are a DevSecOps engineer focused on container security. 
-Review this Dockerfile and identify potential security issues:
-
-[Dockerfile content]
-
-Provide specific recommendations that balance security with developer 
-productivity."
-```
-
-**Practice:**
-- [ ] Try the same question with 3 different role prompts
-- [ ] Compare how the perspective changes the answer
-- [ ] Find which role gives you the most useful responses for your work
+The second version isn't longer because it's verbose. It's longer because each part is doing work. Pull any one out and quality drops.
 
 ---
 
-### Section 3: Debugging and Optimizing Prompts
+## Roles That Actually Help
 
-#### **When Prompts Don't Work**
+"You are a helpful assistant" does nothing. The model already thinks that. Useful roles are specific:
 
-**Common Prompt Problems:**
+- `You are a senior SRE who has been paged at 3 AM and needs to act in 5 minutes.`
+- `You are a security reviewer with a checklist. You don't approve anything that isn't on the checklist.`
+- `You are a Terraform module author writing for engineers who hate magic.`
 
-**Problem 1: AI Gives Generic Responses**
-```
-❌ Prompt: "How do I monitor my application?"
+The role isn't flattery. It's a steering vector. It shifts the distribution of likely next tokens toward a particular voice and set of priorities.
 
-Issues:
-- No context about the application
-- No mention of current tools
-- No specific goals
-
-✅ Fixed: "I have a Python Flask API running in Docker containers 
-on AWS ECS. I'm currently using CloudWatch for basic metrics. 
-How can I add application-level monitoring to track response times, 
-error rates, and database query performance?"
-```
-
-**Problem 2: AI Misunderstands the Context**
-```
-❌ Prompt: "Debug this connection issue"
-
-Issues:
-- What type of connection?
-- What's the error?
-- What have you tried?
-
-✅ Fixed: "My Node.js application can't connect to PostgreSQL database. 
-Error: 'ECONNREFUSED 127.0.0.1:5432'. The database container is running 
-and I can connect with psql. What Docker networking issues should I check?"
-```
-
-**Problem 3: AI Response Wrong Format**
-```
-❌ Result: Long paragraph explanation
-✅ Fix: Add "Respond with a numbered checklist" or "Format as YAML"
-```
-
-**Debugging Checklist:**
-- [ ] Is my context specific enough?
-- [ ] Did I specify the output format?
-- [ ] Are my constraints clear?
-- [ ] Did I include relevant error messages/logs?
-- [ ] Would a human understand what I want?
-
-#### A/B Testing Your Prompts
-
-**Systematic Prompt Improvement:**
-
-**Test Different Approaches:**
-```
-Version A (Direct):
-"Write a monitoring script for disk usage"
-
-Version B (Context + Role):
-"You are a system administrator. Write a bash script that checks disk 
-usage on all mounted filesystems and sends an alert if any exceed 85%"
-
-Version C (Examples + Constraints):
-"Write a monitoring script like this example:
-[show example]
-Requirements:
-- Check all mounted filesystems
-- Alert threshold: 85%
-- Send email notifications
-- Log results to syslog"
-```
-
-**Testing Framework:**
-1. **Same Task, Different Prompts**: Try 3-4 variations
-2. **Evaluate Results**: Which gives better code/explanations?
-3. **Identify Patterns**: What makes the good ones work?
-4. **Create Templates**: Build reusable prompt patterns
-
-**Practice Exercise:**
-- [ ] **Task**: Get AI to create a Docker Compose file for a web app
-- [ ] Write 4 different prompt approaches
-- [ ] Test each and rate the results
-- [ ] Identify the best techniques for your use case
-
-#### Building Prompt Templates
-
-**Create Reusable Prompt Patterns:**
-
-**Template 1: Code Review**
-```
-TEMPLATE:
-"You are a [ROLE] reviewing code for [PURPOSE]. 
-
-Code to review:
-[CODE]
-
-Please check for:
-- [CRITERIA_1]
-- [CRITERIA_2] 
-- [CRITERIA_3]
-
-Format your response as:
-✅ Good practices found:
-❌ Issues to fix:
-💡 Suggestions for improvement:"
-
-EXAMPLE USAGE:
-ROLE: "senior DevOps engineer"
-PURPOSE: "production deployment"
-CRITERIA_1: "Security vulnerabilities"
-CRITERIA_2: "Performance bottlenecks"  
-CRITERIA_3: "Best practices compliance"
-```
-
-**Template 2: Troubleshooting Assistant**
-```
-TEMPLATE:
-"Help me troubleshoot this [SYSTEM_TYPE] issue:
-
-Problem: [PROBLEM_DESCRIPTION]
-Error: [ERROR_MESSAGE]
-What I've tried: [ATTEMPTED_SOLUTIONS]
-Environment: [ENVIRONMENT_DETAILS]
-
-Provide:
-1. Most likely cause
-2. Step-by-step debugging process
-3. 3 potential solutions ranked by likelihood of success"
-```
-
-**Template 3: Documentation Generator**
-```
-TEMPLATE:
-"Create documentation for this [RESOURCE_TYPE]:
-
-[RESOURCE_CONTENT]
-
-Include:
-- Purpose and overview
-- Prerequisites 
-- Step-by-step usage
-- Common issues and solutions
-- Related resources
-
-Target audience: [AUDIENCE_LEVEL]
-Format: [OUTPUT_FORMAT]"
-```
-
-**Your Assignment:**
-- [ ] Create 5 prompt templates for your common DevOps tasks
-- [ ] Test each template with real examples
-- [ ] Refine based on results
-- [ ] Share with your team for feedback
+> **Tip:** Roles that imply *constraints* work better than roles that imply *expertise*. "A reviewer with a checklist" outperforms "an expert reviewer" because checklists are more constraining than expertise.
 
 ---
 
-### Section 4: DevOps-Specific Prompt Engineering
+## Structured Output Is Non-Negotiable
 
-#### Infrastructure Automation Prompts
+If a downstream system is going to read the model's output, free text is a bug. You want JSON, YAML, or another machine-parseable format — and you want to force it.
 
-**Terraform Generation:**
-```
-"Generate Terraform code for a secure, scalable web application infrastructure:
+There are three reliable techniques, in order of strength:
 
-Requirements:
-- AWS provider
-- VPC with public/private subnets across 2 AZs
-- Application Load Balancer
-- Auto Scaling Group with 2-5 instances
-- RDS PostgreSQL in private subnet
-- Security groups following least privilege
+**1. Use the API's structured output feature.**
 
-Include:
-- Proper variable definitions
-- Output values for important resources
-- Comments explaining security decisions
-- Tags for cost tracking
+OpenAI, Anthropic, and Gemini all support schema-constrained outputs now. Use them.
 
-Format as complete .tf files with clear separation of concerns."
-```
-
-**Kubernetes Troubleshooting:**
-```
-"I'm debugging a Kubernetes pod that won't start. Help me create a 
-systematic troubleshooting approach:
-
-Pod status: [POD_STATUS]
-Error message: [ERROR_MESSAGE]
-Recent changes: [WHAT_CHANGED]
-
-Provide:
-1. kubectl commands to gather more information
-2. Common causes for this specific error
-3. Step-by-step investigation process
-4. How to prevent this issue in the future
-
-Format as a runbook that I can follow and share with my team."
-```
-
-#### Monitoring and Alerting Prompts
-
-**Prometheus Query Generation:**
-```
-"Create Prometheus queries and alerting rules for application monitoring:
-
-Application: Node.js API
-Infrastructure: Kubernetes pods behind a load balancer
-Metrics available: http_requests_total, http_request_duration_seconds, 
-                  process_cpu_seconds_total, nodejs_heap_used_bytes
-
-I need alerts for:
-- High error rate (5xx responses > 5% for 5 minutes)
-- Slow response times (95th percentile > 2 seconds)
-- High CPU usage (> 80% for 10 minutes)
-- Memory leaks (heap growth trend)
-
-Provide:
-1. Prometheus queries to calculate each metric
-2. Alert rule definitions
-3. Suggested alert message templates
-4. Grafana dashboard queries"
-```
-
-**Log Analysis Prompts:**
-```
-"Analyze these application logs and identify patterns:
-
-[LOG_ENTRIES]
-
-Look for:
-- Error trends and correlation
-- Performance bottlenecks
-- Security concerns
-- Unusual patterns
-
-Provide:
-1. Summary of findings
-2. Recommended log parsing rules
-3. Suggested monitoring improvements
-4. Action items prioritized by impact"
-```
-
-#### Security and Compliance Prompts
-
-**Security Review:**
-```
-"Conduct a security review of this cloud infrastructure:
-
-[INFRASTRUCTURE_DESCRIPTION/CODE]
-
-Evaluate against:
-- OWASP Top 10 for cloud
-- CIS Benchmarks
-- Company security policy: [POLICY_LINK]
-- Compliance requirements: [COMPLIANCE_FRAMEWORK]
-
-Provide:
-1. Risk assessment (High/Medium/Low) for each finding
-2. Specific remediation steps
-3. Implementation priority based on risk
-4. Preventive measures for similar issues"
-```
-
-**Compliance Documentation:**
-```
-"Generate compliance documentation for SOC 2 Type 2 audit:
-
-System: [SYSTEM_DESCRIPTION]
-Controls to document:
-- Access management
-- Data encryption
-- Backup procedures
-- Incident response
-- Change management
-
-For each control:
-1. Control description
-2. Implementation details
-3. Evidence of operation
-4. Testing procedures
-5. Responsible parties
-
-Format as audit-ready documentation with references to supporting evidence."
-```
-
----
-
-## Assessment: Master Your Prompt Engineering
-
-### Practical Challenges:
-
-**Challenge 1: The Multi-Step Infrastructure Deploy**
-Create a prompt that gets AI to help you deploy a complete application stack with proper error handling and rollback procedures.
-
-**Challenge 2: The Incident Response Assistant**
-Build a prompt template that helps junior engineers handle production incidents by asking the right questions and providing guided troubleshooting.
-
-**Challenge 3: The Code Review Bot**
-Design prompts that can review Dockerfile, Kubernetes YAML, and Terraform code with context-appropriate feedback.
-
-### **Your Prompt Engineering Toolkit:**
-By the end of this week, create:
-- [ ] 10 reusable prompt templates for common tasks
-- [ ] A troubleshooting prompt library
-- [ ] Documentation generation prompts
-- [ ] Security review prompt patterns
-
----
-
-## Hands-On Projects
-
-### Project 1: AI-Powered Runbook Generator
 ```python
-# Create a script that takes infrastructure components 
-# and generates troubleshooting runbooks
+from openai import OpenAI
+from pydantic import BaseModel
 
-def generate_runbook(component_type, component_config):
-    prompt = f"""
-    Create a troubleshooting runbook for {component_type}:
-    
-    Configuration: {component_config}
-    
-    Include:
-    1. Common failure modes
-    2. Diagnostic commands
-    3. Step-by-step troubleshooting
-    4. When to escalate
-    
-    Format as markdown with clear sections.
-    """
-    return call_ai_api(prompt)
+client = OpenAI()
+
+class Triage(BaseModel):
+    root_cause: str
+    confidence: str  # "low" | "medium" | "high"
+    next_step: str
+
+resp = client.chat.completions.parse(
+    model="gpt-4.1-mini",
+    messages=[
+        {"role": "system", "content": "You are a senior SRE triaging an incident."},
+        {"role": "user", "content": LOG_EXCERPT},
+    ],
+    response_format=Triage,
+)
+
+triage: Triage = resp.choices[0].message.parsed
+print(triage.next_step)
 ```
 
-### Project 2: Intelligent Configuration Validator
-Build prompts that can review and validate configuration files for best practices and security issues.
+This is the modern way. The model is *constrained* by the schema during decoding — it cannot return malformed JSON.
 
-### Project 3: Documentation Assistant
-Create a system that automatically generates documentation for your infrastructure code using AI.
+**2. Ask for JSON and validate.**
 
----
+When you can't use structured output (older models, some providers), ask explicitly, then validate:
 
-## Prompt Performance Metrics
+```python
+import json
+from pydantic import BaseModel, ValidationError
 
-**How to Measure Your Prompt Quality:**
+class Triage(BaseModel):
+    root_cause: str
+    confidence: str
+    next_step: str
 
-1. **Consistency**: Same prompt → Similar quality results
-2. **Relevance**: Output matches your actual needs
-3. **Completeness**: Covers all important aspects
-4. **Actionability**: Provides specific, doable steps
-5. **Efficiency**: Gets good results without excessive back-and-forth
+prompt = """Return ONLY valid JSON matching this schema:
+{"root_cause": str, "confidence": "low"|"medium"|"high", "next_step": str}
+Do not include any prose, markdown, or code fences.
+"""
 
-**Tracking Template:**
-```
-Prompt: [YOUR_PROMPT]
-Task: [WHAT_YOU_WANTED]
-Result Quality (1-5): [RATING]
-Time to Good Result: [ITERATIONS_NEEDED]
-Reusability: [HOW_OFTEN_CAN_YOU_USE_THIS]
-Notes: [WHAT_WORKED_WELL_OR_POORLY]
-```
-
----
-
-## Advanced Resources
-
-### Prompt Engineering Guides:
-- [ ] [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
-- [ ] [Anthropic Prompt Library](https://docs.anthropic.com/claude/prompt-library)
-- [ ] [Prompt Engineering Guide by DAIR.AI](https://www.promptingguide.ai/)
-
-### DevOps-Specific Prompt Collections:
-- [ ] [PromptOps: From YAML to AI](https://leanpub.com/promptops-from-yaml-to-ai)
-- [ ] [AI-Assisted Infrastructure](https://github.com/topics/ai-devops)
-
-### Tools for Prompt Development:
-- [ ] [PromptBase](https://promptbase.com/) - Marketplace for prompts
-- [ ] [LangChain Prompt Templates](https://python.langchain.com/docs/modules/model_io/prompts/)
-- [ ] [Weights & Biases Prompts](https://wandb.ai/site/prompts) - Prompt experimentation
-
----
-
-## Next Steps
-
-After mastering prompt engineering, you'll be ready for:
-- ✅ More effective AI tool usage
-- ✅ Building custom AI-powered DevOps tools
-- ✅ Training your team on AI best practices
-- ✅ Integrating AI into existing workflows
-
-**Ready for the next module?** → [04-ai-tools-integration-apis.md](04-ai-tools-integration-apis.md)
-
----
-
-## Key Takeaways
-
-1. **Specificity is king** - Vague prompts get vague results
-2. **Context matters** - The more relevant context, the better the output
-3. **Iterate and improve** - Your first prompt is rarely your best prompt
-4. **Templates save time** - Build reusable patterns for common tasks
-5. **Test systematically** - A/B test your prompts like you would code
-6. **Think like a teacher** - Show examples of what "good" looks like
-
-**Remember**: Prompt engineering is your superpower for getting the most out of AI tools. The better you communicate with AI, the more it can help you with complex DevOps challenges.
-
----
-
-## Prompt Cheat Sheet
-
-**C.R.A.F.T Quick Reference:**
-
-```
-C.R.A.F.T Framework: 
-Context: [BACKGROUND_SITUATION] 
-Role: "You are a [JOB_TITLE] with [EXPERTISE]" 
-Action: [SPECIFIC_TASK_WITH_DELIVERABLES] 
-Format: [OUTPUT_STRUCTURE] 
-Tone: [COMMUNICATION_STYLE]
-
-Chain of thought: "Think through this step by step: 1) [STEP] 2) [STEP]..."
-
-Structured output: "Format your response as: ✅ [GOOD] ❌ [ISSUES] 💡 [SUGGESTIONS]"
-
-Few-shot: "Here are examples: [EXAMPLE_1] [EXAMPLE_2] Now do: [YOUR_TASK]"
-
-DevOps Template: 
-Context: "[SYSTEM_STATE] [RECENT_CHANGES] [CONSTRAINTS]"
-Role: "You are a [DevOps/SRE/Platform Engineer] with [X years] experience"
-Action: "[ANALYZE/CREATE/DEBUG/OPTIMIZE] [SPECIFIC_COMPONENT]"
-Format: "[STEP_BY_STEP/JSON/YAML/MARKDOWN] with [REQUIRED_SECTIONS]"
-Tone: "[TECHNICAL/EXECUTIVE/URGENT] for [AUDIENCE]"
+raw = call_model(prompt + user_message)
+try:
+    triage = Triage.model_validate_json(raw)
+except ValidationError:
+    # Retry once with the error in the prompt
+    raw = call_model(prompt + user_message + f"\nPrevious output was invalid: {raw}")
+    triage = Triage.model_validate_json(raw)
 ```
 
-*Keep this C.R.A.F.T reference handy as you build professional-grade prompts!*
+**3. Give an example.**
+
+For models without structured output and for unusual formats:
+
+```
+Output format — exactly like this example, no prose around it:
+
+---example---
+severity: high
+service: payments-api
+action: kubectl rollout undo deployment/payments-api -n prod
+---end-example---
+```
+
+Few-shot examples are the most reliable steering technique that doesn't require API support.
 
 ---
 
-## Support This Work
+## Few-Shot: Show, Don't Just Tell
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+The model has seen billions of examples during training. A handful of yours during inference shifts behavior more than any amount of instructions.
+
+Use it when:
+
+- The output has a specific style or shape your team uses
+- The task is judgment-heavy (severity, priority, tone)
+- You've tried instructions and they're inconsistent
+
+Example — commit message normalization:
+
+```
+Rewrite each diff summary as a Conventional Commit.
+
+Examples:
+  Input:  Added health check endpoint to user service
+  Output: feat(user-service): add /health endpoint for load balancer
+
+  Input:  Fixed memory leak in image resize worker
+  Output: fix(worker): resolve leak in image resize function
+
+  Input:  Bumped Redis image to 7.2 for CVE patch
+  Output: chore(deps): bump redis to 7.2.4 for CVE-2024-31449
+
+Input:  Made the CI pipeline run tests in parallel with cache
+Output:
+```
+
+Three examples is usually enough. Diminishing returns kick in fast. If five examples don't fix the behavior, the model probably can't do the task with prompting alone.
+
+---
+
+## Chain-of-Thought, Carefully
+
+Asking the model to "think step by step" used to be a magic spell. With modern models it's still useful, but not the way it used to be:
+
+- **Reasoning models** (OpenAI o-series, Claude with extended thinking, Gemini's reasoning models) do this internally. Telling them "think step by step" is redundant and sometimes counterproductive.
+- **Non-reasoning models** still benefit from explicit step structure for complex tasks.
+
+When you do want explicit reasoning, structure it. Don't say "think step by step" — say what the steps are:
+
+```
+Analyze this Kubernetes pod failure in this order:
+
+1. Read the pod status and most recent event.
+2. From the event, identify the failure category:
+   image-pull, scheduling, OOMKilled, CrashLoopBackOff, other.
+3. Based on the category, list the 2–3 kubectl commands
+   most likely to surface the root cause.
+4. Output the commands as a numbered list — nothing else.
+```
+
+This works better than open-ended "think step by step" because the steps are *yours*, not the model's guess at what reasoning should look like.
+
+---
+
+## Prompt Patterns for DevOps Tasks
+
+These are battle-tested templates. Copy, adapt, ship.
+
+### Log triage
+
+```
+ROLE: Senior SRE on incident response.
+
+CONTEXT:
+- Service: {service}
+- Environment: {env}
+- Time window: {start} to {end}
+- Recent changes: {recent_deploys_or_configs}
+
+LOGS:
+{logs}
+
+TASK: Identify the most likely root cause and the next diagnostic step.
+
+OUTPUT (JSON):
+{
+  "root_cause": "<one sentence>",
+  "evidence_lines": ["<verbatim log line>", ...],
+  "confidence": "low|medium|high",
+  "next_command": "<one shell or kubectl command>"
+}
+
+RULES:
+- Quote evidence lines verbatim.
+- If the logs do not support a conclusion, set confidence to "low"
+  and root_cause to "insufficient evidence: <what's missing>".
+```
+
+### Terraform code review
+
+```
+ROLE: Platform engineer reviewing infrastructure code for production.
+
+CONTEXT:
+- Provider: AWS, region us-east-1
+- Compliance: SOC 2, internal tagging policy attached below
+- Tagging policy: every resource must have Owner, CostCenter, Environment
+
+CODE:
+{terraform_code}
+
+TASK: Review for security, cost, and policy issues. Approve or block.
+
+OUTPUT (JSON):
+{
+  "decision": "approve | request_changes | block",
+  "findings": [
+    {"severity": "high|med|low", "line": int, "issue": str, "fix": str}
+  ]
+}
+
+RULES:
+- block on any high-severity finding
+- block on missing required tags
+- do not invent line numbers — quote them from the provided code
+```
+
+### Runbook generation
+
+```
+ROLE: Senior SRE writing a runbook for a junior on-call engineer.
+
+CONTEXT:
+- System: {system}
+- Alert: {alert_name}
+- Definition: {alert_definition}
+
+TASK: Write a runbook for responding to this alert.
+
+OUTPUT (Markdown):
+# {alert_name}
+
+## What this alert means
+<2-3 sentences>
+
+## First 5 minutes
+1. <command or check>
+2. ...
+
+## Common causes (most likely first)
+- **<cause>** — verify with: `<command>`. Fix: `<command>`.
+
+## When to escalate
+<concrete criteria>
+
+RULES:
+- Every command must be runnable as-is, no placeholders like <pod-name>.
+  Use real flags that prompt for input.
+- No prose between sections.
+```
+
+### Postmortem draft from incident timeline
+
+```
+ROLE: Incident commander drafting a blameless postmortem.
+
+CONTEXT:
+Timeline (chronological):
+{timeline}
+
+Customer impact:
+{impact}
+
+TASK: Draft the postmortem in our standard format.
+
+OUTPUT (Markdown headings):
+## Summary (3 sentences)
+## Impact (numbers, durations, affected services)
+## Timeline (copy with minor cleanup)
+## Root cause
+## What went well
+## What went poorly
+## Action items (assignee, due date, JIRA-ready)
+
+RULES:
+- Blameless. No "X engineer forgot to..." Use "the change did not include..."
+- Action items must be specific and bounded. No "improve monitoring."
+```
+
+---
+
+## Debugging a Bad Prompt
+
+When a prompt is misbehaving, work through this list in order:
+
+**1. Is the context window full?** Print the actual token count. If history + retrieval is crowding out your instructions, the prompt isn't the problem.
+
+**2. Are your instructions and your example in conflict?** Common: instructions say JSON, the example shows YAML. The example wins. Always.
+
+**3. Are you fighting the model's training?** "Don't apologize" and "don't say 'I'm sorry'" sometimes make models apologize *more* because you've raised the salience of apology. Rephrase positively: "Respond directly with the answer."
+
+**4. Is the task actually ambiguous?** Show the prompt to a teammate. If they can't tell you what the correct output is, the model can't either.
+
+**5. Are you using the wrong model?** A small model with a perfect prompt can still fail. Try the same prompt on a frontier model. If that works, your prompt is fine — you need a bigger model or fine-tuning.
+
+**6. Is temperature too high?** For deterministic tasks (classification, structured extraction), set `temperature=0` or close to it. Default of 1.0 is for creative writing.
+
+---
+
+## A Failure Story
+
+We had a prompt that summarized Slack threads into daily standups. It worked great for a month. Then it started randomly inserting bullet points like "Discussed Q3 OKRs with leadership" — for a team that had never discussed OKRs.
+
+The bug: we were appending the previous day's summary to the prompt as "context." That summary, generated by the model, sometimes contained mild hallucinations. The next day's prompt ingested those hallucinations as fact, amplified them, and fed them back. After two weeks the daily summaries were 30% fiction.
+
+The fix wasn't a better prompt. It was severing the feedback loop. We stopped feeding the model its own outputs as context and started reconstructing context from source (Slack) every time.
+
+The lesson: any LLM output you feed back to an LLM will compound its errors. Always retrieve context from ground truth.
+
+---
+
+## When Prompt Engineering Is the Wrong Answer
+
+Prompts have limits. Reach for one of these when you hit them:
+
+- **The model needs information it doesn't have.** → Retrieval (RAG) or a tool call.
+- **The output has to be 100% correct, every time.** → Code, not LLM. Or LLM with deterministic post-validation.
+- **The task is the same every time with no judgment.** → Just write the code.
+- **The model is consistently bad at this kind of task.** → Different model, or fine-tuning.
+- **Your prompt is now 3000 tokens long.** → Probably needs to be split into multiple model calls with their own narrow prompts.
+
+A common pattern in mature systems: small models doing focused tasks, glued together with code. Not one giant prompt asking for everything.
+
+---
+
+## Building a Prompt Library
+
+Once a prompt works, don't lose it. Treat prompts like code:
+
+- Store them in version control, not in someone's notes
+- Wrap them in a class or function with a typed input/output
+- Write tests with real examples and check outputs against a schema
+- Pin the model name and parameters in code, not at call time
+
+A minimal version:
+
+```python
+# prompts/triage.py
+from openai import OpenAI
+from pydantic import BaseModel
+
+client = OpenAI()
+
+class Triage(BaseModel):
+    root_cause: str
+    confidence: str
+    next_command: str
+
+SYSTEM = """You are a senior SRE triaging an incident.
+Quote evidence verbatim. If evidence is insufficient, say so."""
+
+def triage_logs(service: str, logs: str) -> Triage:
+    resp = client.chat.completions.parse(
+        model="gpt-4.1-mini",
+        temperature=0,
+        messages=[
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": f"Service: {service}\n\nLogs:\n{logs}"},
+        ],
+        response_format=Triage,
+    )
+    return resp.choices[0].message.parsed
+```
+
+Now the prompt has a version. You can swap the model in one place. You can test it. You can monitor it.
+
+---
+
+## Chapter Summary
+
+- A prompt is the full context the model sees, not just your message.
+- Use the five-part structure: role, context, task, format, constraints.
+- Force structured output with the API's schema features. Validate.
+- Few-shot examples beat instructions for style and judgment tasks.
+- Debug in order: context window, conflicts, model, temperature.
+- Don't feed model outputs back as context. They compound errors.
+- Treat prompts as code. Version them, test them, pin the model.
+
+Next: [AI Tools Integration](04-ai-tools-integration-apis.md) — turning these prompts into running services.
+
+---
+
+## Resources
+
+- [Anthropic — Prompt engineering overview](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview) — the best free resource
+- [OpenAI — Prompting guide](https://platform.openai.com/docs/guides/prompt-engineering)
+- [OpenAI — Structured outputs](https://platform.openai.com/docs/guides/structured-outputs)
+- [The Prompt Report (Schulhoff et al., 2024)](https://arxiv.org/abs/2406.06608) — survey of every prompting technique that's actually been studied
+
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)

@@ -146,7 +146,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Memory optimization: Balancing context retention with token cost and performance.
 - Practical examples: Building a memory system that remembers past incidents and learns from patterns.
 
-## Chapter 13: Multi-Source Log Integration
+## [Chapter 13: Multi-Source Log Integration](./13-multi-source-log-integration.md)
 
 - Understanding the challenge: Moving from single log files to real infrastructure.
 - Building API clients: Connect to Elasticsearch, Kubernetes, and AWS CloudWatch.
@@ -156,7 +156,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Log format normalization: Create a unified structure from different log formats.
 - Testing each connector: Verify each integration works before combining them.
 
-## Chapter 14: Cross-System Correlation and Analysis
+## [Chapter 14: Cross-System Correlation and Analysis](./14-cross-system-correlation-and-analysis.md)
 
 - The power of correlation: Understanding how events connect across systems.
 - Building the aggregation pipeline: Combine logs from multiple sources into a unified view.

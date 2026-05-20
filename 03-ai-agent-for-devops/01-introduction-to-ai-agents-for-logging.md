@@ -562,3 +562,5 @@ Let's get started.
 > **Support this project:** Consider [sponsoring this work](https://github.com/sponsors/hoalongnatsu) to help create more AI-powered DevOps resources.
 
 ---
+
+> **See it in production:** If you want to see how an AI SRE agent handles this in a real-world setup — multiple log sources, on-call routing, incident enrichment, and LLM-powered analysis wired together — take a look at [Versus Incident](https://github.com/VersusControl/versus-incident). It's an open-source incident management platform that demonstrates the same patterns we build in this chapter, scaled up for production use.
