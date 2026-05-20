@@ -1,302 +1,262 @@
 # AI Roadmap for DevOps
 
-![AI Infrastructure Architect Roadmap](./images/roadmap.svg)
+```mermaid
+graph TD
+    Start([DevOps Engineer]) --> Assessment{Current Level?}
+  
+    Assessment -->|Junior 0-2 years| JuniorPath[Junior Path: 18 months]
+    Assessment -->|Senior 3+ years| SeniorPath[Senior Path: 12-15 months]
+  
+    JuniorPath --> Phase1_Start
+    SeniorPath --> Phase1_Start
+  
+    subgraph Phase1 [Phase 1: Foundation - 6 months]
+        Phase1_Start[Start Phase 1] --> P1_Row1_A[AI Fundamentals<br/>LLMs, Prompt Engineering]
+        Phase1_Start --> P1_Row1_B[Infrastructure Basics<br/>Cloud, IaC, Containers]
+        P1_Row1_A --> P1_Row2[AI Tools Integration<br/>APIs, Python, Automation]
+        P1_Row1_B --> P1_Row2
+        P1_Row2 --> P1_Row3[MCP & Agent Basics<br/>Model Context Protocol, Agent Frameworks]
+        P1_Row3 --> Phase1_End[Phase 1 Complete]
+    end
+  
+    Phase1_End --> Phase2_Start
+  
+    subgraph Phase2 [Phase 2: Specialization - 6 months]
+        Phase2_Start[Start Phase 2] --> P2_Row1_A[AI Model Training<br/>Custom Models, Fine-tuning]
+        Phase2_Start --> P2_Row1_B[Multi-Agent Systems<br/>Crew AI, AutoGen, LangGraph]
+        Phase2_Start --> P2_Row1_C[Enterprise Platform<br/>Multi-cloud, Governance]
+        P2_Row1_A --> P2_Row2[Prompt-to-Production<br/>Pipeline, RAG, Orchestration]
+        P2_Row1_B --> P2_Row2
+        P2_Row1_C --> P2_Row2
+        P2_Row2 --> Phase2_End[Phase 2 Complete]
+    end
+  
+    Phase2_End --> Phase3_Start
+  
+    subgraph Phase3 [Phase 3: Mastery - 6 months]
+        Phase3_Start[Start Phase 3] --> P3_Row1_A[Scale & Leadership<br/>Enterprise, Teams]
+        Phase3_Start --> P3_Row1_B[Innovation & Research<br/>Cutting-edge, Patents]
+        Phase3_Start --> P3_Row1_C[Ecosystem Contribution<br/>Open Source, Standards]
+        P3_Row1_A --> Phase3_End[Phase 3 Complete]
+        P3_Row1_B --> Phase3_End
+        P3_Row1_C --> Phase3_End
+    end
+  
+    Phase3_End --> Goal[AI Infrastructure<br/>Architect]
+  
+    Goal --> Career1[AI-Enhanced DevOps Engineer]
+    Goal --> Career2[AI Infrastructure Specialist]
+    Goal --> Career3[Senior AI Infrastructure Engineer]
+    Goal --> Career4[AI Infrastructure Architect]
+  
+    style Start fill:#e1f5fe
+    style Goal fill:#4caf50,color:#fff
+    style Phase1_Start fill:#fff3e0
+    style Phase1_End fill:#fff3e0
+    style Phase2_Start fill:#f3e5f5
+    style Phase2_End fill:#f3e5f5
+    style Phase3_Start fill:#e8f5e8
+    style Phase3_End fill:#e8f5e8
+    style Career4 fill:#ff5722,color:#fff
+```
 
-*A visual learning path for DevOps Engineers transitioning to AI Infrastructure Architecture*
+*A practical learning path for DevOps engineers moving into AI infrastructure work.*
 
-> ⭐ **Starring** this repository to support this work
-
-## Quick Navigation
-
-| Phase                    | Duration | Focus                                    | Key Skills                                          | Projects         |
-| ------------------------ | -------- | ---------------------------------------- | --------------------------------------------------- | ---------------- |
-| **Foundation**     | 6 months | Learn AI basics + Infrastructure + MCP   | Prompt Engineering, Python, Cloud, Agent Frameworks | 4 projects       |
-| **Specialization** | 6 months | Build AI systems + Multi-Agent Platforms | Custom Models, Multi-Agents, RAG, Orchestration     | 4 projects       |
-| **Mastery**        | 6 months | Lead & Innovate                          | Leadership, Research, Ecosystem                     | Advanced systems |
+> ⭐ Star this repo if you find it useful.
 
 ---
 
-## Learning Path Documentation
+## What This Roadmap Is
 
-### Available Guides
+This is a map, not a syllabus. It tells you what to learn, in what order, and roughly how long each layer takes. It does not promise that 18 months of study will make you an architect — that depends on what you build along the way.
 
-| **Phase 1: Foundation**                            | **Status** | **Description**                                                          |
-| -------------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------ |
-| [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) | ✅ Available     | Technical guide to AI concepts, LLM architecture, and evaluation methodologies |
-| [Prompt Engineering](03-prompt-engineering.md)           | ✅ Available     | Advanced communication strategies and optimization techniques for AI systems   |
-| [AI Tools Integration](04-ai-tools-integration-apis.md)  | ✅ Available     | APIs, Python automation, and AI workflow implementation                        |
-| [MCP Foundations](05-01-mcp-model-context-protocol.md)   | ✅ Available     | Model Context Protocol foundations and practical AWS EC2 MCP server implementation |
-| [Agent Frameworks](05-02-agent-frameworks.md)           | 📅 Planned       | Agent framework foundations, multi-agent systems, and orchestration patterns |
-
-### Phase 2: Specialization *(Coming Soon)*
-
-| **Advanced Topics**                          | **Status** | **Description**                                  |
-| -------------------------------------------------- | ---------------- | ------------------------------------------------------ |
-| [AI Model Training](06-ai-model-training.md)       | 📅 Planned       | Custom models, fine-tuning, and training methodologies |
-| [Multi-Agent Systems](07-multi-agent-systems.md)   | 📅 Planned       | Crew AI, AutoGen, LangGraph implementation             |
-| [Prompt-to-Production](08-prompt-to-production.md) | 📅 Planned       | RAG systems, orchestration, and production pipelines   |
-| [Enterprise Platform](09-enterprise-platform.md)   | 📅 Planned       | Multi-cloud governance and enterprise AI architecture  |
-
-### Phase 3: Mastery *(Coming Soon)*
-
-| **Leadership Topics**                            | **Status** | **Description**                              |
-| ------------------------------------------------------ | ---------------- | -------------------------------------------------- |
-| [Scale &amp; Leadership](10-scale-leadership.md)       | 📅 Planned       | Enterprise teams and AI infrastructure management  |
-| [Innovation &amp; Research](11-innovation-research.md) | 📅 Planned       | Cutting-edge AI technologies and patent strategies |
-| [Ecosystem Contribution](12-ecosystem-contribution.md) | 📅 Planned       | Open source contributions and industry standards   |
-
-### Supporting Resources
-
-| **Resource**                      | **Description**                              |
-| --------------------------------------- | -------------------------------------------------- |
-| [Mermaid Diagram Source](00-mermaid.md) | Source code for the roadmap visualization          |
-| [Project Templates](projects/)          | Hands-on project templates and starter code        |
-| [External Resources](resources.md)      | Curated links to courses, tools, and documentation |
-| [FAQ &amp; Troubleshooting](faq.md)     | Common questions and solutions                     |
+The whole roadmap is built around one assumption: you already have working DevOps skills. Linux, Git, a cloud provider, some Python, a CI/CD pipeline you've broken and fixed. If that's not you yet, learn that first. AI on top of shaky infrastructure fundamentals is worse than no AI at all.
 
 ---
 
-## Prerequisites Checklist
+## The Three Phases
 
-### Required Knowledge
+| Phase | What you learn | What you build |
+|---|---|---|
+| **Foundation** | LLMs, prompt engineering, AI APIs, MCP, basic agents | 3–4 small AI tools wired into your daily work |
+| **Specialization** | RAG, multi-agent systems, evaluation, fine-tuning basics | An AI-powered service for one real DevOps domain |
+| **Mastery** | Architecture at scale, leadership, ecosystem | A platform or an open-source contribution others actually use |
 
-- [ ] **Basic DevOps**: Linux, Git, CI/CD concepts
-- [ ] **Cloud Fundamentals**: At least one cloud provider (AWS/Azure/GCP)
-- [ ] **Programming**: Python basics, scripting experience
-- [ ] **Infrastructure**: Understanding of servers, networking, containers
-
-### Recommended Experience
-
-- [ ] **Terraform/CloudFormation**: Infrastructure as Code
-- [ ] **Kubernetes**: Container orchestration
-- [ ] **Monitoring**: Prometheus, Grafana, or similar
-- [ ] **Incident Response**: Troubleshooting production issues
+The dates are rough. Some weeks you'll move fast. Some weeks production will eat your time. That's fine. The phases are sequential because each one depends on the last; the months are not.
 
 ---
 
-## Learning Path by Experience Level
+## Phase 1 — Foundation
 
-### Junior DevOps Engineer (0-2 years)
+Available in this repo:
 
-```
-Traditional DevOps Learning (3-6 months in parallel) ➜ AI Foundation (6 months) ➜ 
-AI Specialization (6 months) ➜ AI Mastery (6 months)
-Total: 18 months to AI Infrastructure Architect
-```
+| Guide | Status | What it covers |
+|---|---|---|
+| [AI Fundamentals & LLMs](02-ai-fundamentals-llms.md) | Ready | What LLMs are, how to evaluate them, where they break |
+| [Prompt Engineering](03-prompt-engineering.md) | Ready | Reliable prompting patterns for DevOps work |
+| [AI Tools Integration](04-ai-tools-integration-apis.md) | Ready | Wiring OpenAI / Gemini APIs into Python automation |
+| [MCP — Model Context Protocol](05-01-mcp-model-context-protocol.md) | Ready | Building an MCP server for AWS EC2 |
+| [AI Agents](05-02-ai-agent.md) | Ready | LangGraph and CrewAI agents for infrastructure |
 
-**Focus Areas:**
+Skills you should walk away with:
 
-- Build strong infrastructure fundamentals while learning AI
-- Use AI as a learning accelerator for DevOps concepts
-- Create portfolio showcasing both traditional and AI skills
-
-**Recommended Learning Sequence:**
-
-1. **Start Here:** [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) - Learn AI basics and LLM concepts
-2. **Then:** [Prompt Engineering](03-prompt-engineering.md) - Master AI communication techniques
-3. **Parallel:** [Infrastructure Basics](04-infrastructure-basics.md) - Build DevOps foundations *(Coming Soon)*
-4. **Next:** [AI Tools Integration](05-ai-tools-integration.md) - Combine AI with DevOps workflows *(Coming Soon)*
-5. **Advanced:** [MCP &amp; Agent Basics](06-mcp-agent-basics.md) - Learn modern AI frameworks *(Coming Soon)*
-
-### Senior DevOps Engineer (3+ years)
-
-```
-AI Foundation (4 months) ➜ AI Specialization (6 months) ➜ AI Mastery (6 months)
-Total: 12-15 months to AI Infrastructure Architect
-```
-
-**Focus Areas:**
-
-- Leverage existing infrastructure expertise
-- Focus on AI integration with current systems
-- Lead AI adoption initiatives at your organization
-
-**Accelerated Learning Path:**
-
-1. **Quick Start:** [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) - Focus on Sections 2-4 (skip basics)
-2. **Essential:** [Prompt Engineering](03-prompt-engineering.md) - Emphasize DevOps-specific sections
-3. **Integrate:** [AI Tools Integration](05-ai-tools-integration.md) - Apply to existing workflows *(Coming Soon)*
-4. **Advance:** [MCP &amp; Agent Basics](06-mcp-agent-basics.md) - Build enterprise AI solutions *(Coming Soon)*
+- Writing a prompt that produces the same output twice
+- Calling OpenAI / Anthropic / Gemini APIs with the current SDKs
+- Building a small MCP server that exposes tools to an LLM
+- Designing a simple agent loop with tool calls
 
 ---
 
-## Essential Tools Stack
+## Phase 2 — Specialization *(planned)*
 
-### AI & Machine Learning
-
-```
-Core AI APIs: OpenAI GPT-4, Anthropic Claude, Azure OpenAI
-Frameworks: LangChain, LlamaIndex, Chainlit
-Agent Frameworks: Crew AI, AutoGen, LangGraph, TaskWeaver
-MCP: Model Context Protocol servers/clients, MCP SDK
-Vector DBs: Pinecone, Weaviate, ChromaDB, Qdrant
-RAG Systems: LlamaIndex, LangChain, Haystack
-Development: Python, Jupyter Notebooks, Git
-```
-
-### Infrastructure & DevOps
-
-```
-Cloud: AWS/Azure/GCP with AI services
-IaC: Terraform, Pulumi, CloudFormation
-Containers: Docker, Kubernetes, Helm
-Monitoring: Prometheus, Grafana, DataDog
-```
-
-### Programming & Automation
-
-```
-Languages: Python (primary), TypeScript, Go, Bash
-AI Libraries: openai, anthropic, langchain, pandas, crewai, autogen
-MCP Libraries: mcp, mcp-server-python, mcp-client
-Infrastructure: boto3, kubernetes-client, terraform
-APIs: FastAPI, Flask, REST/GraphQL
-Agent Tools: LangGraph, TaskWeaver, Agent Protocol
-```
+| Guide | Status | What it will cover |
+|---|---|---|
+| AI Model Selection & Fine-Tuning | Planned | When to fine-tune, when to just use a better prompt |
+| Multi-Agent Systems | Planned | LangGraph, CrewAI, AutoGen — and when not to use them |
+| RAG for Operations | Planned | Vector stores, retrieval pipelines, eval for retrieval |
+| Enterprise Platform | Planned | Multi-tenant AI services, governance, cost control |
 
 ---
 
-## Learning Resources by Phase
+## Phase 3 — Mastery *(planned)*
 
-### Phase 1: Foundation
+| Guide | Status | What it will cover |
+|---|---|---|
+| Scale & Leadership | Planned | Running an AI platform team |
+| Innovation & Research | Planned | Reading papers, prototyping, knowing what to ignore |
+| Ecosystem Contribution | Planned | Open source, standards, community |
 
-**Available Guides:**
+---
 
-- [ ] **[AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md)** - Complete technical guide ✅
-- [ ] **[Prompt Engineering](03-prompt-engineering.md)** - Advanced communication strategies ✅
-- [ ] **Infrastructure Basics** - Cloud, IaC, containers *(Coming Soon)*
-- [ ] **AI Tools Integration** - Python, APIs, automation *(Coming Soon)*
-- [ ] **MCP & Agent Basics** - Modern AI frameworks *(Coming Soon)*
+## Prerequisites
 
-**External Resources:**
+Before you start Phase 1, make sure you have:
 
-- [ ] **Cloud Fundamentals**: AWS/Azure/GCP certification paths
-- [ ] **Python for DevOps**: "Automate the Boring Stuff with Python"
-- [ ] **Infrastructure as Code**: Terraform or CloudFormation tutorials
+- **Linux + Git + CI/CD.** Not optional.
+- **At least one cloud provider.** AWS, GCP, or Azure — pick one and know it well.
+- **Python.** Reading and writing it. Not "I did a tutorial once."
+- **Containers.** Docker for sure. Kubernetes if you're going to do anything serious at scale.
+- **Infrastructure as Code.** Terraform, Pulumi, or CloudFormation. Pick one.
+- **A real incident under your belt.** You learn more from one 2 AM page than from a year of reading.
 
-### **Phase 2: Specialization**
+If you're missing two or more of these, fix that first. The AI stack assumes everything underneath it works.
 
-**Planned Guides:**
+---
 
-- [ ] **AI Model Training** - Custom models and fine-tuning *(Coming Soon)*
-- [ ] **Multi-Agent Systems** - Crew AI, AutoGen, LangGraph *(Coming Soon)*
-- [ ] **Prompt-to-Production** - RAG systems and orchestration *(Coming Soon)*
-- [ ] **Enterprise Platform** - Multi-cloud governance *(Coming Soon)*
+## How to Pick Your Starting Point
 
-**External Resources:**
+**0–2 years of DevOps experience:**
+Start with [AI Fundamentals](02-ai-fundamentals-llms.md), then [Prompt Engineering](03-prompt-engineering.md). Keep learning core DevOps in parallel — don't skip it.
 
-- [ ] **Advanced AI**: "Deep Learning Specialization" (Coursera)
-- [ ] **Kubernetes + AI**: CNCF AI/ML working group resources
-- [ ] **System Design**: "Designing Data-Intensive Applications"
-- [ ] **RAG Architecture**: LangChain and LlamaIndex documentation
+**3+ years of DevOps experience:**
+Skim [AI Fundamentals](02-ai-fundamentals-llms.md), spend real time on [Prompt Engineering](03-prompt-engineering.md), then jump to [AI Tools Integration](04-ai-tools-integration-apis.md). You'll feel impatient with the basics. Push through anyway — the failure modes are not obvious.
 
-### **Phase 3: Mastery**
+**Already using ChatGPT / Copilot daily:**
+You're further along than you think. Go straight to [MCP](05-01-mcp-model-context-protocol.md) and [AI Agents](05-02-ai-agent.md). That's where most engineers get stuck.
 
-**Planned Guides:**
+---
 
-- [ ] **Scale & Leadership** - Enterprise teams and management *(Coming Soon)*
-- [ ] **Innovation & Research** - Cutting-edge AI technologies *(Coming Soon)*
-- [ ] **Ecosystem Contribution** - Open source and standards *(Coming Soon)*
+## The Stack You'll Use
 
-**External Resources:**
+Languages and runtimes:
 
-- [ ] **Leadership**: "The Manager's Path" by Camille Fournier
-- [ ] **Architecture**: "Software Architecture: The Hard Parts"
-- [ ] **AI Research**: Papers from major AI conferences (NeurIPS, ICML)
-- [ ] **Industry**: AI infrastructure conferences and communities
+- **Python 3.11+** — primary language for AI work
+- **TypeScript / Node 20+** — for MCP servers and tooling
+- **Go** — when you need real performance in an MCP server or operator
+- **Bash** — still useful, still everywhere
+
+AI APIs and SDKs (versions current as of mid-2026):
+
+- `openai >= 1.50` — OpenAI Python SDK v1.x
+- `anthropic >= 0.40` — Anthropic Python SDK
+- `google-genai >= 1.0` — the *new* Google Gemini SDK (replaces `google-generativeai`)
+- `mcp >= 1.2` — official MCP Python SDK with `FastMCP`
+
+Agent frameworks:
+
+- **LangGraph** — graph-based agents. Replaces the older LangChain `AgentExecutor` for most use cases.
+- **CrewAI** — opinionated multi-agent orchestration. Fast to prototype with.
+- **Pydantic AI** — type-safe agent framework. Worth a look.
+- **AutoGen** — multi-agent conversations. Powerful but heavy.
+
+Infrastructure (assume you already know these):
+
+- Cloud: AWS / GCP / Azure
+- IaC: Terraform or Pulumi
+- Containers: Docker, Kubernetes, Helm
+- Observability: Prometheus, Grafana, OpenTelemetry, Datadog
+
+Vector stores (when you get to RAG):
+
+- pgvector (start here — it's just Postgres)
+- Qdrant, Weaviate, Pinecone (for scale)
 
 ---
 
 ## Career Progression
 
-### Career Ladder
+The titles change by company. The progression is consistent:
 
 ```
-DevOps Engineer → AI-Enhanced DevOps → AI Infrastructure Specialist → 
-Senior AI Infrastructure Engineer → AI Infrastructure Architect → 
-Principal AI Infrastructure Engineer / Engineering Manager
+DevOps Engineer
+  → AI-Enhanced DevOps Engineer       (you use AI tools well)
+  → AI Infrastructure Specialist      (you build AI tools for your team)
+  → Senior AI Infrastructure Engineer (you own an AI platform)
+  → AI Infrastructure Architect       (you design the platform others build on)
 ```
 
----
-
-## Common Pitfalls & How to Avoid Them
-
-### **Technical Pitfalls**
-
-- ❌ **Over-reliance on AI**: Always understand what the AI generates
-- ❌ **Ignoring Security**: Implement proper validation and safeguards
-- ❌ **Vendor Lock-in**: Build abstraction layers and multi-provider strategies
-- ❌ **Skipping Fundamentals**: Maintain strong infrastructure foundations
-
-### **Career Pitfalls**
-
-- ❌ **Technology Tunnel Vision**: Focus on principles, not just tools
-- ❌ **Isolation**: Stay connected with both AI and DevOps communities
-- ❌ **Perfectionism**: Ship working solutions, iterate based on feedback
-- ❌ **Neglecting Soft Skills**: Develop communication and leadership abilities
+The jump people get stuck on is the second one. Going from *user* of AI tools to *builder* of them is harder than it looks. That's what Phase 1 is for.
 
 ---
 
-## Community & Support
+## Common Pitfalls
 
-### Online Communities
+**Treating the LLM as the source of truth.** It isn't. It's the interface. The tools and data are the truth.
 
-- **Discord**: AI DevOps, LangChain, Kubernetes AI
-- **Reddit**: r/MachineLearning, r/DevOps, r/sysadmin
-- **LinkedIn**: AI Infrastructure professional groups
-- **GitHub**: Contribute to AI infrastructure open source projects
+**Reaching for the biggest model by default.** Frontier models are 10–30x the cost of workhorse models and often no better for your task. Measure.
 
-### Learning Groups
+**Skipping evaluation.** "It worked on three examples" is not a launch criterion. Build a small eval set before you ship.
 
-- **Local Meetups**: DevOps + AI focused events
-- **Study Groups**: Form or join AI learning circles
-- **Mentorship**: Find mentors in AI infrastructure space
-- **Conferences**: KubeCon, DevOpsDays, AI conferences
+**Building a chatbot when a script would do.** If the task is deterministic, write code. Save the LLM for the parts that need natural language or judgment.
+
+**Ignoring security.** Prompt injection is a real attack surface. So is leaking secrets through API calls. So is a runaway agent running `kubectl delete` in production.
+
+**Vendor lock-in.** Wrap your API calls behind a thin abstraction so you can swap models. You will swap models.
 
 ---
 
-## Ready to Start?
+## How to Use This Roadmap
 
-### Choose Your Starting Point:
+1. Read [AI Fundamentals](02-ai-fundamentals-llms.md) this week.
+2. Pick one repetitive task at work. Something you do every day or two.
+3. Build a tiny AI tool for it after [Prompt Engineering](03-prompt-engineering.md).
+4. Ship it. Even if it's a shell script with one API call.
+5. Iterate on it as you work through the rest of Phase 1.
 
-**New to DevOps?** → Start with [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) while learning traditional DevOps in parallel
-
-**Junior DevOps (0-2 years)?** → Begin with [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md), then [Prompt Engineering](03-prompt-engineering.md)
-
-**Senior DevOps (3+ years)?** → Jump directly to [Prompt Engineering](03-prompt-engineering.md) for immediate practical application
-
-**Already using AI tools?** → Review [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) Section 3-4, then master [Prompt Engineering](03-prompt-engineering.md)
-
-### **Next Steps:**
-
-1. **Start Learning**: Choose your entry point from the guides above
-2. **Set up Environment**: Install Python, get AI API keys, configure tools
-3. **Join Communities**: Connect with AI DevOps practitioners
-4. **Build Projects**: Apply learning to real infrastructure challenges
-5. **Track Progress**: Use the checklists in each guide to measure advancement
+That last point matters most. People who finish this roadmap build things along the way. People who don't, read every chapter twice and never ship.
 
 ---
 
-### Immediate Action Items:
+## Resources
 
-- [ ] **Today**: Read [AI Fundamentals &amp; LLMs](02-ai-fundamentals-llms.md) Section 1
-- [ ] **This Week**: Complete a hands-on exercise from [Prompt Engineering](03-prompt-engineering.md)
-- [ ] **This Month**: Build your first AI-enhanced DevOps tool
-- [ ] **Next Quarter**: Integrate AI workflows into your daily operations
+Outside this repo:
 
----
+- *Designing Machine Learning Systems* — Chip Huyen
+- *Building LLMs for Production* — Louis-François Bouchard, Louie Peters
+- [Anthropic's prompt engineering guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+- [OpenAI cookbook](https://github.com/openai/openai-cookbook)
+- [LangGraph docs](https://langchain-ai.github.io/langgraph/)
+- [Model Context Protocol spec](https://modelcontextprotocol.io/)
 
-*The future of infrastructure is intelligent, autonomous, and conversational. This roadmap will guide you from where you are today to becoming the architect of that future.*
+Communities:
 
-**Remember**: This is not just about learning new tools—it's about fundamentally changing how infrastructure is designed, built, and managed. You're not just becoming an AI Infrastructure Architect; you're becoming a pioneer in the next evolution of technology infrastructure.
+- r/LocalLLaMA — for the open-source side
+- r/MachineLearning — for the research side
+- The MCP and LangChain Discord servers
+- KubeCon and any AI Engineer conferences that come through your city
 
 ---
 
 ## Support This Work
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
-
-
----
-
-**Your journey to AI Infrastructure mastery starts now!**
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)

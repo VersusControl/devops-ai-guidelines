@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-mcp-server
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/devops-ai-guidelines/devops-ai-guidelines.git
+    targetRevision: main
+    path: 02-mcp-for-devops/code/09/deploy/kustomize/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mcp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 5m

@@ -1,0 +1,38 @@
+2024-02-06 09:00:00 INFO  [main] o.s.boot.SpringApplication - Starting OrderService v2.1.0 on backend-orders-6f8d7c4b5-n2k8p
+2024-02-06 09:00:01 INFO  [main] o.s.boot.SpringApplication - Running with Spring Boot v3.2.2, Spring v6.1.3
+2024-02-06 09:00:03 INFO  [main] o.s.context.support.GenericApplicationContext - Refreshing application context
+2024-02-06 09:00:05 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-02-06 09:00:06 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed. Pool size: 10, Max pool size: 50
+2024-02-06 09:00:06 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080
+2024-02-06 09:00:08 INFO  [main] o.s.boot.SpringApplication - Started OrderService in 8.124 seconds
+2024-02-06 09:00:08 INFO  [main] c.e.config.DatabaseConfig - Connected to RDS: orders-db.c9aksj2x.us-east-1.rds.amazonaws.com:3306/orders_prod
+2024-02-06 09:00:08 INFO  [main] c.e.config.RedisConfig - Connected to Redis: orders-redis.abc123.ng.0001.use1.cache.amazonaws.com:6379
+2024-02-06 09:15:00 INFO  [http-nio-8080-exec-1] c.e.controller.HealthController - Health check: OK (DB connections: 12/50)
+2024-02-06 09:30:00 INFO  [http-nio-8080-exec-3] c.e.controller.HealthController - Health check: OK (DB connections: 18/50)
+2024-02-06 09:45:00 INFO  [http-nio-8080-exec-5] c.e.controller.HealthController - Health check: OK (DB connections: 25/50)
+2024-02-06 10:00:00 WARN  [http-nio-8080-exec-8] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection pool is nearing capacity (35/50 active connections)
+2024-02-06 10:05:12 WARN  [http-nio-8080-exec-10] c.e.service.OrderService - Slow query detected: getOrdersByCustomer took 2340ms (threshold: 1000ms)
+2024-02-06 10:10:30 WARN  [http-nio-8080-exec-14] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection pool is nearing capacity (42/50 active connections)
+2024-02-06 10:12:45 ERROR [http-nio-8080-exec-18] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection is not available, request timed out after 30000ms
+2024-02-06 10:12:45 ERROR [http-nio-8080-exec-18] c.e.service.OrderService - Failed to process order #ORD-2024-78234: Unable to acquire JDBC Connection
+org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:82)
+	at com.example.service.OrderService.createOrder(OrderService.java:67)
+	at com.example.controller.OrderController.submitOrder(OrderController.java:34)
+Caused by: java.sql.SQLNonTransientConnectionException: Data source rejected establishment of connection, message from server: "Too many connections"
+	at com.mysql.cj.jdbc.exceptions.SQLNonTransientConnectionException.<init>(SQLNonTransientConnectionException.java:52)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:836)
+2024-02-06 10:12:50 ERROR [http-nio-8080-exec-19] c.e.service.OrderService - Failed to process order #ORD-2024-78235: Too many connections
+2024-02-06 10:12:55 ERROR [http-nio-8080-exec-20] c.e.service.PaymentService - Payment verification failed for order #ORD-2024-78236: Cannot acquire DB connection
+2024-02-06 10:13:00 ERROR [http-nio-8080-exec-21] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection is not available, request timed out after 30000ms
+2024-02-06 10:13:00 ERROR [http-nio-8080-exec-21] c.e.service.InventoryService - Stock check failed: Too many connections
+2024-02-06 10:13:05 ERROR [http-nio-8080-exec-22] o.s.web.servlet.DispatcherServlet - Handler dispatch failed: Too many connections
+2024-02-06 10:13:10 WARN  [http-nio-8080-exec-23] c.e.controller.HealthController - Health check: DEGRADED (DB connections: 50/50, errors: 5 in last 60s)
+2024-02-06 10:13:15 ERROR [http-nio-8080-exec-24] c.e.service.OrderService - Failed to process order #ORD-2024-78237: Too many connections
+2024-02-06 10:13:20 ERROR [http-nio-8080-exec-25] c.e.service.OrderService - Failed to process order #ORD-2024-78238: Too many connections
+2024-02-06 10:13:30 ERROR [connection-monitor] DATABASE CONNECTION EXHAUSTION DETECTED - RDS Instance: orders-db.c9aksj2x.us-east-1.rds.amazonaws.com
+2024-02-06 10:13:30 ERROR [connection-monitor] RDS Instance ID: orders-db-prod, Region: us-east-1
+2024-02-06 10:13:30 ERROR [connection-monitor] Max connections: 150 (RDS db.t3.medium), Active: 150/150
+2024-02-06 10:13:30 ERROR [connection-monitor] Pod backend-orders-6f8d7c4b5-n2k8p using 50 connections
+2024-02-06 10:13:30 ERROR [connection-monitor] Total pods connected: 3 (pod1: 50, pod2: 50, pod3: 50)
+2024-02-06 10:13:35 FATAL [main] c.e.OrderServiceApplication - Service is unable to serve requests. All database connections exhausted.

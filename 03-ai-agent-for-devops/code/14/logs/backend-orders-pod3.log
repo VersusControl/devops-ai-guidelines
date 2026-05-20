@@ -1,0 +1,12 @@
+2024-02-06 09:00:03 INFO  [main] o.s.boot.SpringApplication - Starting OrderService v2.1.0 on backend-orders-6f8d7c4b5-x9r3w
+2024-02-06 09:00:05 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed. Pool size: 10, Max pool size: 50
+2024-02-06 09:00:07 INFO  [main] o.s.boot.SpringApplication - Started OrderService in 8.341 seconds
+2024-02-06 09:00:07 INFO  [main] c.e.config.DatabaseConfig - Connected to RDS: orders-db.c9aksj2x.us-east-1.rds.amazonaws.com:3306/orders_prod
+2024-02-06 10:01:00 WARN  [http-nio-8080-exec-4] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection pool is nearing capacity (33/50 active connections)
+2024-02-06 10:11:00 WARN  [http-nio-8080-exec-9] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Connection pool is nearing capacity (44/50 active connections)
+2024-02-06 10:12:48 ERROR [http-nio-8080-exec-13] c.e.service.OrderService - Failed to process order #ORD-2024-78243: Too many connections
+2024-02-06 10:12:55 ERROR [http-nio-8080-exec-14] c.e.service.PaymentService - Payment processing failed: Too many connections
+2024-02-06 10:13:05 ERROR [http-nio-8080-exec-16] c.e.service.InventoryService - Stock check failed: Cannot acquire DB connection
+2024-02-06 10:13:15 WARN  [http-nio-8080-exec-17] c.e.controller.HealthController - Health check: DEGRADED (DB connections: 50/50, errors: 3 in last 60s)
+2024-02-06 10:13:20 ERROR [http-nio-8080-exec-18] c.e.service.OrderService - Failed to process order #ORD-2024-78244: Too many connections
+2024-02-06 10:13:25 FATAL [main] c.e.OrderServiceApplication - Service is unable to serve requests. All database connections exhausted.

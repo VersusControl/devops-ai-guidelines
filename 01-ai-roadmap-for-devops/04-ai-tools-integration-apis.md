@@ -1,1817 +1,687 @@
-# Phase 1: AI Tools Integration - APIs & Automation
+# AI Tools Integration — APIs and Automation
 
-*Python automation workflows and AI API integration for DevOps professionals*
+*Phase 1, chapter 4 — turning AI APIs into running DevOps services.*
 
-> ⭐ **Starring** this repository to support this work
-
-## Learning Objectives
-
-Upon completion of this guide, you will be able to:
-
-- Integrate major AI APIs (OpenAI and Google AI Platform) into DevOps workflows
-- Build Python automation scripts for AI-powered infrastructure management
-- Implement secure API authentication and rate limiting strategies
-- Create reusable AI workflow templates for common DevOps tasks
-- Design error handling and monitoring for AI-enhanced automation systems
+> ⭐ Star this repo if you find it useful.
 
 ---
 
-## AI API Integration Fundamentals
+## Why This Chapter Exists
 
-**Technical Definition:**
-AI API integration involves connecting external AI services to existing DevOps workflows through RESTful APIs, enabling automated decision-making and intelligent automation.
+By now you can call an LLM from a Python script. That's not the same as having an AI tool in production. Production means: it survives bad inputs, it doesn't bankrupt you when traffic spikes, it doesn't leak secrets, and someone other than you can run it at 3 AM.
 
-**Professional Context:**
+This chapter walks through how to wire LLM APIs into real DevOps work. The running example is a CloudWatch log analyzer — fetch logs, ask an LLM to triage them, post structured alerts to Slack. It's small enough to fit in a chapter and realistic enough to ship.
 
-```
-Traditional Approach: Manual log analysis taking 30-60 minutes
-AI-Enhanced Approach: Automated log analysis with AI summarization in 2-3 minutes
-Result: 95% time reduction + consistent analysis quality
-```
+By the end you'll have:
 
-Modern DevOps teams leverage AI APIs to transform reactive manual processes into proactive automated systems.
+- A multi-provider AI client with rate limiting and cost tracking
+- A working CloudWatch analyzer using the modern OpenAI SDK
+- A pattern you can reuse for other "fetch data → LLM → act" pipelines
 
 ---
 
-## Section Overview
+## What "Production-Ready" Actually Means
 
-| **Topic** | **Duration** | **Learning Focus** | **Code Examples** | **Deliverable** |
-|-----------|--------------|-------------------|-------------------|-----------------|
-| [API Authentication & Setup](#-api-authentication--setup) | 45 min | Multi-provider configuration | Authentication code snippets | Working API connections |
-| [CloudWatch AI System Architecture](#-building-a-cloudwatch-ai-log-analyzer-step-by-step-guide) | 30 min | System design & business value | Architecture diagrams | Understanding of approach |
-| [Prerequisites & Setup](#-step-2-prerequisites-and-setup) | 20 min | AWS configuration & permissions | IAM policies & CLI setup | Production-ready environment |
-| [Implementation Strategy](#-step-3-core-implementation-strategy) | 40 min | 4-phase development approach | Code previews for each phase | Development roadmap |
-| [Step-by-Step Implementation](#-step-4-implementation-walkthrough) | 90 min | Detailed component building | Complete functions with explanations | Working code components |
-| [Complete System](#-complete-implementation) | 30 min | Full integration | Production-ready implementation | Deployable CloudWatch analyzer |
-| [Usage & Integration](#-how-to-use-the-cloudwatch-ai-analyzer) | 45 min | Real-world scenarios | Multiple usage examples | Practical implementation guide |
-| [Troubleshooting & Best Practices](#-troubleshooting-common-issues) | 30 min | Production considerations | Debugging techniques | Operational excellence |
+People throw this phrase around. Here's what I mean by it:
 
-Total Learning Time: ~5 hours | Hands-on Coding: 70% | Theory: 30%
+1. **Secrets aren't hardcoded.** API keys come from environment variables, Vault, AWS Secrets Manager — anywhere except your repo.
+2. **Failures don't crash the caller.** Network blip, rate limit, malformed JSON from the model — none of these should take the service down.
+3. **Cost is observable.** Every call's tokens and dollar cost get tracked. You find out about a runaway loop in minutes, not at month-end.
+4. **Outputs are validated.** The model returns JSON? You parse it with a schema and reject bad responses, not just `json.loads` and pray.
+5. **It can be paused.** A kill switch — environment variable, feature flag, whatever — that disables AI calls without redeploying.
 
-### What You'll Build
-
-By the end of this tutorial, you'll have a production-ready CloudWatch AI Log Analyzer that:
-
-- **Automatically collects** logs from AWS CloudWatch using boto3
-- **Analyzes patterns** using OpenAI/Google AI with optimized prompts  
-- **Generates intelligent alerts** based on AI-detected issues
-- **Integrates with monitoring systems** (Slack, email, dashboards)
-- **Handles production scenarios** with proper error handling and logging
-- **Scales for enterprise use** with configurable thresholds and multi-service support
-
-### Learning Progression
-
-```
-Understand → Setup → Strategy → Build → Deploy → Use → Debug
-```
+If your code doesn't do all five, it's a prototype. Which is fine, as long as you call it that.
 
 ---
 
-## API Authentication & Setup
+## Setting Up the Environment
 
-### Multi-Provider Configuration
-
-**Essential API Providers for DevOps:**
-
-```python
-# config/ai_providers.py
-import os
-from dataclasses import dataclass
-from typing import Dict, Optional
-
-@dataclass
-class AIProviderConfig:
-    """Standardized AI provider configuration"""
-    name: str
-    api_key: str
-    base_url: str
-    rate_limit: int
-    timeout: int
-  
-class AIProviderManager:
-    """Centralized AI provider management"""
-  
-    def __init__(self):
-        self.providers = {
-            'openai': AIProviderConfig(
-                name='OpenAI',
-                api_key=os.getenv('OPENAI_API_KEY'),
-                base_url='https://api.openai.com/v1',
-                rate_limit=3500,  # tokens per minute
-                timeout=30
-            ),
-            'google': AIProviderConfig(
-                name='Google AI',
-                api_key=os.getenv('GOOGLE_AI_API_KEY'),
-                base_url='https://generativelanguage.googleapis.com/v1',
-                rate_limit=2000,
-                timeout=30
-            )
-        }
-  
-    def get_provider(self, provider_name: str) -> AIProviderConfig:
-        """Retrieve configured provider with validation"""
-        if provider_name not in self.providers:
-            raise ValueError(f"Provider {provider_name} not configured")
-  
-        provider = self.providers[provider_name]
-        if not provider.api_key:
-            raise ValueError(f"API key missing for {provider_name}")
-  
-        return provider
-```
-
-### Secure Environment Management
+Pin the versions. The SDKs change.
 
 ```bash
-# .env.example - Never commit actual credentials
+pip install \
+  "openai>=1.50,<2.0" \
+  "anthropic>=0.40" \
+  "google-genai>=1.0" \
+  "boto3>=1.34" \
+  "pydantic>=2.7" \
+  "tenacity>=8.5" \
+  "python-dotenv>=1.0"
+```
+
+A note on the Google SDK: the old package was `google-generativeai`. It's been replaced by `google-genai`, which is what you want. If a tutorial imports `google.generativeai`, it's outdated.
+
+Credentials in `.env` (never commit this file):
+
+```bash
+# .env
 OPENAI_API_KEY=sk-...
-GOOGLE_AI_API_KEY=...
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
-GOOGLE_CLOUD_PROJECT=...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_API_KEY=...
+AWS_REGION=us-east-1
+SLACK_WEBHOOK_URL=https://hooks.slack.com/...
 ```
 
-**Security Best Practices:**
+Load it once at startup:
 
 ```python
-# security/api_auth.py
-import hvac
-import boto3
-
-class SecureCredentialManager:
-    """Enterprise-grade credential management"""
-  
-    def __init__(self, backend='env'):
-        self.backend = backend
-        self.vault_client = None
-  
-        if backend == 'vault':
-            self.vault_client = hvac.Client(
-                url=os.getenv('VAULT_URL'),
-                token=os.getenv('VAULT_TOKEN')
-            )
-  
-    def get_api_key(self, provider: str) -> str:
-        """Retrieve API key from secure backend"""
-        if self.backend == 'env':
-            return os.getenv(f"{provider.upper()}_API_KEY")
-  
-        elif self.backend == 'vault':
-            secret = self.vault_client.secrets.kv.v2.read_secret_version(
-                path=f"ai-credentials/{provider}"
-            )
-            return secret['data']['data']['api_key']
-  
-        elif self.backend == 'aws_secrets':
-            session = boto3.Session()
-            client = session.client('secretsmanager')
-            response = client.get_secret_value(
-                SecretId=f"ai-credentials/{provider}"
-            )
-            return json.loads(response['SecretString'])['api_key']
+# config.py
+from dotenv import load_dotenv
+load_dotenv()
 ```
 
-### Rate Limiting & Cost Management
+---
+
+## A Multi-Provider AI Client
+
+Most teams need to talk to more than one provider — for fallback, cost optimization, or because different models are better at different things. The right abstraction is small: one function that returns a string (or a parsed object), with provider details hidden.
+
+Here's the whole thing. Save as `ai_client.py`.
 
 ```python
-# utils/rate_limiter.py
+# ai_client.py
+from __future__ import annotations
+import os
 import time
 import asyncio
-from collections import defaultdict, deque
-from typing import Dict, Deque
+import logging
+from dataclasses import dataclass, field
+from typing import Literal, Type, TypeVar
+from collections import deque
 
-class AIAPIRateLimiter:
-    """Intelligent rate limiting for AI API calls"""
-  
-    def __init__(self):
-        self.call_history: Dict[str, Deque] = defaultdict(deque)
-        self.token_usage: Dict[str, int] = defaultdict(int)
-        self.cost_tracking: Dict[str, float] = defaultdict(float)
-  
-    async def wait_if_needed(self, provider: str, estimated_tokens: int):
-        """Smart rate limiting with token estimation"""
-        config = AIProviderManager().get_provider(provider)
-        current_time = time.time()
-  
-        # Clean old entries (1-minute window)
-        while (self.call_history[provider] and 
-               current_time - self.call_history[provider][0] > 60):
-            self.call_history[provider].popleft()
-  
-        # Check if we need to wait
-        if len(self.call_history[provider]) >= config.rate_limit:
-            wait_time = 60 - (current_time - self.call_history[provider][0])
-            if wait_time > 0:
-                await asyncio.sleep(wait_time)
-  
-        self.call_history[provider].append(current_time)
-        self.token_usage[provider] += estimated_tokens
-  
-    def track_cost(self, provider: str, tokens_used: int, model: str):
-        """Track API costs for budget management"""
-        cost_per_token = {
-            'gpt-4': 0.00003,  # $0.03 per 1K tokens
-            'gpt-3.5-turbo': 0.000002,  # $0.002 per 1K tokens
-            'gemini-pro': 0.00000025,  # $0.00025 per 1K tokens
-            'gemini-1.5-pro': 0.0000035,  # $0.0035 per 1K tokens
-        }
-  
-        cost = tokens_used * cost_per_token.get(model, 0.00001)
-        self.cost_tracking[provider] += cost
-  
-        return cost
-```
+from openai import AsyncOpenAI
+from anthropic import AsyncAnthropic
+from google import genai as google_genai
+from pydantic import BaseModel
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
-### Unified AI Client Architecture
+log = logging.getLogger(__name__)
+T = TypeVar("T", bound=BaseModel)
 
-```python
-# core/ai_client.py
-import asyncio
-import openai
-import google.generativeai as genai
-from typing import Any, Dict, List, Optional, Union
-from dataclasses import dataclass
+Provider = Literal["openai", "anthropic", "google"]
+
 
 @dataclass
-class AIRequest:
-    """Standardized AI request format"""
-    prompt: str
+class Usage:
+    """Per-call usage record."""
+    provider: Provider
     model: str
-    provider: str
-    max_tokens: int = 1000
-    temperature: float = 0.7
-    context: Optional[Dict] = None
+    input_tokens: int
+    output_tokens: int
+    cost_usd: float
+    latency_s: float
 
-@dataclass
-class AIResponse:
-    """Standardized AI response format"""
-    content: str
-    provider: str
-    model: str
-    tokens_used: int
-    cost: float
-    response_time: float
-    metadata: Dict
 
-class UnifiedAIClient:
-    """Universal AI client for multiple providers"""
-  
-    def __init__(self):
-        self.provider_manager = AIProviderManager()
-        self.rate_limiter = AIAPIRateLimiter()
-        self.clients = self._initialize_clients()
-  
-    def _initialize_clients(self) -> Dict:
-        """Initialize all AI provider clients"""
-        clients = {}
-  
-        # OpenAI
-        if openai_config := self.provider_manager.providers.get('openai'):
-            clients['openai'] = openai.AsyncOpenAI(
-                api_key=openai_config.api_key
+# Prices in USD per 1M tokens (mid-2026). Update from each provider's pricing page.
+PRICING = {
+    "gpt-4.1":         {"input": 2.00,  "output": 8.00},
+    "gpt-4.1-mini":    {"input": 0.15,  "output": 0.60},
+    "gpt-5":           {"input": 10.00, "output": 30.00},
+    "claude-sonnet-4-5": {"input": 3.00, "output": 15.00},
+    "claude-opus-4":   {"input": 15.00, "output": 75.00},
+    "gemini-2.5-pro":  {"input": 1.25,  "output": 5.00},
+    "gemini-2.5-flash":{"input": 0.075, "output": 0.30},
+}
+
+
+def _compute_cost(model: str, in_tokens: int, out_tokens: int) -> float:
+    p = PRICING.get(model)
+    if not p:
+        return 0.0
+    return (in_tokens * p["input"] + out_tokens * p["output"]) / 1_000_000
+
+
+class TokenBucket:
+    """Simple per-minute request limiter. Async-safe."""
+    def __init__(self, requests_per_minute: int):
+        self.limit = requests_per_minute
+        self.calls: deque[float] = deque()
+        self.lock = asyncio.Lock()
+
+    async def acquire(self) -> None:
+        async with self.lock:
+            now = time.monotonic()
+            while self.calls and now - self.calls[0] > 60:
+                self.calls.popleft()
+            if len(self.calls) >= self.limit:
+                wait = 60 - (now - self.calls[0])
+                log.info("rate limit: sleeping %.2fs", wait)
+                await asyncio.sleep(wait)
+            self.calls.append(time.monotonic())
+
+
+class AIClient:
+    """Thin wrapper over OpenAI, Anthropic, and Google Gemini."""
+
+    def __init__(self, requests_per_minute: int = 60):
+        self.openai = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.anthropic = AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        # google-genai picks up GOOGLE_API_KEY from env
+        self.google = google_genai.Client()
+        self.limiter = TokenBucket(requests_per_minute)
+        self.history: list[Usage] = []
+
+    @retry(
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=1, max=20),
+        retry=retry_if_exception_type((TimeoutError, ConnectionError)),
+    )
+    async def complete(
+        self,
+        *,
+        provider: Provider,
+        model: str,
+        system: str,
+        user: str,
+        max_tokens: int = 1024,
+        temperature: float = 0.2,
+    ) -> tuple[str, Usage]:
+        await self.limiter.acquire()
+        start = time.perf_counter()
+
+        if provider == "openai":
+            resp = await self.openai.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                max_tokens=max_tokens,
+                temperature=temperature,
             )
-  
-        # Google AI
-        if google_config := self.provider_manager.providers.get('google'):
-            genai.configure(api_key=google_config.api_key)
-            clients['google'] = genai
-  
-        return clients
-  
-    async def generate(self, request: AIRequest) -> AIResponse:
-        """Universal AI generation method"""
-        start_time = time.time()
-  
-        # Rate limiting
-        await self.rate_limiter.wait_if_needed(
-            request.provider, 
-            request.max_tokens
-        )
-  
-        # Route to appropriate provider
-        if request.provider == 'openai':
-            response = await self._openai_generate(request)
-        elif request.provider == 'google':
-            response = await self._google_generate(request)
+            content = resp.choices[0].message.content or ""
+            in_tok = resp.usage.prompt_tokens
+            out_tok = resp.usage.completion_tokens
+
+        elif provider == "anthropic":
+            resp = await self.anthropic.messages.create(
+                model=model,
+                system=system,
+                messages=[{"role": "user", "content": user}],
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            content = resp.content[0].text
+            in_tok = resp.usage.input_tokens
+            out_tok = resp.usage.output_tokens
+
+        elif provider == "google":
+            # google-genai is sync; run in a thread to keep async semantics
+            def _call():
+                return self.google.models.generate_content(
+                    model=model,
+                    contents=user,
+                    config={
+                        "system_instruction": system,
+                        "max_output_tokens": max_tokens,
+                        "temperature": temperature,
+                    },
+                )
+            resp = await asyncio.to_thread(_call)
+            content = resp.text or ""
+            in_tok = resp.usage_metadata.prompt_token_count
+            out_tok = resp.usage_metadata.candidates_token_count
+
         else:
-            raise ValueError(f"Unsupported provider: {request.provider}")
-  
-        # Calculate metrics
-        response_time = time.time() - start_time
-        cost = self.rate_limiter.track_cost(
-            request.provider, 
-            response.tokens_used, 
-            request.model
+            raise ValueError(f"unknown provider: {provider}")
+
+        usage = Usage(
+            provider=provider,
+            model=model,
+            input_tokens=in_tok,
+            output_tokens=out_tok,
+            cost_usd=_compute_cost(model, in_tok, out_tok),
+            latency_s=round(time.perf_counter() - start, 3),
         )
-  
-        response.response_time = response_time
-        response.cost = cost
-  
-        return response
-  
-    async def _openai_generate(self, request: AIRequest) -> AIResponse:
-        """OpenAI-specific generation"""
-        client = self.clients['openai']
-  
-        response = await client.chat.completions.create(
-            model=request.model,
-            messages=[{"role": "user", "content": request.prompt}],
-            max_tokens=request.max_tokens,
-            temperature=request.temperature
+        self.history.append(usage)
+        log.info(
+            "%s/%s in=%d out=%d cost=$%.4f t=%.2fs",
+            provider, model, in_tok, out_tok, usage.cost_usd, usage.latency_s,
         )
-  
-        return AIResponse(
-            content=response.choices[0].message.content,
-            provider='openai',
-            model=request.model,
-            tokens_used=response.usage.total_tokens,
-            cost=0.0,  # Will be calculated by caller
-            response_time=0.0,  # Will be calculated by caller
-            metadata={'finish_reason': response.choices[0].finish_reason}
+        return content, usage
+
+    async def complete_structured(
+        self,
+        *,
+        schema: Type[T],
+        model: str,
+        system: str,
+        user: str,
+        temperature: float = 0.0,
+    ) -> tuple[T, Usage]:
+        """OpenAI-only convenience: schema-constrained output."""
+        await self.limiter.acquire()
+        start = time.perf_counter()
+        resp = await self.openai.chat.completions.parse(
+            model=model,
+            messages=[
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            temperature=temperature,
+            response_format=schema,
         )
-  
-    async def _google_generate(self, request: AIRequest) -> AIResponse:
-        """Google AI-specific generation"""
-        client = self.clients['google']
-  
-        # Configure the model
-        model = client.GenerativeModel(request.model)
-  
-        # Generate response
-        response = await model.generate_content_async(
-            request.prompt,
-            generation_config=genai.types.GenerationConfig(
-                max_output_tokens=request.max_tokens,
-                temperature=request.temperature
-            )
+        parsed = resp.choices[0].message.parsed
+        in_tok = resp.usage.prompt_tokens
+        out_tok = resp.usage.completion_tokens
+        usage = Usage(
+            provider="openai",
+            model=model,
+            input_tokens=in_tok,
+            output_tokens=out_tok,
+            cost_usd=_compute_cost(model, in_tok, out_tok),
+            latency_s=round(time.perf_counter() - start, 3),
         )
-  
-        return AIResponse(
-            content=response.text,
-            provider='google',
-            model=request.model,
-            tokens_used=response.usage_metadata.total_token_count if hasattr(response, 'usage_metadata') else 0,
-            cost=0.0,  # Will be calculated by caller
-            response_time=0.0,  # Will be calculated by caller
-            metadata={'safety_ratings': response.candidates[0].safety_ratings if response.candidates else []}
-        )
+        self.history.append(usage)
+        return parsed, usage
+
+    @property
+    def total_cost(self) -> float:
+        return sum(u.cost_usd for u in self.history)
 ```
 
-## Complete Example: AI Log Analysis System with CloudWatch
+What this gives you:
 
-> **Production-Ready Example:** This shows real AWS CloudWatch integration with step-by-step implementation guidance.
+- **One interface** for three providers. Swap models by changing a string.
+- **Retries** for transient failures (network, timeout). Not for everything — if the model returns bad JSON, retrying won't help.
+- **Rate limiting** at the client level. You won't hammer the provider into 429s.
+- **Cost tracking** by call. Sum it whenever you want.
+- **Schema-constrained outputs** for OpenAI via `complete_structured`.
 
-**Real-World Scenario:** Your AWS-hosted web application is experiencing intermittent errors. You need an AI system to automatically analyze CloudWatch logs, identify issues, and alert the team.
+What it deliberately doesn't do:
 
-### Prerequisites & Setup Steps:
+- Streaming. Add it when you need it.
+- Caching. Same.
+- Multi-region failover. Provider-level concern; most teams don't need it.
 
-**1. AWS Setup:**
+> **Warning:** Don't paper over real errors with retries. If you keep getting 401s, retrying just generates more failed bills. Retry only on `TimeoutError` and `ConnectionError`. Let other exceptions bubble up.
 
-```bash
-# Install AWS CLI and configure credentials
-pip install boto3 awscli
-aws configure  # Enter your AWS credentials
+---
 
-# Or use IAM roles if running on EC2/Lambda
-```
+## The CloudWatch Log Analyzer
 
-**2. Required IAM Permissions:**
+Now build something with it. Goal: pull recent logs from a CloudWatch log group, ask the model to triage them, post a structured alert if anything bad shows up.
+
+### IAM permissions
+
+Least privilege. Read-only:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:DescribeLogGroups",
-                "logs:DescribeLogStreams", 
-                "logs:GetLogEvents",
-                "logs:FilterLogEvents"
-            ],
-            "Resource": "arn:aws:logs:*:*:*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "logs:DescribeLogStreams",
+      "logs:FilterLogEvents",
+      "logs:GetLogEvents"
+    ],
+    "Resource": "arn:aws:logs:*:*:log-group:/aws/*:*"
+  }]
 }
 ```
 
-**3. Python Dependencies:**
+Scope the `Resource` to the specific log groups you actually need. Wildcards in production IAM are how you end up in a security review.
 
-```bash
-pip install boto3 openai google-generativeai asyncio
-```
+### The triage schema
 
----
-
-## Building a CloudWatch AI Log Analyzer: Step-by-Step Guide
-
-### What We're Building
-
-A production-ready system that:
-
-- Automatically collects logs from AWS CloudWatch
-- Uses AI to analyze patterns and detect issues
-- Generates intelligent alerts based on findings
-- Integrates with existing monitoring systems
-
----
-
-### Step 1: System Architecture Overview
-
-Understanding the Flow:
-
-```
-CloudWatch Logs → Python Script → AI Analysis → Alert Generation → Notification Systems
-      ↓              ↓              ↓              ↓                    ↓
-   Real AWS      boto3 API     OpenAI/Google   Smart Alerts      Slack/Email
-   Log Data     Collection     AI Processing   Generation        Integration
-```
-
-Key Components We'll Build:
-
-1. **CloudWatch Connector**: Securely fetch logs using AWS credentials
-2. **AI Analyzer**: Process logs with intelligent pattern recognition
-3. **Alert Engine**: Generate actionable alerts based on AI findings
-4. **Notification System**: Send alerts to appropriate channels
-
----
-
-### Step 2: Prerequisites and Setup
-
-Before We Start:
-
-AWS Configuration:
-
-```bash
-# Install AWS CLI and configure credentials
-aws configure
-# Enter your: Access Key ID, Secret Access Key, Region, Output format
-```
-
-**Required Permissions (IAM Policy):**
-
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "logs:DescribeLogGroups",
-                "logs:DescribeLogStreams", 
-                "logs:FilterLogEvents",
-                "logs:GetLogEvents"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
-```
-
-Python Environment:
-
-```bash
-pip install boto3 openai google-generativeai asyncio
-```
-
----
-
-### Step 3: Core Implementation Strategy
-
-Our 4-Phase Approach:
-
-Phase 1: CloudWatch Integration
-
-- Connect to AWS CloudWatch using boto3
-- Handle authentication and region configuration
-- Implement error handling for AWS API calls
+Define the output shape first. Pydantic enforces it.
 
 ```python
-# Quick Preview - Phase 1
+# schemas.py
+from typing import Literal
+from pydantic import BaseModel, Field
+
+Severity = Literal["critical", "high", "medium", "low", "none"]
+
+class ErrorPattern(BaseModel):
+    pattern: str = Field(..., description="Short label for this error class")
+    count: int = Field(..., ge=0)
+    sample: str = Field(..., description="One log line, verbatim")
+
+class Action(BaseModel):
+    priority: Literal["high", "medium", "low"]
+    description: str
+    command: str | None = Field(None, description="Shell command if applicable")
+
+class Triage(BaseModel):
+    severity: Severity
+    summary: str = Field(..., description="One sentence")
+    error_patterns: list[ErrorPattern] = Field(default_factory=list)
+    likely_causes: list[str] = Field(default_factory=list)
+    actions: list[Action] = Field(default_factory=list)
+    confidence: Literal["low", "medium", "high"]
+```
+
+The schema is documentation. A teammate can read it and know exactly what the analyzer returns without running it.
+
+### Fetching logs
+
+CloudWatch's API is fiddly. Times are in milliseconds since epoch. Streams need to be discovered first.
+
+```python
+# cloudwatch.py
+from __future__ import annotations
+import asyncio
+import logging
+from datetime import datetime, timedelta, timezone
+
 import boto3
 from botocore.exceptions import ClientError
 
-class CloudWatchAILogAnalyzer:
-    def __init__(self, aws_region='us-east-1'):
-        self.cloudwatch_logs = boto3.client('logs', region_name=aws_region)
-        # Setup logging and error handling...
-```
+log = logging.getLogger(__name__)
 
-Phase 2: Log Collection Logic
 
-- Find active log streams in specified time windows
-- Fetch and filter log events efficiently
-- Format logs for optimal AI consumption
+class CloudWatchReader:
+    def __init__(self, region: str = "us-east-1"):
+        self.client = boto3.client("logs", region_name=region)
 
-```python
-# Quick Preview - Phase 2
-async def collect_logs_from_cloudwatch(self, log_group_name, time_window_minutes=10):
-    # 1. Calculate time range
-    # 2. Find active log streams
-    # 3. Fetch log events
-    # 4. Format for AI analysis
-    return formatted_logs
-```
-
-Phase 3: AI Analysis Engine
-
-- Create CloudWatch-optimized prompts for AI models
-- Process logs with OpenAI/Google AI APIs
-- Structure AI responses into actionable insights
-
-```python
-# Quick Preview - Phase 3
-async def analyze_logs_with_ai(self, log_content, service_name):
-    prompt = f"""Analyze these CloudWatch logs: {log_content}
-    Return JSON with severity, errors, and recommendations."""
-  
-    response = await self.ai_client.generate(prompt)
-    return json.loads(response.content)
-```
-
-Phase 4: Alert & Notification System
-
-- Generate alerts based on AI analysis severity
-- Integrate with monitoring systems (Slack, email, etc.)
-- Provide escalation paths for critical issues
-
-```python
-# Quick Preview - Phase 4
-async def generate_alerts(self, analysis, service_name):
-    alerts = []
-    if analysis['severity'] in ['CRITICAL', 'HIGH']:
-        alerts.append({
-            'type': 'SERVICE_ISSUE',
-            'message': f"{service_name}: {analysis['summary']}",
-            'severity': analysis['severity']
-        })
-    return alerts
-```
-
----
-
-### Step 4: Implementation Walkthrough
-
-#### 4.1 Class Structure and Initialization
-
-What We're Doing:
-Setting up the main analyzer class with proper AWS configuration and logging.
-
-Key Concepts:
-
-- Dependency Injection: AI client passed during initialization
-- Region Configuration: Support for multi-region deployments
-- Structured Logging: Essential for debugging production issues
-
-Code Example:
-
-```python
-import boto3
-import logging
-from botocore.exceptions import ClientError, NoCredentialsError
-
-class CloudWatchAILogAnalyzer:
-    def __init__(self, aws_region: str = 'us-east-1'):
-        self.ai_client = UnifiedAIClient()
-        self.aws_region = aws_region
-        self.setup_logging()
-        self.setup_aws_clients()
-  
-        # Alert thresholds - customize based on your needs
-        self.alert_config = {
-            'critical_error_threshold': 5,  # errors per minute
-            'warning_threshold': 10,        # warnings per minute  
-            'response_time_threshold': 2000  # milliseconds
-        }
-  
-    def setup_logging(self):
-        """Configure logging for debugging and monitoring"""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('ai_log_analyzer.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(__name__)
-  
-    def setup_aws_clients(self):
-        """Initialize AWS clients with proper error handling"""
-        try:
-            self.cloudwatch_logs = boto3.client('logs', region_name=self.aws_region)
-            self.logger.info(f"✅ AWS CloudWatch client initialized for region: {self.aws_region}")
-        except NoCredentialsError:
-            self.logger.error("❌ AWS credentials not found. Run 'aws configure' first.")
-            raise
-        except Exception as e:
-            self.logger.error(f"❌ Failed to initialize AWS clients: {e}")
-            raise
-```
-
-#### 4.2 CloudWatch Log Collection
-
-What We're Doing:
-Building robust log collection that handles real AWS CloudWatch data.
-
-Key Concepts:
-
-- Time Window Management: Convert hours to CloudWatch milliseconds
-- Stream Discovery: Find active log streams in the time range
-- Event Filtering: Use CloudWatch filter patterns to reduce noise
-- Error Handling: Graceful handling of missing log groups and access issues
-
-Code Example:
-
-```python
-from datetime import datetime, timedelta
-
-async def collect_logs_from_cloudwatch(
-    self, 
-    log_group_name: str, 
-    time_window_minutes: int = 10,
-    filter_pattern: str = "",
-    max_events: int = 1000
-) -> str:
-    """🔍 STEP 1: Collect logs from AWS CloudWatch"""
-    self.logger.info(f"🔍 Collecting logs from CloudWatch group: {log_group_name}")
-  
-    # Step 1.1: Calculate time range (CloudWatch uses milliseconds)
-    end_time = datetime.utcnow()
-    start_time = end_time - timedelta(minutes=time_window_minutes)
-    start_time_ms = int(start_time.timestamp() * 1000)
-    end_time_ms = int(end_time.timestamp() * 1000)
-  
-    try:
-        # Step 1.2: Get log streams that have data in our time range
-        log_streams = await self._get_active_log_streams(
-            log_group_name, start_time_ms, end_time_ms
-        )
-  
-        if not log_streams:
-            self.logger.warning(f"⚠️ No active log streams found for: {log_group_name}")
-            return ""
-  
-        # Step 1.3: Collect events from multiple streams
-        all_log_events = []
-        for stream in log_streams[:5]:  # Limit to 5 streams to avoid overwhelming AI
-            stream_name = stream['logStreamName']
-    
-            events = await self._fetch_log_events(
-                log_group_name, stream_name, start_time_ms, end_time_ms,
-                filter_pattern, max_events
-            )
-            all_log_events.extend(events)
-  
-        # Step 1.4: Format for AI consumption
-        formatted_logs = self._format_cloudwatch_logs(all_log_events)
-  
-        self.logger.info(f"✅ Collected {len(all_log_events)} events")
-        return formatted_logs
-  
-    except ClientError as e:
-        error_code = e.response['Error']['Code']
-        if error_code == 'ResourceNotFoundException':
-            self.logger.error(f"❌ Log group not found: {log_group_name}")
-        elif error_code == 'AccessDeniedException':
-            self.logger.error(f"❌ Access denied to: {log_group_name}")
-        raise
-
-async def _get_active_log_streams(self, log_group_name: str, start_time_ms: int, end_time_ms: int):
-    """Find log streams with events in the specified time range"""
-    response = self.cloudwatch_logs.describe_log_streams(
-        logGroupName=log_group_name,
-        orderBy='LastEventTime',
-        descending=True,
-        limit=10
-    )
-  
-    # Filter streams that overlap with our time window
-    active_streams = []
-    for stream in response['logStreams']:
-        last_event = stream.get('lastEventTime', 0)
-        first_event = stream.get('firstEventTime', 0)
-  
-        if (last_event >= start_time_ms and first_event <= end_time_ms):
-            active_streams.append(stream)
-  
-    return active_streams
-
-async def _fetch_log_events(self, log_group_name: str, log_stream_name: str, 
-                           start_time_ms: int, end_time_ms: int, filter_pattern: str, max_events: int):
-    """Fetch log events from a specific CloudWatch stream"""
-    params = {
-        'logGroupName': log_group_name,
-        'logStreamNames': [log_stream_name],
-        'startTime': start_time_ms,
-        'endTime': end_time_ms,
-        'limit': min(max_events, 1000)
-    }
-  
-    if filter_pattern:
-        params['filterPattern'] = filter_pattern
-  
-    response = self.cloudwatch_logs.filter_log_events(**params)
-    return response.get('events', [])
-```
-
-#### 4.3 AI Analysis Engine
-
-What We're Doing:
-Processing collected logs with AI to extract meaningful insights.
-
-Key Concepts:
-
-- Prompt Engineering: CloudWatch-specific prompts for better results
-- Structured Output: Force AI to return JSON for consistent processing
-- Cost Management: Monitor token usage and API costs
-- Response Validation: Ensure AI output is valid and actionable
-
-Code Example:
-
-```python
-import json
-import time
-
-async def analyze_logs_with_ai(self, log_content: str, service_name: str, log_group_name: str) -> Dict:
-    """🤖 STEP 2: AI Analysis of CloudWatch logs"""
-    self.logger.info(f"🤖 Starting AI analysis for {service_name}")
-  
-    # Step 2.1: Input validation
-    if not log_content.strip():
-        return {
-            'status': 'error',
-            'error': 'No log content to analyze',
-            'service': service_name
-        }
-  
-    # Step 2.2: CloudWatch-optimized prompt
-    prompt = f"""
-Analyze these AWS CloudWatch logs and provide structured insights:
-
-SERVICE: {service_name}
-LOG GROUP: {log_group_name}
-TIMEFRAME: Last 10 minutes
-
-LOGS:
-{log_content}
-
-Return analysis as valid JSON:
-{{
-    "severity": "CRITICAL|HIGH|MEDIUM|LOW",
-    "summary": "One sentence summary of main issues",
-    "error_patterns": [
-        {{"type": "error_type", "count": "number", "severity": "level", "sample": "example_message"}}
-    ],
-    "performance_issues": [
-        {{"issue": "description", "metric": "value", "threshold": "expected"}}
-    ],
-    "aws_specific_issues": [
-        {{"service": "aws_service_name", "issue": "problem", "action": "recommendation"}}
-    ],
-    "immediate_actions": [
-        {{"action": "what_to_do", "priority": "HIGH|MED|LOW", "time": "estimate"}}
-    ],
-    "root_causes": [
-        {{"cause": "likely_reason", "confidence": "percentage"}}
-    ]
-}}
-
-Focus on: AWS service errors, timeouts, resource limits, API throttling, database issues.
-"""
-  
-    try:
-        # Step 2.3: Send to AI with optimized settings
-        request = AIRequest(
-            prompt=prompt,
-            model='gpt-4',
-            provider='openai',
-            max_tokens=1500,
-            temperature=0.1  # Low temperature for consistent analysis
-        )
-  
-        start_time = time.time()
-        response = await self.ai_client.generate(request)
-        analysis_time = time.time() - start_time
-  
-        # Step 2.4: Parse and validate response
-        analysis = json.loads(response.content)
-  
-        return {
-            'status': 'success',
-            'analysis': analysis,
-            'metadata': {
-                'service': service_name,
-                'log_group': log_group_name,
-                'analysis_time': round(analysis_time, 2),
-                'tokens_used': response.tokens_used,
-                'cost': round(response.cost, 4),
-                'model': response.model,
-                'log_size_chars': len(log_content)
-            }
-        }
-    except json.JSONDecodeError as e:
-        self.logger.error(f"❌ AI returned invalid JSON: {e}")
-        return {
-            'status': 'error',
-            'error': f'AI response parsing failed: {e}',
-            'raw_response': response.content[:500] + "..."
-        }
-    except Exception as e:
-        self.logger.error(f"❌ AI analysis failed: {e}")
-        return {
-            'status': 'error',
-            'error': str(e)
-        }
-```
-
-#### 4.4 Alert Generation System
-
-What We're Doing:
-Converting AI insights into actionable alerts with proper prioritization.
-
-Key Concepts:
-
-- Severity Mapping: Critical/High/Medium/Low based on AI analysis
-- Alert Deduplication: Prevent alert spam from repeated issues
-- Context Enrichment: Include relevant metadata for faster resolution
-- Escalation Rules: Route alerts to appropriate teams/channels
-
-Code Example:
-
-```python
-from datetime import datetime
-from typing import List
-
-async def generate_alerts(self, analysis: Dict, service_name: str) -> List[Dict]:
-    """Generate alerts based on AI analysis"""
-    alerts = []
-  
-    if analysis['status'] != 'success':
-        # If AI analysis failed, create a system alert
-        alerts.append({
-            'type': 'SYSTEM_ERROR',
-            'severity': 'HIGH',
-            'message': f'AI log analysis failed for {service_name}',
-            'details': analysis.get('error', 'Unknown error'),
-            'timestamp': datetime.utcnow().isoformat(),
-            'service': service_name
-        })
-        return alerts
-  
-    ai_analysis = analysis['analysis']
-  
-    # Generate alerts based on severity
-    if ai_analysis.get('severity') in ['CRITICAL', 'HIGH']:
-        alerts.append({
-            'type': 'SERVICE_ISSUE',
-            'severity': ai_analysis['severity'],
-            'message': f"{service_name}: {ai_analysis.get('summary', 'Critical issues detected')}",
-            'details': {
-                'error_patterns': ai_analysis.get('error_patterns', []),
-                'immediate_actions': ai_analysis.get('immediate_actions', []),
-                'root_causes': ai_analysis.get('root_causes', [])
-            },
-            'timestamp': datetime.utcnow().isoformat(),
-            'service': service_name,
-            'ai_metadata': analysis.get('metadata', {})
-        })
-  
-    # Check performance thresholds
-    performance_issues = ai_analysis.get('performance_issues', [])
-    for issue in performance_issues:
-        alerts.append({
-            'type': 'PERFORMANCE_ISSUE',
-            'severity': 'MEDIUM',
-            'message': f"{service_name}: Performance issue detected",
-            'details': issue,
-            'timestamp': datetime.utcnow().isoformat(),
-            'service': service_name
-        })
-  
-    self.logger.info(f"Generated {len(alerts)} alerts for {service_name}")
-    return alerts
-
-async def send_alerts(self, alerts: List[Dict]) -> bool:
-    """Send alerts to appropriate channels"""
-    if not alerts:
-        self.logger.info("No alerts to send")
-        return True
-  
-    try:
-        for alert in alerts:
-            # Send to Slack
-            await self._send_to_slack(alert)
-    
-            # Send to monitoring system
-            await self._send_to_monitoring_system(alert)
-    
-            self.logger.info(f"Alert sent: {alert['type']} - {alert['severity']}")
-  
-        return True
-    except Exception as e:
-        self.logger.error(f"Failed to send alerts: {e}")
-        return False
-
-async def _send_to_slack(self, alert: Dict):
-    """Send alert to Slack"""
-    slack_message = {
-        'text': f"🚨 {alert['severity']} Alert",
-        'attachments': [{
-            'color': 'danger' if alert['severity'] in ['CRITICAL', 'HIGH'] else 'warning',
-            'fields': [
-                {'title': 'Service', 'value': alert['service'], 'short': True},
-                {'title': 'Type', 'value': alert['type'], 'short': True},
-                {'title': 'Message', 'value': alert['message'], 'short': False}
-            ]
-        }]
-    }
-  
-    # In production: use Slack webhooks
-    # requests.post(SLACK_WEBHOOK_URL, json=slack_message)
-  
-    await asyncio.sleep(0.1)  # Simulate API call
-    self.logger.info(f"Slack alert sent: {alert['message'][:50]}...")
-```
-
-#### 4.5 Complete Workflow Integration
-
-What We're Doing:
-Orchestrating all components into a single, cohesive workflow.
-
-Code Example:
-
-```python
-async def analyze_logs(self, log_group_name: str, time_range_hours: int = 1, 
-                      filter_pattern: str = "", max_events: int = 1000) -> Dict:
-    """🎯 Main method: Complete CloudWatch log analysis workflow"""
-    workflow_start = time.time()
-    service_name = log_group_name.split('/')[-1]
-  
-    self.logger.info(f"🚀 Starting CloudWatch analysis for: {log_group_name}")
-
-    try:
-        # Step 1: Collect logs from CloudWatch
-        time_window_minutes = time_range_hours * 60
-        logs = await self.collect_logs_from_cloudwatch(
-            log_group_name=log_group_name,
-            time_window_minutes=time_window_minutes,
-            filter_pattern=filter_pattern,
-            max_events=max_events
-        )
-
-        if not logs:
-            return {
-                'status': 'no_data',
-                'message': f'No logs found in {log_group_name}',
-                'log_group': log_group_name,
-                'timestamp': datetime.utcnow().isoformat()
-            }
-
-        # Step 2: AI analysis
-        analysis = await self.analyze_logs_with_ai(logs, service_name, log_group_name)
-
-        # Step 3: Generate alerts
-        alerts = await self.generate_alerts(analysis, service_name)
-
-        # Step 4: Send alerts
-        alert_success = await self.send_alerts(alerts)
-
-        workflow_time = time.time() - workflow_start
-
-        result = {
-            'status': 'completed',
-            'log_group': log_group_name,
-            'service': service_name,
-            'time_range_hours': time_range_hours,
-            'workflow_time': round(workflow_time, 2),
-            'logs_size_chars': len(logs),
-            'analysis_result': analysis,
-            'alerts_generated': len(alerts),
-            'alerts_sent': alert_success,
-            'timestamp': datetime.utcnow().isoformat()
-        }
-
-        self.logger.info(f"✅ Analysis completed for {service_name} in {workflow_time:.2f}s")
-        return result
-
-    except Exception as e:
-        self.logger.error(f"❌ Analysis workflow failed: {e}")
-        return {
-            'status': 'failed',
-            'log_group': log_group_name,
-            'error': str(e),
-            'timestamp': datetime.utcnow().isoformat()
-        }
-```
-
----
-
-### Step 5: Production Considerations
-
-**Security Best Practices:**
-
-- Use IAM roles instead of hardcoded credentials
-- Implement least-privilege access policies
-- Encrypt sensitive data in transit and at rest
-
-Performance Optimization:
-
-- Implement connection pooling for AWS APIs
-- Use async processing for multiple log streams
-- Cache AI responses for similar log patterns
-
-Monitoring & Observability:
-
-- Track AI API costs and usage patterns
-- Monitor CloudWatch API rate limits
-- Log all operations for audit trails
-
-Error Recovery:
-
-- Implement exponential backoff for API failures
-- Fallback to basic pattern matching if AI fails
-- Queue failed analyses for retry processing
-
----
-
-### Complete Implementation
-
-Now that you understand the architecture and approach, here's the complete, production-ready implementation:
-
-```python
-# cloudwatch_ai_analyzer.py
-import asyncio
-import boto3
-import logging
-import json
-import time
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
-from botocore.exceptions import ClientError, NoCredentialsError
-
-class CloudWatchAILogAnalyzer:
-    """Production-ready AI-powered CloudWatch log analysis system"""
-  
-    def __init__(self, aws_region: str = 'us-east-1'):
-        self.ai_client = UnifiedAIClient()
-        self.aws_region = aws_region
-        self.setup_logging()
-        self.setup_aws_clients()
-  
-        # Alert thresholds - customize based on your needs
-        self.alert_config = {
-            'critical_error_threshold': 5,  # errors per minute
-            'warning_threshold': 10,        # warnings per minute  
-            'response_time_threshold': 2000  # milliseconds
-        }
-  
-    def setup_logging(self):
-        """Configure logging for debugging and monitoring"""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler('ai_log_analyzer.log'),
-                logging.StreamHandler()
-            ]
-        )
-        self.logger = logging.getLogger(__name__)
-  
-    def setup_aws_clients(self):
-        """Initialize AWS clients with proper error handling"""
-        try:
-            self.cloudwatch_logs = boto3.client('logs', region_name=self.aws_region)
-            self.logger.info(f"✅ AWS CloudWatch client initialized for region: {self.aws_region}")
-        except NoCredentialsError:
-            self.logger.error("❌ AWS credentials not found. Run 'aws configure' first.")
-            raise
-        except Exception as e:
-            self.logger.error(f"❌ Failed to initialize AWS clients: {e}")
-            raise
-  
-    # STEP 1: REAL CLOUDWATCH LOG COLLECTION
-    async def collect_logs_from_cloudwatch(
-        self, 
-        log_group_name: str, 
-        time_window_minutes: int = 10,
+    async def fetch_recent(
+        self,
+        log_group: str,
+        *,
+        minutes: int = 10,
         filter_pattern: str = "",
-        max_events: int = 1000
-    ) -> str:
-        """
-        🔍 STEP 1: Collect logs from AWS CloudWatch
-  
-        Implementation steps:
-        1.1 Calculate time range for collection
-        1.2 Find relevant log streams
-        1.3 Fetch log events from streams  
-        1.4 Format logs for AI analysis
-        """
-        self.logger.info(f"🔍 Collecting logs from CloudWatch group: {log_group_name}")
-  
-        # Step 1.1: Calculate time range (CloudWatch uses milliseconds)
-        end_time = datetime.utcnow()
-        start_time = end_time - timedelta(minutes=time_window_minutes)
-        start_time_ms = int(start_time.timestamp() * 1000)
-        end_time_ms = int(end_time.timestamp() * 1000)
-  
-        self.logger.info(f"📅 Time range: {start_time} to {end_time}")
-  
-        try:
-            # Step 1.2: Get log streams that have data in our time range
-            log_streams = await self._get_active_log_streams(
-                log_group_name, start_time_ms, end_time_ms
-            )
-  
-            if not log_streams:
-                self.logger.warning(f"⚠️ No active log streams found for: {log_group_name}")
-                return ""
-  
-            # Step 1.3: Collect events from multiple streams
-            all_log_events = []
-            for stream in log_streams[:5]:  # Limit to 5 streams to avoid overwhelming AI
-                stream_name = stream['logStreamName']
-                self.logger.info(f"📄 Processing stream: {stream_name}")
-      
-                events = await self._fetch_log_events(
-                    log_group_name, stream_name, start_time_ms, end_time_ms,
-                    filter_pattern, max_events
-                )
-                all_log_events.extend(events)
-  
-            # Step 1.4: Format for AI consumption
-            formatted_logs = self._format_cloudwatch_logs(all_log_events)
-  
-            self.logger.info(f"✅ Collected {len(all_log_events)} events ({len(formatted_logs)} chars)")
-            return formatted_logs
-  
-        except ClientError as e:
-            error_code = e.response['Error']['Code']
-            if error_code == 'ResourceNotFoundException':
-                self.logger.error(f"❌ Log group not found: {log_group_name}")
-            elif error_code == 'AccessDeniedException':
-                self.logger.error(f"❌ Access denied to: {log_group_name}")
-            else:
-                self.logger.error(f"❌ AWS error: {error_code} - {e}")
-            raise
-        except Exception as e:
-            self.logger.error(f"❌ CloudWatch collection failed: {e}")
-            raise
-  
-    async def _get_active_log_streams(
-        self, log_group_name: str, start_time_ms: int, end_time_ms: int
-    ) -> List[Dict]:
-        """Find log streams with events in the specified time range"""
-        try:
-            response = self.cloudwatch_logs.describe_log_streams(
-                logGroupName=log_group_name,
-                orderBy='LastEventTime',
-                descending=True,
-                limit=10  # Get 10 most recent streams
-            )
-  
-            # Filter streams that overlap with our time window
-            active_streams = []
-            for stream in response['logStreams']:
-                last_event = stream.get('lastEventTime', 0)
-                first_event = stream.get('firstEventTime', 0)
-      
-                # Check if stream has events in our time range
-                if (last_event >= start_time_ms and first_event <= end_time_ms):
-                    active_streams.append(stream)
-  
-            return active_streams
-  
-        except Exception as e:
-            self.logger.error(f"Failed to get log streams: {e}")
-            return []
-  
-    async def _fetch_log_events(
-        self, 
-        log_group_name: str, 
-        log_stream_name: str, 
-        start_time_ms: int, 
-        end_time_ms: int,
-        filter_pattern: str,
-        max_events: int
-    ) -> List[Dict]:
-        """Fetch log events from a specific CloudWatch stream"""
-        try:
+        max_events: int = 1000,
+    ) -> list[dict]:
+        """Return raw log events from the last `minutes`."""
+        end = datetime.now(timezone.utc)
+        start = end - timedelta(minutes=minutes)
+        start_ms = int(start.timestamp() * 1000)
+        end_ms = int(end.timestamp() * 1000)
+
+        def _filter():
             params = {
-                'logGroupName': log_group_name,
-                'logStreamNames': [log_stream_name],
-                'startTime': start_time_ms,
-                'endTime': end_time_ms,
-                'limit': min(max_events, 1000)  # CloudWatch max is 10k, but we limit for AI
+                "logGroupName": log_group,
+                "startTime": start_ms,
+                "endTime": end_ms,
+                "limit": min(max_events, 10_000),
             }
-  
-            # Add filter if specified (e.g., "ERROR" or "[timestamp, request_id, ERROR]")
             if filter_pattern:
-                params['filterPattern'] = filter_pattern
-  
-            response = self.cloudwatch_logs.filter_log_events(**params)
-            return response.get('events', [])
-  
-        except Exception as e:
-            self.logger.error(f"Failed to fetch events from {log_stream_name}: {e}")
-            return []
-  
-    def _format_cloudwatch_logs(self, log_events: List[Dict]) -> str:
-        """Format CloudWatch events into readable text for AI analysis"""
-        if not log_events:
-            return ""
-  
-        # Sort chronologically 
-        sorted_events = sorted(log_events, key=lambda x: x['timestamp'])
-  
-        formatted_lines = []
-        for event in sorted_events:
-            # Convert CloudWatch timestamp to readable format
-            timestamp = datetime.fromtimestamp(event['timestamp'] / 1000)
-            timestamp_str = timestamp.strftime('%Y-%m-%d %H:%M:%S')
-  
-            # Clean the log message
-            message = event['message'].strip()
-            log_line = f"{timestamp_str} {message}"
-            formatted_lines.append(log_line)
-  
-        return '\n'.join(formatted_lines)
-  
-    # STEP 2: ENHANCED AI ANALYSIS  
-    async def analyze_logs_with_ai(
-        self, log_content: str, service_name: str, log_group_name: str
-    ) -> Dict:
-        """
-        🤖 STEP 2: AI Analysis of CloudWatch logs
-  
-        Implementation steps:
-        2.1 Validate log content
-        2.2 Create CloudWatch-optimized prompt
-        2.3 Send to AI model
-        2.4 Parse and validate response
-        2.5 Return structured analysis
-        """
-        self.logger.info(f"🤖 Starting AI analysis for {service_name}")
-  
-        # Step 2.1: Input validation
-        if not log_content.strip():
-            return {
-                'status': 'error',
-                'error': 'No log content to analyze',
-                'service': service_name
-            }
-  
-        # Step 2.2: CloudWatch-optimized prompt
-        prompt = f"""
-Analyze these AWS CloudWatch logs and provide structured insights:
-
-SERVICE: {service_name}
-LOG GROUP: {log_group_name}
-TIMEFRAME: Last 10 minutes
-
-LOGS:
-{log_content}
-
-Return analysis as valid JSON:
-{{
-    "severity": "CRITICAL|HIGH|MEDIUM|LOW",
-    "summary": "One sentence summary of main issues",
-    "error_patterns": [
-        {{"type": "error_type", "count": "number", "severity": "level", "sample": "example_message"}}
-    ],
-    "performance_issues": [
-        {{"issue": "description", "metric": "value", "threshold": "expected"}}
-    ],
-    "aws_specific_issues": [
-        {{"service": "aws_service_name", "issue": "problem", "action": "recommendation"}}
-    ],
-    "immediate_actions": [
-        {{"action": "what_to_do", "priority": "HIGH|MED|LOW", "time": "estimate"}}
-    ],
-    "root_causes": [
-        {{"cause": "likely_reason", "confidence": "percentage"}}
-    ]
-}}
-
-Focus on: AWS service errors, timeouts, resource limits, API throttling, database issues.
-"""
-  
-        try:
-            # Step 2.3: Send to AI with optimized settings
-            request = AIRequest(
-                prompt=prompt,
-                model='gpt-4',
-                provider='openai',
-                max_tokens=1500,
-                temperature=0.1  # Low temperature for consistent analysis
-            )
-  
-            start_time = time.time()
-            response = await self.ai_client.generate(request)
-            analysis_time = time.time() - start_time
-  
-            # Step 2.4: Parse response
+                params["filterPattern"] = filter_pattern
             try:
-                analysis = json.loads(response.content)
-      
-                # Step 2.5: Return with metadata
-                return {
-                    'status': 'success',
-                    'analysis': analysis,
-                    'metadata': {
-                        'service': service_name,
-                        'log_group': log_group_name,
-                        'analysis_time': round(analysis_time, 2),
-                        'tokens_used': response.tokens_used,
-                        'cost': round(response.cost, 4),
-                        'model': response.model,
-                        'log_size_chars': len(log_content)
-                    }
-                }
-            except json.JSONDecodeError as e:
-                self.logger.error(f"❌ AI returned invalid JSON: {e}")
-                return {
-                    'status': 'error',
-                    'error': f'AI response parsing failed: {e}',
-                    'raw_response': response.content[:500] + "..." if len(response.content) > 500 else response.content
-                }
-      
-        except Exception as e:
-            self.logger.error(f"❌ AI analysis failed: {e}")
-            return {
-                'status': 'error',
-                'error': str(e)
-            }
+                return self.client.filter_log_events(**params).get("events", [])
+            except ClientError as e:
+                code = e.response["Error"]["Code"]
+                if code == "ResourceNotFoundException":
+                    log.error("log group not found: %s", log_group)
+                    return []
+                raise
 
-    # STEP 3: ALERT GENERATION
-    async def generate_alerts(self, analysis: Dict, service_name: str) -> List[Dict]:
-        """Generate alerts based on AI analysis"""
-        alerts = []
-  
-        if analysis['status'] != 'success':
-            # If AI analysis failed, create a system alert
-            alerts.append({
-                'type': 'SYSTEM_ERROR',
-                'severity': 'HIGH',
-                'message': f'AI log analysis failed for {service_name}',
-                'details': analysis.get('error', 'Unknown error'),
-                'timestamp': datetime.utcnow().isoformat(),
-                'service': service_name
-            })
-            return alerts
-  
-        ai_analysis = analysis['analysis']
-  
-        # Generate alerts based on severity
-        if ai_analysis.get('severity') in ['CRITICAL', 'HIGH']:
-            alerts.append({
-                'type': 'SERVICE_ISSUE',
-                'severity': ai_analysis['severity'],
-                'message': f"{service_name}: {ai_analysis.get('summary', 'Critical issues detected')}",
-                'details': {
-                    'error_patterns': ai_analysis.get('error_patterns', []),
-                    'immediate_actions': ai_analysis.get('immediate_actions', []),
-                    'root_causes': ai_analysis.get('root_causes', [])
-                },
-                'timestamp': datetime.utcnow().isoformat(),
-                'service': service_name,
-                'ai_metadata': analysis.get('metadata', {})
-            })
-  
-        # Check performance thresholds
-        performance_issues = ai_analysis.get('performance_issues', [])
-        for issue in performance_issues:
-            alerts.append({
-                'type': 'PERFORMANCE_ISSUE',
-                'severity': 'MEDIUM',
-                'message': f"{service_name}: Performance issue detected",
-                'details': issue,
-                'timestamp': datetime.utcnow().isoformat(),
-                'service': service_name
-            })
-  
-        self.logger.info(f"Generated {len(alerts)} alerts for {service_name}")
-        return alerts
-  
-    # Step 4: Alert Delivery
-    async def send_alerts(self, alerts: List[Dict]) -> bool:
-        """Send alerts to appropriate channels"""
-        if not alerts:
-            self.logger.info("No alerts to send")
-            return True
-  
-        try:
-            for alert in alerts:
-                # In production, integrate with:
-                # - Slack/Teams webhooks
-                # - PagerDuty API
-                # - Email notifications
-                # - JIRA ticket creation
-                # - Custom dashboards
-  
-                await self._send_to_slack(alert)
-                await self._send_to_monitoring_system(alert)
-  
-                self.logger.info(f"Alert sent: {alert['type']} - {alert['severity']}")
-  
-            return True
-  
-        except Exception as e:
-            self.logger.error(f"Failed to send alerts: {e}")
-            return False
-  
-    async def _send_to_slack(self, alert: Dict):
-        """Send alert to Slack (simulated)"""
-        # In production: use Slack webhooks or SDK
-        slack_message = {
-            'text': f"🚨 {alert['severity']} Alert",
-            'attachments': [{
-                'color': 'danger' if alert['severity'] in ['CRITICAL', 'HIGH'] else 'warning',
-                'fields': [
-                    {'title': 'Service', 'value': alert['service'], 'short': True},
-                    {'title': 'Type', 'value': alert['type'], 'short': True},
-                    {'title': 'Message', 'value': alert['message'], 'short': False}
-                ]
+        return await asyncio.to_thread(_filter)
+
+    @staticmethod
+    def format(events: list[dict], max_chars: int = 12_000) -> str:
+        """Render events as a chronological text block, truncated to fit context."""
+        events = sorted(events, key=lambda e: e["timestamp"])
+        lines: list[str] = []
+        used = 0
+        for ev in events:
+            ts = datetime.fromtimestamp(ev["timestamp"] / 1000, tz=timezone.utc)
+            line = f"{ts.strftime('%H:%M:%S')} {ev['message'].rstrip()}"
+            if used + len(line) > max_chars:
+                lines.append(f"... [{len(events) - len(lines)} more events truncated]")
+                break
+            lines.append(line)
+            used += len(line) + 1
+        return "\n".join(lines)
+```
+
+Note `datetime.now(timezone.utc)` — `datetime.utcnow()` was deprecated in Python 3.12 because it returns naive datetimes that silently mislead anyone working across timezones.
+
+`asyncio.to_thread` wraps boto3's sync calls so they don't block the event loop. Boto3 doesn't have a real async client; this is the standard workaround.
+
+### Putting it together
+
+```python
+# analyzer.py
+from __future__ import annotations
+import asyncio
+import json
+import logging
+import os
+
+import httpx
+
+from ai_client import AIClient
+from cloudwatch import CloudWatchReader
+from schemas import Triage
+
+log = logging.getLogger(__name__)
+
+SYSTEM_PROMPT = """You are a senior SRE triaging CloudWatch logs.
+- Quote evidence verbatim. Do not invent log lines.
+- If logs do not support a conclusion, set severity to "none"
+  and confidence to "low".
+- Commands in actions must be runnable as-is."""
+
+
+class LogAnalyzer:
+    def __init__(
+        self,
+        ai: AIClient,
+        reader: CloudWatchReader,
+        model: str = "gpt-4.1-mini",
+        slack_webhook: str | None = None,
+    ):
+        self.ai = ai
+        self.reader = reader
+        self.model = model
+        self.slack_webhook = slack_webhook or os.getenv("SLACK_WEBHOOK_URL")
+
+    async def analyze(
+        self,
+        log_group: str,
+        *,
+        minutes: int = 10,
+        filter_pattern: str = "ERROR",
+    ) -> Triage | None:
+        events = await self.reader.fetch_recent(
+            log_group, minutes=minutes, filter_pattern=filter_pattern
+        )
+        if not events:
+            log.info("no events in %s for the last %d minutes", log_group, minutes)
+            return None
+
+        logs_text = self.reader.format(events)
+        user_msg = (
+            f"Log group: {log_group}\n"
+            f"Window: last {minutes} minutes\n"
+            f"Filter: {filter_pattern or '(none)'}\n\n"
+            f"--- logs ---\n{logs_text}\n--- end logs ---"
+        )
+
+        triage, usage = await self.ai.complete_structured(
+            schema=Triage,
+            model=self.model,
+            system=SYSTEM_PROMPT,
+            user=user_msg,
+        )
+        log.info("triaged %s: severity=%s cost=$%.4f", log_group, triage.severity, usage.cost_usd)
+        return triage
+
+    async def notify(self, log_group: str, triage: Triage) -> None:
+        if triage.severity in ("none", "low"):
+            return
+        if not self.slack_webhook:
+            log.warning("no SLACK_WEBHOOK_URL configured; would have sent: %s", triage.summary)
+            return
+
+        color = {"critical": "#FF0000", "high": "#FF8800", "medium": "#FFCC00"}[triage.severity]
+        payload = {
+            "attachments": [{
+                "color": color,
+                "title": f"[{triage.severity.upper()}] {log_group}",
+                "text": triage.summary,
+                "fields": [
+                    {"title": "Confidence", "value": triage.confidence, "short": True},
+                    {"title": "Top action",
+                     "value": triage.actions[0].description if triage.actions else "n/a",
+                     "short": False},
+                ],
             }]
         }
-  
-        # Simulate API call
-        await asyncio.sleep(0.1)
-        self.logger.info(f"Slack alert sent: {alert['message'][:50]}...")
-  
-    async def _send_to_monitoring_system(self, alert: Dict):
-        """Send to monitoring system (simulated)"""
-        # In production: integrate with Prometheus, Grafana, DataDog, etc.
-        await asyncio.sleep(0.1)
-        self.logger.info(f"Monitoring system updated with alert: {alert['type']}")
-  
-    # Main CloudWatch Analysis Method
-    async def analyze_logs(
-        self, 
-        log_group_name: str, 
-        time_range_hours: int = 1, 
-        filter_pattern: str = "",
-        max_events: int = 1000
-    ) -> Dict:
-        """
-        🎯 Main method: Complete CloudWatch log analysis workflow
-  
-        Args:
-            log_group_name: AWS CloudWatch log group (e.g., '/aws/lambda/my-function')
-            time_range_hours: How many hours back to analyze (default: 1)
-            filter_pattern: CloudWatch filter pattern (optional)
-            max_events: Maximum number of log events to analyze
-        """
-        workflow_start = time.time()
-        service_name = log_group_name.split('/')[-1]  # Extract service name from log group
-  
-        self.logger.info(f"🚀 Starting CloudWatch analysis for: {log_group_name}")
+        async with httpx.AsyncClient(timeout=10) as client:
+            r = await client.post(self.slack_webhook, json=payload)
+            r.raise_for_status()
 
-        try:
-            # Step 1: Collect logs from CloudWatch
-            time_window_minutes = time_range_hours * 60
-            logs = await self.collect_logs_from_cloudwatch(
-                log_group_name=log_group_name,
-                time_window_minutes=time_window_minutes,
-                filter_pattern=filter_pattern,
-                max_events=max_events
-            )
-  
-            if not logs:
-                return {
-                    'status': 'no_data',
-                    'message': f'No logs found in {log_group_name} for the last {time_range_hours} hours',
-                    'log_group': log_group_name,
-                    'time_range_hours': time_range_hours,
-                    'timestamp': datetime.utcnow().isoformat()
-                }
-  
-            # Step 2: AI analysis
-            analysis = await self.analyze_logs_with_ai(logs, service_name, log_group_name)
-  
-            # Step 3: Generate alerts
-            alerts = await self.generate_alerts(analysis, service_name)
-  
-            # Step 4: Send alerts
-            alert_success = await self.send_alerts(alerts)
-  
-            workflow_time = time.time() - workflow_start
-  
-            result = {
-                'status': 'completed',
-                'log_group': log_group_name,
-                'service': service_name,
-                'time_range_hours': time_range_hours,
-                'workflow_time': round(workflow_time, 2),
-                'logs_size_chars': len(logs),
-                'analysis_result': analysis,
-                'alerts_generated': len(alerts),
-                'alerts_sent': alert_success,
-                'timestamp': datetime.utcnow().isoformat()
-            }
-  
-            self.logger.info(f"✅ CloudWatch analysis completed for {service_name} in {workflow_time:.2f}s")
-            return result
-  
-        except Exception as e:
-            self.logger.error(f"❌ CloudWatch analysis workflow failed: {e}")
-            return {
-                'status': 'failed',
-                'log_group': log_group_name,
-                'error': str(e),
-                'timestamp': datetime.utcnow().isoformat()
-            }
 
-# Usage Example
 async def main():
-    """Example usage of the CloudWatch AI Log Analyzer"""
-    analyzer = CloudWatchAILogAnalyzer()
-  
-    # Analyze CloudWatch logs for a web service
-    result = await analyzer.analyze_logs(
-        log_group_name='/aws/lambda/web-api',
-        time_range_hours=1,  # Analyze last 1 hour
-        filter_pattern='ERROR'  # Only look at error logs
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    ai = AIClient(requests_per_minute=60)
+    reader = CloudWatchReader(region=os.getenv("AWS_REGION", "us-east-1"))
+    analyzer = LogAnalyzer(ai, reader, model="gpt-4.1-mini")
+
+    triage = await analyzer.analyze(
+        log_group="/aws/lambda/payments-api",
+        minutes=15,
+        filter_pattern="ERROR",
     )
-  
-    print("Analysis Result:")
-    print(json.dumps(result, indent=2))
+    if triage:
+        print(json.dumps(triage.model_dump(), indent=2))
+        await analyzer.notify("/aws/lambda/payments-api", triage)
+    print(f"\ntotal spend this run: ${ai.total_cost:.4f}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
----
-
-### How to Use the CloudWatch AI Analyzer
-
-#### Basic Usage Example
-
-```python
-import asyncio
-from cloudwatch_ai_analyzer import CloudWatchAILogAnalyzer
-
-async def analyze_my_service():
-    # Initialize the analyzer
-    analyzer = CloudWatchAILogAnalyzer(aws_region='us-west-2')
-  
-    # Analyze logs from the last hour
-    result = await analyzer.analyze_logs(
-        log_group_name='/aws/lambda/my-api-function',
-        time_range_hours=1,
-        filter_pattern='ERROR'  # Focus on error logs only
-    )
-  
-    # Handle the results
-    if result['status'] == 'completed':
-        print(f"✅ Analysis completed for {result['service']}")
-        print(f"📊 Found {result['alerts_generated']} alerts")
-  
-        # Check for critical issues
-        analysis = result['analysis_result']['analysis']
-        if analysis.get('severity') in ['CRITICAL', 'HIGH']:
-            print("🚨 Critical issues detected!")
-            for action in analysis.get('immediate_actions', []):
-                print(f"  • {action['action']} (Priority: {action['priority']})")
-    else:
-        print(f"❌ Analysis failed: {result.get('error', 'Unknown error')}")
-
-# Run the analysis
-asyncio.run(analyze_my_service())
-```
-
-#### Advanced Usage Scenarios
-
-1. Multi-Service Monitoring:
-
-```python
-async def monitor_multiple_services():
-    analyzer = CloudWatchAILogAnalyzer()
-  
-    services = [
-        '/aws/lambda/user-api',
-        '/aws/lambda/payment-service', 
-        '/aws/ecs/web-frontend',
-        '/aws/rds/database-logs'
-    ]
-  
-    for service in services:
-        result = await analyzer.analyze_logs(
-            log_group_name=service,
-            time_range_hours=2,
-            max_events=500
-        )
-  
-        print(f"Service: {service}")
-        print(f"Status: {result['status']}")
-        print("---")
-```
-
-2. Custom Filter Patterns:
-
-```python
-# Look for specific error patterns
-result = await analyzer.analyze_logs(
-    log_group_name='/aws/lambda/api-gateway',
-    time_range_hours=1,
-    filter_pattern='[timestamp, request_id, ERROR]'  # CloudWatch filter syntax
-)
-
-# Focus on performance issues
-result = await analyzer.analyze_logs(
-    log_group_name='/aws/lambda/web-app',
-    time_range_hours=6,
-    filter_pattern='timeout OR "response time"'
-)
-```
-
-3. Integration with Existing Monitoring:
-
-```python
-async def production_monitoring_loop():
-    analyzer = CloudWatchAILogAnalyzer()
-  
-    while True:
-        try:
-            # Analyze critical services every 5 minutes
-            for service in ['api-gateway', 'payment-processor', 'user-auth']:
-                result = await analyzer.analyze_logs(
-                    log_group_name=f'/aws/lambda/{service}',
-                    time_range_hours=0.1,  # Last 6 minutes
-                    filter_pattern='ERROR OR WARN'
-                )
-        
-                # Handle alerts (integrate with your systems)
-                if result.get('alerts_generated', 0) > 0:
-                    await send_to_slack(result)
-                    await update_dashboard(result)
-            
-        except Exception as e:
-            print(f"Monitoring loop error: {e}")
-    
-        # Wait 5 minutes before next check
-        await asyncio.sleep(300)
-```
-
-#### Configuration Options
-
-Environment Variables:
+That's the whole thing. Three files, plus the schema. Run it:
 
 ```bash
-# AWS Configuration
-export AWS_REGION=us-west-2
-export AWS_PROFILE=production
-
-# AI API Keys  
-export OPENAI_API_KEY=your_openai_key
-export GOOGLE_API_KEY=your_google_key
-
-# Optional: Custom settings
-export LOG_LEVEL=INFO
-export MAX_LOG_EVENTS=1000
-export AI_MODEL_PREFERENCE=gpt-4
+python analyzer.py
 ```
 
-Custom Alert Thresholds:
-
-```python
-analyzer = CloudWatchAILogAnalyzer()
-
-# Customize alert sensitivity
-analyzer.alert_config = {
-    'critical_error_threshold': 10,    # errors per minute
-    'warning_threshold': 25,           # warnings per minute  
-    'response_time_threshold': 5000    # milliseconds
-}
-```
-
-#### Understanding the Output
-
-Successful Analysis Response:
+Output looks like:
 
 ```json
 {
-    "status": "completed",
-    "log_group": "/aws/lambda/web-api",
-    "service": "web-api", 
-    "time_range_hours": 1,
-    "workflow_time": 2.34,
-    "logs_size_chars": 15420,
-    "analysis_result": {
-        "status": "success",
-        "analysis": {
-            "severity": "HIGH",
-            "summary": "Multiple database connection timeouts detected",
-            "error_patterns": [...],
-            "immediate_actions": [...],
-            "root_causes": [...]
-        },
-        "metadata": {
-            "analysis_time": 1.2,
-            "tokens_used": 1250,
-            "cost": 0.025,
-            "model": "gpt-4"
-        }
-    },
-    "alerts_generated": 2,
-    "alerts_sent": true,
-    "timestamp": "2025-07-22T10:30:00Z"
+  "severity": "high",
+  "summary": "Multiple Stripe webhook signature validation failures starting 09:14 UTC",
+  "error_patterns": [
+    {"pattern": "InvalidSignature", "count": 47,
+     "sample": "09:14:23 ERROR stripe.webhook InvalidSignature: ..."}
+  ],
+  "likely_causes": [
+    "STRIPE_WEBHOOK_SECRET environment variable was rotated and not redeployed"
+  ],
+  "actions": [
+    {"priority": "high",
+     "description": "Verify STRIPE_WEBHOOK_SECRET matches Stripe dashboard",
+     "command": "aws secretsmanager get-secret-value --secret-id payments/stripe-webhook"}
+  ],
+  "confidence": "medium"
 }
 ```
 
-#### Troubleshooting Common Issues
+---
 
-1. AWS Authentication Errors:
+## Running It on a Schedule
+
+The analyzer is one shot. To monitor continuously, run it from whatever scheduler you already have:
+
+**Cron, for the smallest version:**
 
 ```bash
-# Check your credentials
-aws sts get-caller-identity
-
-# Verify log group access
-aws logs describe-log-groups --log-group-name-prefix "/aws/lambda"
+*/5 * * * * cd /opt/analyzer && /opt/venv/bin/python analyzer.py >> /var/log/analyzer.log 2>&1
 ```
 
-2. No Logs Found:
+**Lambda + EventBridge** for AWS-native:
 
-- Verify the log group name is correct (case-sensitive)
-- Check if the time range includes log activity
-- Ensure your IAM user/role has CloudWatch read permissions
+```python
+# lambda_handler.py
+import asyncio
+import os
+from analyzer import LogAnalyzer
+from ai_client import AIClient
+from cloudwatch import CloudWatchReader
 
-3. AI Analysis Fails:
+def handler(event, context):
+    log_group = event.get("log_group") or os.environ["LOG_GROUP"]
+    analyzer = LogAnalyzer(AIClient(), CloudWatchReader())
+    triage = asyncio.run(analyzer.analyze(log_group, minutes=15))
+    if triage:
+        asyncio.run(analyzer.notify(log_group, triage))
+    return {"severity": triage.severity if triage else "none"}
+```
 
-- Check your OpenAI/Google API keys are valid
-- Verify internet connectivity for API calls
-- Monitor API rate limits and quotas
+**Kubernetes CronJob** if you live there. Same pattern, different YAML.
 
----
-
-## Checkpoint: AI Tools Integration
-
-### Knowledge Validation
-
-Complete these practical tasks to validate your understanding:
-
-1. API Integration Challenge:
-
-   - Set up authenticated connections to 3 different AI providers
-   - Implement rate limiting and cost tracking
-   - Create fallback mechanisms for provider failures
-2. Automation Development:
-
-   - Build a Python script that analyzes Docker logs with AI
-   - Create an automated incident report generator
-   - Implement a CI/CD pipeline with AI code review
-3. Production Implementation:
-
-   - Deploy the AI DevOps Dashboard with real metrics
-   - Configure monitoring and alerting
-   - Implement proper error handling and observability
-
-### Professional Portfolio Additions
-
-- AI API Integration Framework - Reusable library for multiple providers
-- DevOps Automation Scripts - Collection of AI-powered automation tools
-- Monitoring Dashboard - Complete AI-enhanced monitoring solution
-
-### Next Learning Path
-
-✅ Completed: AI Tools Integration - APIs & Automation
-🎯 Current Phase: Foundation (66% complete)
-📚 Next Module: [MCP & Agent Basics](06-mcp-agent-basics.md)
-🔄 Parallel Learning: Continue practicing with real-world automation projects
+The point: don't build a service if you don't need one. A 5-minute cron with the right output is fine.
 
 ---
 
-## Additional Resources
+## Cost, Observed
 
-### AI API Documentation
+A single `gpt-4.1-mini` call on ~10K characters of logs costs roughly $0.001–$0.002 in mid-2026 prices. Running every 5 minutes against one log group: about $0.50/day, or $15/month per group.
 
-- [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
-- [Google AI Platform](https://ai.google.dev/docs)
-- [Google Generative AI Python SDK](https://github.com/google/generative-ai-python)
-- [Google Cloud AI Platform](https://cloud.google.com/ai-platform/docs)
+A team I work with monitors 40 log groups this way. They spend about $20/day on the LLM. The first month they ran it, it caught a misrouted Slack webhook that had been silently dropping incident notifications for a week. Easy ROI.
 
-### Python AI Libraries
-
-- [OpenAI Python Library](https://github.com/openai/openai-python)
-- [Google Generative AI](https://pypi.org/project/google-generativeai/)
-- [LangChain](https://python.langchain.com/docs/get_started/introduction)
-- [AsyncIO Best Practices](https://docs.python.org/3/library/asyncio.html)
-
-### DevOps Integration Tools
-
-- [GitHub Actions for AI](https://github.com/marketplace?type=actions&query=AI)
-- [Jenkins AI Plugins](https://plugins.jenkins.io/search?q=ai)
-- [Prometheus Python Client](https://github.com/prometheus/client_python)
-- [OpenTelemetry Python](https://opentelemetry-python.readthedocs.io/)
+The mistake people make: defaulting to `gpt-5` or `claude-opus-4` for this. Those are 30x the cost. Triage is a workhorse task; use a workhorse model.
 
 ---
 
-**🎯 Ready for advanced AI agent frameworks? [Continue to MCP &amp; Agent Basics →](06-mcp-agent-basics.md)**
+## A Failure Story
+
+The first version of this analyzer didn't truncate logs. It just stuffed everything into the prompt. Worked great on small log groups. The day someone pointed it at `/aws/ecs/web-frontend` — which produces 200K events per hour — the bill for the day was $340.
+
+Two bugs caused that:
+
+1. No truncation. We sent the model 800KB of logs in one call.
+2. No cost ceiling. The script ran on a cron with no daily budget.
+
+Both fixes are in the code above. `format()` truncates at 12K chars. `AIClient.total_cost` lets you bolt on a kill switch:
+
+```python
+if ai.total_cost > 5.00:
+    log.critical("daily budget exceeded; aborting")
+    raise SystemExit(1)
+```
+
+That's not a paranoid check. It's the difference between a $15 month and a $340 day.
 
 ---
 
-## Support This Work
+## Where to Go From Here
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+You now have the pattern. Variations:
+
+- **Replace CloudWatch with anything.** Datadog logs, Loki, Elasticsearch — change the reader, keep the rest.
+- **Replace Slack with PagerDuty.** Change `notify()`, keep the rest.
+- **Add a fallback model.** Wrap `complete_structured` in a try/except; on failure call Anthropic.
+- **Add deduplication.** Hash the triage summary, skip notifying if the same alert fired in the last hour.
+
+What you should *not* do yet:
+
+- Build a UI for it. CLI output and Slack are enough.
+- Make the LLM "act on" logs autonomously. Read-only is the safe place to start.
+- Turn this into an agent loop with multiple tools. That's the next chapter.
+
+---
+
+## Chapter Summary
+
+- One small client class handles three providers cleanly.
+- Use structured outputs when the API supports them. Validate with Pydantic when it doesn't.
+- Boto3 is sync; wrap it with `asyncio.to_thread`.
+- Truncate context before it eats your budget. Always have a cost ceiling.
+- The right default model for triage is the workhorse tier, not the frontier.
+- Don't ship a service when a cron job will do.
+
+Next: [MCP — Model Context Protocol](05-01-mcp-model-context-protocol.md) — the protocol that lets the model call your tools instead of just reading data.
+
+---
+
+## Resources
+
+- [OpenAI Python SDK](https://github.com/openai/openai-python)
+- [OpenAI Structured Outputs](https://platform.openai.com/docs/guides/structured-outputs)
+- [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
+- [google-genai (new Gemini SDK)](https://github.com/googleapis/python-genai)
+- [Boto3 CloudWatch Logs API](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs.html)
+- [tenacity — retry library](https://tenacity.readthedocs.io/)
+
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)

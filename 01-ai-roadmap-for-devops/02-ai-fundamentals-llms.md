@@ -1,440 +1,299 @@
-# Phase 1: AI Fundamentals & Large Language Models
+# AI Fundamentals and Large Language Models
 
-*A comprehensive technical guide to understanding AI foundations for DevOps professionals*
+*Phase 1 — what you actually need to know about AI before you start wiring it into your infrastructure.*
 
-> ⭐ **Starring** this repository to support this work
-
-## Learning Objectives
-
-Upon completion of this guide, you will:
-- Understand the core concepts of AI, ML, and deep learning architectures
-- Comprehend the technical foundations of Large Language Models (LLMs)
-- Evaluate model performance characteristics and selection criteria
-- Apply AI concepts effectively within DevOps and infrastructure contexts
-- Make informed decisions about AI tool integration in your workflows
+> ⭐ Star this repo if it's useful — it helps more than you think.
 
 ---
 
-## Tutorial Sections
+## Why This Chapter Exists
 
-### Section 1: Understanding AI System Architecture
+A junior engineer on my team once spent half a day asking ChatGPT to "check our production logs from this morning." He got back confident, detailed analysis. None of it was real. The model couldn't see his logs and was never going to.
 
-#### Artificial Intelligence vs Machine Learning vs Deep Learning
+That's the gap this chapter closes. Before you can use AI in DevOps, you need a working mental model of what these systems are, what they can actually do, and where they break. Not a research-grade understanding — just enough to make good decisions when you're integrating them into pipelines, runbooks, and on-call tools.
 
-**Conceptual Framework:**
-```
-Artificial Intelligence (Superset)
-├── Machine Learning (Subset)
-    └── Deep Learning (Specialized Subset)
-```
+By the end, you should be able to:
 
-**Technical Definitions:**
-
-- **Artificial Intelligence**: Computer systems designed to perform tasks that traditionally require human cognitive abilities, including reasoning, learning, and decision-making
-- **Machine Learning**: Algorithmic approaches that enable systems to automatically improve performance through experience and data analysis
-- **Deep Learning**: Neural network architectures with multiple layers that can model complex patterns in large datasets
-
-**Implementation Context:**
-In enterprise environments, these technologies form a hierarchy where deep learning models (like LLMs) leverage machine learning principles within broader AI system architectures.
-
-**Practical Exercise:**
-- [ ] Experiment with [OpenAI Playground](https://platform.openai.com/playground) to observe model behavior
-- [ ] Review: [Neural Network Fundamentals](https://www.youtube.com/watch?v=aircAruvnKk) for technical foundation
-
-#### **Text Processing and Tokenization**
-
-**Technical Overview:**
-Natural language processing requires converting human text into numerical representations that computational systems can process effectively.
-
-**Tokenization Process:**
-```
-Text Input: "Hello, DevOps engineer!"
-Tokenization: ["Hello", ",", "Dev", "Ops", "engineer", "!"]
-Numerical Encoding: [7595, 11, 6768, 40004, 11618, 0]
-```
-
-**Key Technical Concepts:**
-- **Tokens**: Discrete text units (words, subwords, or characters) used as model input
-- **Embeddings**: High-dimensional vector representations that capture semantic meaning
-- **Vector Space**: Mathematical space where similar concepts cluster together
-
-**Implementation Details:**
-Modern LLMs use subword tokenization algorithms (like Byte-Pair Encoding) to handle vocabulary efficiently while maintaining semantic coherence.
-
-**Practical Exercise:**
-- [ ] Analyze text tokenization using [OpenAI Tokenizer](https://platform.openai.com/tokenizer)
-- [ ] Compare tokenization patterns across different input formats
-
-#### **AI Model Categories and Applications**
-
-**Classification Models**
-```
-Purpose: Categorize inputs into predefined classes
-Input: Data samples (text, images, metrics)
-Output: Class probabilities with confidence scores
-DevOps Application: Anomaly detection, alert classification
-```
-
-**Generative Models**
-```
-Purpose: Create new content based on learned patterns
-Input: Prompts or partial content
-Output: Generated text, code, or configurations
-DevOps Application: Documentation generation, code completion
-```
-
-**Recommendation Systems**
-```
-Purpose: Suggest relevant items based on patterns
-Input: User behavior and preferences
-Output: Ranked recommendations
-DevOps Application: Tool recommendations, optimization suggestions
-```
-
-**Technical Implementation:**
-Each model type employs different architectures and training methodologies optimized for specific use cases and performance requirements.
-
-**Practical Exercise:**
-- [ ] Evaluate different AI model types using available platforms:
-  - Classification: [Google Teachable Machine](https://teachablemachine.withgoogle.com/)
-  - Generation: OpenAI GPT or Anthropic Claude
-  - Multimodal: DALL-E or Midjourney
+- Tell AI, ML, and LLMs apart in one sentence each
+- Read an OpenAI or Anthropic pricing page and know what you're paying for
+- Pick the right model for a task instead of defaulting to the biggest one
+- Spot the failure modes (hallucination, context limits, knowledge cutoffs) before they bite you in production
 
 ---
 
-### Section 2: Large Language Model Architecture
+## The Three Words People Use Interchangeably
 
-#### LLM Technical Characteristics
+AI, machine learning, and deep learning are not synonyms. They nest:
 
-**Architectural Foundation:**
-Large Language Models represent a specialized implementation of transformer neural networks, optimized for natural language understanding and generation at scale.
-
-**Core Technical Features:**
-```
-Scale Characteristics:
-- Parameter Count: Billions to trillions of weights
-- Training Data: Petabytes of text from diverse sources
-- Context Window: Thousands to millions of tokens
-- Computational Requirements: Distributed GPU/TPU clusters
+```mermaid
+flowchart TD
+    AI[Artificial Intelligence] --> ML[Machine Learning]
+    ML --> DL[Deep Learning]
+    DL --> LLM[Large Language Models]
 ```
 
-**Emergent Capabilities:**
-LLMs demonstrate capabilities not explicitly programmed, including reasoning, code generation, and cross-domain knowledge transfer—phenomena that emerge from scale and architecture complexity.
+- **Artificial Intelligence** is the umbrella. Any system that does something a human used to do — playing chess, classifying images, routing tickets — counts.
+- **Machine learning** is AI that learns patterns from data instead of following hand-written rules. Your spam filter is ML. So is the recommendation engine that picked your last Netflix show.
+- **Deep learning** is ML built on neural networks with many layers. It's what made image recognition and speech-to-text actually work.
+- **Large Language Models** are deep learning systems trained on enormous text corpora. GPT, Claude, Gemini, Llama — all LLMs.
 
-**Current Leading Models:**
-- **GPT-4 (OpenAI)**: Advanced reasoning, code generation, multimodal processing
-- **Claude (Anthropic)**: Constitutional AI training, instruction following, safety focus
-- **Gemini (Google)**: Multimodal integration, search optimization
-- **Llama (Meta)**: Open-source architecture, customization flexibility
-
-#### LLM Training Methodology
-
-**Training Pipeline:**
-```
-Phase 1: Pre-training
-├── Data Ingestion: Web crawls, books, academic papers
-├── Tokenization: Convert text to numerical sequences
-├── Self-supervised Learning: Next token prediction
-└── Result: Foundation model with language understanding
-
-Phase 2: Instruction Tuning
-├── Curated Datasets: High-quality instruction-response pairs
-├── Supervised Fine-tuning: Task-specific optimization
-├── Human Feedback Integration: RLHF implementation
-└── Result: Assistant-capable model
-
-Phase 3: Safety Alignment
-├── Constitutional AI: Value-based training
-├── Red Team Testing: Adversarial evaluation
-├── Deployment Safeguards: Runtime filtering
-└── Result: Production-ready model
-```
-
-**Technical Implementation:**
-The training process requires massive computational resources and sophisticated distributed systems to handle petabyte-scale datasets and billion-parameter models.
-
-#### **LLM Capabilities and Technical Limitations**
-
-**Demonstrated Capabilities:**
-```
-Strengths:
-✅ Natural language generation and comprehension
-✅ Cross-lingual translation and localization
-✅ Text summarization and information extraction
-✅ Code generation and technical documentation
-✅ Logical reasoning and problem decomposition
-✅ Creative content generation
-```
-
-**Technical Limitations:**
-```
-Constraints:
-❌ Static knowledge cutoff (training data temporal boundary)
-❌ Mathematical computation accuracy (calculation errors)
-❌ Factual hallucination (generation of false information)
-❌ Context window limitations (finite memory capacity)
-❌ Lack of real-time data access
-❌ Inconsistent reasoning across conversation length
-```
-
-**Practical Exercise:**
-- [ ] Test knowledge boundaries: Query recent events beyond training cutoff
-- [ ] Evaluate mathematical accuracy: Request complex calculations
-- [ ] Assess factual reliability: Verify claims against authoritative sources
+When a vendor says "AI-powered," ask which layer they actually mean. The honest answer is usually "an LLM with a prompt template."
 
 ---
 
-### **Section 3: Model Evaluation and Performance Analysis**
+## How Text Becomes Numbers
 
-#### **How to Evaluate AI Model Quality**
+LLMs don't read English. They read sequences of integers called *tokens*.
 
-**When choosing an AI model for your DevOps work, you need to assess two main areas: the quality of responses and the technical performance.**
+Take this sentence: `"Restart the nginx pod."`
 
-**Response Quality - "Is this AI actually helpful?"**
-
-Think of this like reviewing a junior engineer's work:
+A tokenizer might split it into something like:
 
 ```
-Coherence: Does the response make logical sense?
-   Example: If you ask about Docker networking, does it give you 
-   step-by-step instructions that actually work together?
-
-Relevance: Does it answer YOUR specific question?
-   Example: You ask about Kubernetes troubleshooting, it gives you 
-   kubectl commands, not generic advice about "checking logs"
-
-Accuracy: Are the technical details correct?
-   Example: The YAML syntax is valid, the command flags exist, 
-   the configuration actually works
-
-Completeness: Does it cover what you need to know?
-   Example: It explains the solution AND tells you how to prevent 
-   the problem in the future
+["Restart", " the", " nginx", " pod", "."]
+→ [27914, 290, 39199, 7397, 13]
 ```
 
-**Technical Performance - "Will this work in production?"**
+Each token maps to a vector — a list of a few thousand floating-point numbers. Similar tokens land in similar regions of that vector space. The model learns relationships by moving these vectors around during training.
 
-Think of this like evaluating any other service in your infrastructure:
+Three practical consequences:
 
-```
-Speed: How fast does it respond?
-   - Good: 1-3 seconds for most queries
-   - Poor: 30+ seconds (too slow for interactive use)
+1. **You pay per token, not per word.** "Kubernetes" might be one token. "kubelet-config-reloader" might be five. Long variable names cost real money at scale.
+2. **Context windows are measured in tokens.** When a model says "128k context," it means 128,000 tokens — roughly 90,000 English words, less for code.
+3. **Tokenization is language-dependent.** A paragraph in Vietnamese or Japanese typically uses 2-3x more tokens than the same paragraph in English.
 
-Reliability: Does it work consistently?
-   - Good: 99%+ uptime, consistent response quality
-   - Poor: Frequent timeouts or dramatically different answers
-
-Cost: What does it cost per request?
-   - Varies by model: $0.001 to $0.10 per 1000 tokens
-   - Consider your usage volume for budgeting
-
-Scalability: Can it handle your team's load?
-   - Important for enterprise use or high-frequency automation
-```
-
-**Real-World Testing Methods**
-
-Instead of abstract benchmarks, test models with YOUR actual work:
-
-```
-1. Take 5 real problems from your recent work
-2. Ask each AI model to solve them
-3. Compare:
-   - Which gives more actionable answers?
-   - Which understands your infrastructure context better?
-   - Which makes fewer technical errors?
-   - Which is fast enough for your workflow?
-```
-
-#### **Understanding Model Sizes and Performance**
-
-**Model Size Impact:**
-```
-Small Models (7B parameters):
-- Faster responses
-- Lower cost
-- Good for simple tasks
-- Example: Llama 2 7B
-
-Large Models (70B+ parameters):
-- Better reasoning
-- More knowledge
-- Higher cost
-- Example: GPT-4, Claude 3 Opus
-```
-
-**How to Choose:**
-- Simple tasks (summarization, basic Q&A) → Smaller models
-- Complex reasoning (analysis, coding) → Larger models
-- Real-time applications → Faster models
-- Cost-sensitive applications → Efficient models
-
-#### **Hands-On Model Comparison**
-
-**Practical Exercise:**
-- [ ] **Task**: Ask the same question to 3 different LLMs
-- [ ] **Question**: "Explain Docker containers to someone new to DevOps"
-- [ ] **Compare**: GPT-4, Claude, and Gemini responses
-- [ ] **Evaluate**: Which explanation is clearest? Most accurate? Most helpful?
-
-**Create Your Evaluation Framework:**
-```
-Criteria (Rate 1-5):
-□ Clarity: Easy to understand?
-□ Accuracy: Technically correct?
-□ Completeness: Covers important points?
-□ Usefulness: Actionable information?
-□ Engagement: Interesting to read?
-```
+> **Tip:** Paste your typical prompts into the [OpenAI tokenizer](https://platform.openai.com/tokenizer) once. You'll be surprised what's expensive.
 
 ---
 
-### **Section 4: AI in DevOps Context**
+## What an LLM Actually Does
 
-#### **Where AI Fits in DevOps**
+Strip away the marketing and an LLM does exactly one thing: given a sequence of tokens, it predicts the next token. Then it does it again. And again. Until it hits a stop signal.
 
-**Current AI Use Cases in DevOps:**
-```
-Monitoring & Alerting:
-- Anomaly detection in metrics
-- Intelligent alert correlation
-- Predictive failure analysis
+That's it. Everything else — answering questions, writing code, summarizing logs — emerges from doing next-token prediction very well, at scale, on enough data.
 
-Incident Response:
-- Automated root cause analysis
-- Intelligent runbook suggestions
-- Chat-based troubleshooting
+This explains the personality of LLMs:
 
-Documentation:
-- Auto-generated documentation
-- Code explanation and comments
-- Process documentation updates
+- They're **fluent** because they've seen billions of sentences.
+- They're **confident** because they always produce something — there's no "I don't know" baked into the architecture; that has to be trained in.
+- They **hallucinate** because they're guessing the next plausible token, not retrieving facts.
+- They **forget** what's outside the context window because the architecture has no persistent memory.
 
-Deployment & Scaling:
-- Intelligent auto-scaling
-- Deployment risk assessment
-- Configuration optimization
-```
+When someone tells you an LLM "thinks" or "understands," they're using shortcut language. Treat it as a very capable pattern matcher with a fixed scratchpad. That mental model holds up almost everywhere.
 
-#### **AI-Enhanced Developer Tools**
+---
 
-**Popular AI DevOps Tools:**
-- **GitHub Copilot**: AI pair programmer for code completion
-- **Tabnine**: Intelligent code suggestions
-- **DataDog AI**: Anomaly detection and alerting
-- **PagerDuty AI**: Intelligent incident management
-- **AWS CodeWhisperer**: AI coding assistant for AWS
+## The Current Model Landscape (Mid-2026)
 
-**Hands-on Activity:**
-- [ ] Try GitHub Copilot or similar tool
-- [ ] Write a simple Python script with AI assistance
-- [ ] Compare AI-generated code vs your manual coding
+You don't need to know every model. You need to know the families and what they're good at.
 
-#### **Building Your First AI-Enhanced Tool**
+| Family | Maker | Strengths | Typical use |
+|---|---|---|---|
+| **GPT-4.1 / GPT-5** | OpenAI | General reasoning, tool use, structured outputs | Production agents, code generation |
+| **Claude Sonnet 4.5 / Opus 4** | Anthropic | Long context, careful reasoning, refusal behavior | Code review, long-document analysis |
+| **Gemini 2.5 Pro** | Google | Multimodal, very long context, tight Google Cloud integration | Image/log analysis, BigQuery workflows |
+| **Llama 3.x / 4** | Meta | Open weights, self-hostable | On-prem deployments, fine-tuning |
+| **Mistral / Mixtral** | Mistral | Strong open-weight models, European hosting | EU data-residency requirements |
+| **Qwen / DeepSeek** | Alibaba / DeepSeek | Open weights, strong on code and reasoning | Cost-sensitive coding agents |
 
-**Project: AI-Powered Log Analyzer**
+Names and version numbers change every few months. The capability tiers don't:
+
+- **Frontier models** (GPT-5, Claude Opus 4, Gemini 2.5 Pro): expensive, slow, best reasoning. Use for hard problems.
+- **Workhorse models** (GPT-4.1 mini, Claude Sonnet, Gemini Flash): 10-30x cheaper, fast, good enough for 80% of tasks.
+- **Small / open models** (Llama 3 8B, Qwen 7B): cheap to run, fine for classification, routing, and structured extraction.
+
+> **Note:** "Bigger is better" is the most expensive default in AI engineering. Always start with the workhorse tier and measure before reaching for frontier models.
+
+---
+
+## How These Models Get Trained
+
+You don't need to train one. You should know the shape of the process, because it explains every weird behavior you'll see.
+
+Modern LLMs go through three stages:
+
+**1. Pre-training.** The model reads a huge chunk of the internet, books, code, and papers — trillions of tokens. It learns next-token prediction on raw text. The result is a *base model*: fluent but unaligned. Ask it a question and it might continue with more questions instead of answering.
+
+**2. Supervised fine-tuning (SFT).** Humans write thousands of high-quality instruction/response pairs. The model is fine-tuned on these. Now it answers questions instead of completing them.
+
+**3. Reinforcement learning from human feedback (RLHF) or AI feedback (RLAIF).** Humans (or another model) rank multiple responses. The model is updated to prefer the higher-ranked ones. This is where "helpful, harmless, honest" personalities come from.
+
+Two things follow:
+
+- **Knowledge cutoffs are real.** A model's facts stop at the end of its pre-training data. If GPT-5's cutoff is May 2026, it has no idea what happened last week unless you tell it.
+- **Safety behaviors are trained, not built in.** A jailbroken model will gladly help with things its production sibling refuses. This matters when you self-host.
+
+---
+
+## What LLMs Are Good At, What They're Not
+
+**They're good at:**
+
+- Generating boilerplate code, configs, and documentation
+- Summarizing long text into structured output
+- Translating between formats (logs → JSON, English → SQL, YAML → Terraform)
+- Pattern-matching against examples ("here are 10 good commits, write one for this diff")
+- Following clear, constrained instructions
+
+**They're bad at:**
+
+- Math beyond basic arithmetic. They guess plausible numbers. Use a calculator tool.
+- Counting things accurately. Ask "how many errors are in this log?" and you'll get a number that sounds right.
+- Knowing what they don't know. They will hallucinate API endpoints, function signatures, and library names with total confidence.
+- Anything outside their training cutoff or context window. No, GPT can't read your wiki unless you paste it in.
+- Long, multi-step planning without external structure. They drift.
+
+> **Warning:** If correctness matters, you do not let the LLM be the source of truth. Pair it with retrieval, tool calls, and validation. A model that's right 95% of the time is wrong every twentieth time — and you won't know which time.
+
+---
+
+## How to Evaluate a Model for Your Work
+
+Benchmarks like MMLU and HumanEval are useful for vendors. They're nearly useless for you. The model that wins benchmarks may still be terrible at writing your team's Terraform.
+
+Run your own evaluation. The process takes an afternoon:
+
+1. **Collect 10–20 real tasks** from the last two weeks of your work. Real tickets, real questions, real diffs.
+2. **Write the ideal output** for each one. Or grab what a senior engineer actually produced.
+3. **Run the same task through 2–3 candidate models.** Same prompt, same inputs.
+4. **Score each output on four axes:** correctness, completeness, format compliance, hallucination rate.
+5. **Track cost and latency** alongside quality.
+
+The winner is rarely the most expensive model. It's the cheapest model that clears your quality bar.
+
 ```python
-# Simple example using OpenAI API
-import openai
+# evaluate.py — minimal harness for comparing models
+import time
+from openai import OpenAI
 
-def analyze_log_entry(log_line):
-    prompt = f"""
-    Analyze this log entry and tell me:
-    1. Is this an error, warning, or info?
-    2. What might have caused it?
-    3. What should I do about it?
-    
-    Log: {log_line}
-    """
-    
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}]
+client = OpenAI()
+MODELS = ["gpt-4.1-mini", "gpt-4.1", "gpt-5"]
+
+def run_task(model: str, prompt: str) -> dict:
+    start = time.perf_counter()
+    resp = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
     )
-    
-    return response.choices[0].message.content
+    return {
+        "model": model,
+        "output": resp.choices[0].message.content,
+        "latency_s": round(time.perf_counter() - start, 2),
+        "input_tokens": resp.usage.prompt_tokens,
+        "output_tokens": resp.usage.completion_tokens,
+    }
 
-# Test it
-log = "ERROR: Connection timeout to database after 30 seconds"
-analysis = analyze_log_entry(log)
-print(analysis)
+if __name__ == "__main__":
+    prompt = "Summarize: the load balancer returned 502 for 4 minutes at 09:14 UTC."
+    for m in MODELS:
+        print(run_task(m, prompt))
 ```
 
-**Your Task:**
-- [ ] Set up OpenAI API account
-- [ ] Run the log analyzer script
-- [ ] Test with different types of logs
-- [ ] Think about how to make it better
+This script uses the OpenAI Python SDK v1.x. The older `openai.ChatCompletion.create` syntax was removed in late 2023 — if you see it in a tutorial, the tutorial is out of date.
 
 ---
 
-## Assessment: Test Your Understanding
+## AI in DevOps: Where It Actually Helps
 
-### Quiz Questions:
-1. **What's the difference between AI, ML, and Deep Learning?**
-   - Give a simple analogy for each
+Strip out the hype and the genuinely useful applications cluster in four areas:
 
-2. **Why can't ChatGPT tell you what happened yesterday?**
-   - Explain the knowledge cutoff limitation
+**1. Toil reduction.** Generating boilerplate Terraform, writing PromQL queries, drafting runbook stubs, formatting commit messages. Things you do the same way every time.
 
-3. **When would you choose a smaller AI model over a larger one?**
-   - List 3 scenarios with reasoning
+**2. First-pass analysis.** Triaging alerts, summarizing PRs, extracting structure from logs. Not the final word, but a useful first read.
 
-4. **Name 3 ways AI could help in your current DevOps work**
-   - Be specific about the tasks and benefits
+**3. Documentation.** Generating docs from code, code from docs, and keeping them in sync. The single biggest wins I've seen on real teams.
 
-### **Practical Project:**
-Build a simple AI tool that solves a real problem from your work:
-- [ ] Identify a repetitive task you do
-- [ ] Write a prompt that could automate part of it
-- [ ] Test with an LLM API
-- [ ] Document what works and what doesn't
+**4. Interactive troubleshooting.** A chat interface over your tools — Kubernetes, AWS, Datadog — beats memorizing a hundred CLI flags. This is the killer app for MCP, which you'll see in chapter 5.
+
+What it doesn't do well: act autonomously on production systems without human review. Not yet. The gap between "agent that can run `kubectl`" and "agent you trust to run `kubectl` at 3 AM" is enormous.
 
 ---
 
-## Recommended Resources
+## A Failure Story
 
-### **Free Learning:**
-- [ ] **Course**: [AI for Everyone by Andrew Ng](https://www.coursera.org/learn/ai-for-everyone) (Coursera)
-- [ ] **Video Series**: [3Blue1Brown Neural Networks](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi)
-- [ ] **Interactive**: [Machine Learning Explained](https://mlu-explain.github.io/)
+A team I worked with built an "AI on-call assistant" in a weekend. It read PagerDuty alerts, ran diagnostic commands through an MCP server, and posted a summary to Slack. Beautiful demo.
 
-### **Documentation:**
-- [ ] [OpenAI API Documentation](https://platform.openai.com/docs)
-- [ ] [Hugging Face Transformers Guide](https://huggingface.co/docs/transformers/index)
-- [ ] [Google AI Education](https://ai.google/education/)
+Two weeks in, it confidently posted that a database was healthy. It wasn't. Replication had been broken for six hours. The assistant had run `SELECT 1;`, gotten back a `1`, and called it a day.
 
-### **Books for Deeper Understanding:**
-- [ ] **"AI for People in a Hurry"** by Neil Reddy (Quick overview)
-- [ ] **"The Hundred-Page Machine Learning Book"** by Andriy Burkov (Concise but comprehensive)
+The fix wasn't a better model. It was a better tool: a real health check that walked replication lag, recent error logs, and connection counts. The LLM was fine at *narrating*. It was terrible at *deciding what to check*.
+
+The lesson: the LLM is the interface. The tools are the truth. Get the tools right first.
 
 ---
 
-## Next Steps
+## A Tiny Hands-On
 
-After completing this module, you should:
-- ✅ Understand what AI and LLMs can and can't do
-- ✅ Know how to evaluate different AI models
-- ✅ Have hands-on experience with AI APIs
-- ✅ See practical applications in DevOps
+If you've never made an API call to an LLM, do it now. This is the entire program:
 
-**Ready for the next module?** → [03-prompt-engineering.md](03-prompt-engineering.md)
+```python
+# hello_llm.py
+from openai import OpenAI
+
+client = OpenAI()  # reads OPENAI_API_KEY from env
+
+response = client.chat.completions.create(
+    model="gpt-4.1-mini",
+    messages=[
+        {"role": "system", "content": "You are a senior SRE. Be concise."},
+        {"role": "user", "content": "Explain what a readiness probe does in 2 sentences."},
+    ],
+)
+
+print(response.choices[0].message.content)
+print("---")
+print(f"tokens in/out: {response.usage.prompt_tokens}/{response.usage.completion_tokens}")
+```
+
+Run it. Read the output. Note the token count. That's the foundation of every AI tool you'll build in this book.
+
+Setup:
+
+```bash
+pip install "openai>=1.50"
+export OPENAI_API_KEY=sk-...   # or use a .env loader
+python hello_llm.py
+```
+
+Same idea with Anthropic:
+
+```python
+# hello_claude.py
+from anthropic import Anthropic
+
+client = Anthropic()  # reads ANTHROPIC_API_KEY
+
+msg = client.messages.create(
+    model="claude-sonnet-4-5",
+    max_tokens=256,
+    system="You are a senior SRE. Be concise.",
+    messages=[{"role": "user", "content": "Explain what a readiness probe does in 2 sentences."}],
+)
+print(msg.content[0].text)
+```
 
 ---
 
-## Key Takeaways
+## Chapter Summary
 
-1. **AI is a tool, not magic** - Understanding its limitations is as important as knowing its capabilities
-2. **Start simple** - You don't need to build complex models to get value from AI
-3. **Focus on problems** - Always start with what you want to solve, not what AI can do
-4. **Practice with real tools** - Hands-on experience is worth more than theory
-5. **Stay curious** - The field moves fast, but fundamentals remain stable
+- AI > ML > Deep Learning > LLMs. Use the right word.
+- LLMs predict the next token. Everything else is emergent behavior on top of that.
+- Tokens cost money. Context windows have hard limits. Both matter at scale.
+- Three model tiers: frontier, workhorse, small/open. Default to workhorse.
+- Run your own evaluation on real tasks. Benchmarks are for vendors.
+- The LLM is the interface. The tools are the truth.
 
-*Remember: You're not trying to become an AI researcher - you're learning to use AI effectively in infrastructure and DevOps contexts.*
+Next: [Prompt Engineering](03-prompt-engineering.md) — turning the model into a reliable component.
 
 ---
 
-## Support This Work
+## Resources
 
-[![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
+- [OpenAI API reference](https://platform.openai.com/docs/api-reference)
+- [Anthropic API docs](https://docs.anthropic.com/)
+- [Google Gemini API](https://ai.google.dev/)
+- [3Blue1Brown — Neural Networks](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) — best free explanation of how this stuff actually works
+- *The Hundred-Page Machine Learning Book* — Andriy Burkov
+
+---
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red?style=for-the-badge)](https://github.com/sponsors/hoalongnatsu)
