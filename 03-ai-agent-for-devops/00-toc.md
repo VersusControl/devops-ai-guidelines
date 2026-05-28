@@ -96,7 +96,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Deployment options: Local network, Streamlit Cloud, Docker, and production considerations.
 - Testing the web interface: Verifying functionality and user experience.
 
-## Chapter 9: Adding Decision-Making and Actions
+## [Chapter 9: Adding Decision-Making and Actions](./09-adding-decision-making-and-actions.md)
 
 - Moving from passive to active: Adding decision-making capabilities to your agent.
 - Structured outputs: Learn to generate JSON responses with severity levels, affected systems, and recommended actions.
@@ -105,7 +105,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Implementing basic actions: Integrate with PagerDuty, Slack, or email for notifications.
 - Testing and validation: Start with read-only actions before moving to automated responses.
 
-## Chapter 10: Building a Complex Agent with Actions
+## [Chapter 10: Building a Complex Agent with Actions](./10-building-complex-agent-with-actions.md)
 
 - Real-world architecture: Three-tier application on AWS (Frontend, Backend on EKS, RDS + Redis).
 - The problem: Multiple Java backend pods hitting max database connections causing "too many connections" errors.
