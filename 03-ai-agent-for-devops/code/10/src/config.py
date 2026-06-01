@@ -26,7 +26,7 @@ class Config:
 
     # MiniMax Configuration
     MINIMAX_API_KEY = os.getenv('MINIMAX_API_KEY', '')
-    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M2.7')
+    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M3')
     MINIMAX_ENDPOINT = os.getenv('MINIMAX_ENDPOINT', 'https://api.minimax.io/v1')
     
     # Paths

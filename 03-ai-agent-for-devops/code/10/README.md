@@ -96,7 +96,7 @@ cp .env.example .env
 |----------|---------|---------------|
 | Google Gemini | `GEMINI_API_KEY` | `gemini-2.5-flash` |
 | GitHub Models | `GITHUB_TOKEN` | `openai/gpt-5` |
-| [MiniMax](https://www.minimax.io) | `MINIMAX_API_KEY` | `MiniMax-M2.7` |
+| [MiniMax](https://www.minimax.io) | `MINIMAX_API_KEY` | `MiniMax-M3` |
 
 Set `LLM_PROVIDER` to `gemini`, `github`, or `minimax` in your `.env` file.
 

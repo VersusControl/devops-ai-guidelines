@@ -126,13 +126,13 @@ class TestMiniMaxModel(unittest.TestCase):
     })
     @patch('langchain_openai.ChatOpenAI')
     def test_minimax_default_model(self, mock_chat):
-        """Default model is MiniMax-M2.7."""
+        """Default model is MiniMax-M3."""
         _reload_all()
         from src.models.minimax import MiniMaxModel
 
         model = MiniMaxModel()
         call_kwargs = mock_chat.call_args[1]
-        self.assertEqual(call_kwargs['model'], 'MiniMax-M2.7')
+        self.assertEqual(call_kwargs['model'], 'MiniMax-M3')
 
     @patch.dict(os.environ, {
         'MINIMAX_API_KEY': 'test-key-123',
@@ -287,7 +287,7 @@ class TestConfigValidation(unittest.TestCase):
     @patch.dict(os.environ, {
         'LLM_PROVIDER': 'minimax',
         'MINIMAX_API_KEY': 'test-key-123',
-        'MINIMAX_MODEL': 'MiniMax-M2.7',
+        'MINIMAX_MODEL': 'MiniMax-M3',
         'LOG_DIRECTORY': '/tmp/test-logs',
     })
     def test_config_minimax_defaults(self):
@@ -296,7 +296,7 @@ class TestConfigValidation(unittest.TestCase):
         from src.config import Config
 
         self.assertEqual(Config.MINIMAX_ENDPOINT, 'https://api.minimax.io/v1')
-        self.assertEqual(Config.MINIMAX_MODEL, 'MiniMax-M2.7')
+        self.assertEqual(Config.MINIMAX_MODEL, 'MiniMax-M3')
 
     @patch.dict(os.environ, {
         'LLM_PROVIDER': 'minimax',
