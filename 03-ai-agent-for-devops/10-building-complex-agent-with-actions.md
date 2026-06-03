@@ -734,7 +734,7 @@ class Config:
 
     # MiniMax
     MINIMAX_API_KEY = os.getenv('MINIMAX_API_KEY', '')
-    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M2.7')
+    MINIMAX_MODEL = os.getenv('MINIMAX_MODEL', 'MiniMax-M3')
     MINIMAX_ENDPOINT = os.getenv('MINIMAX_ENDPOINT', 'https://api.minimax.io/v1')
 
     # AWS
@@ -996,7 +996,7 @@ GEMINI_API_KEY=your_api_key_here
 # Option C: MiniMax
 # LLM_PROVIDER=minimax
 # MINIMAX_API_KEY=your_minimax_api_key_here
-# MINIMAX_MODEL=MiniMax-M2.7
+# MINIMAX_MODEL=MiniMax-M3
 ```
 
 4. Start the application:

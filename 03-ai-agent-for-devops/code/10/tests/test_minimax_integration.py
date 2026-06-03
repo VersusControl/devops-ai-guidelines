@@ -23,7 +23,7 @@ class TestMiniMaxIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         os.environ.setdefault('LLM_PROVIDER', 'minimax')
-        os.environ.setdefault('MINIMAX_MODEL', 'MiniMax-M2.7')
+        os.environ.setdefault('MINIMAX_MODEL', 'MiniMax-M3')
         os.environ.setdefault('LOG_DIRECTORY', '/tmp/test-logs')
         os.makedirs('/tmp/test-logs', exist_ok=True)
 
