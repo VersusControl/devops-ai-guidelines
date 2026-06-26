@@ -24,8 +24,8 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - [Chapter 12: Implementing Memory and State Management](#chapter-12-implementing-memory-and-state-management)
 - [Chapter 13: Multi-Source Log Integration](#chapter-13-multi-source-log-integration)
 - [Chapter 14: Cross-System Correlation and Analysis](#chapter-14-cross-system-correlation-and-analysis)
-- [Chapter 15: Production Deployment](#chapter-15-production-deployment)
-- [Chapter 16: Future](#chapter-16-future)
+- [Chapter 15: Production Deployment](./15-production-deployment.md)
+- [Chapter 16: Future](./16-future.md)
 
 ## [Chapter 1: Introduction to AI Agents for Logging](./01-introduction-to-ai-agents-for-logging.md)
 
@@ -166,7 +166,7 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Implementing the full analysis loop: Pull logs, aggregate, correlate, analyze, and report.
 - Testing correlation logic: Verify the agent correctly identifies related events.
 
-## Chapter 15: Production Deployment
+## [Chapter 15: Production Deployment](./15-production-deployment.md)
 
 - Making it production-ready: Add proper error handling, logging, and monitoring.
 - Configuration management: Use environment variables and config files for different environments.
@@ -178,6 +178,6 @@ If you like the book version, check here to download: [Practical DevOps AI](http
 - Complete system assembly: Bringing all components together into a production deployment.
 - What you've achieved: Review the Level 3 capabilities you've built.
 
-## Chapter 16: Future
+## [Chapter 16: Future](./16-future.md)
 - Future enhancements: Paths to Level 4 (multi-agent) and Level 5 (autonomous remediation).
 - Next steps: Ideas for customization and expansion based on your specific needs.
