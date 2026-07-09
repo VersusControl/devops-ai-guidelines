@@ -2,6 +2,12 @@
 
 *A comprehensive, hands-on guide to developing your own MCP server from the ground up for Kubernetes cluster management*
 
+**Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
+
+<h1 align="center" style="border-bottom: none">
+  <img alt="Versus Incident" src="../resources/images/versus-incident.svg" style="max-width: 600px">
+</h1>
+
 ## Tutorial Overview
 
 This tutorial series transforms theoretical MCP knowledge into practical DevOps skills through building a real-world **Kubernetes MCP Server** using **Golang**. You'll progress from basic concepts to advanced production-ready implementations while integrating with VS Code and GitHub Copilot for modern AI-powered development workflows.
