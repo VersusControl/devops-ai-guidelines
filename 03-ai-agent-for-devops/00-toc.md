@@ -8,6 +8,12 @@ This README provides an outline for a beginner-friendly book series on building 
 
 If you like the book version, check here to download: [Practical DevOps AI](https://groups.google.com/g/practical-devops-ai).
 
+**Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
+
+<h1 align="center" style="border-bottom: none">
+  <img alt="Versus Incident" src="../resources/images/versus-incident.svg" style="max-width: 600px">
+</h1>
+
 ## Table of Contents
 
 - [Chapter 1: Introduction to AI Agents for Logging](#chapter-1-introduction-to-ai-agents-for-logging)

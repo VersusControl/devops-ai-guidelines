@@ -3,7 +3,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/VersusControl/devops-ai-guidelines.svg?style=social&label=Star)](https://github.com/VersusControl/devops-ai-guidelines)
 
-> **Your complete journey from DevOps Engineer to AI Infrastructure Architect - with comprehensive learning paths, practical tips, and enterprise guidelines**
+**Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
+
+<h1 align="center" style="border-bottom: none">
+  <img alt="Versus Incident" src="./resources/images/versus-incident.svg" style="max-width: 600px">
+</h1>
 
 ## Overview
 
