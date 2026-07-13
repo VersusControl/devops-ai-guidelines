@@ -1,5 +1,9 @@
 <!-- Cover -->
 
+![](./images/versus-sre-agent-book-cover.png)
+
+If you like the book version, check here to download: [SRE Agent Book](https://drive.google.com/file/d/11oY0HHgSZJ29jZHqVv86-sAQ-0Qx5K8P/view?usp=sharing)
+
 <div align="center">
 
 **GUIDE**
@@ -51,3 +55,5 @@ AI-triaged incident in Slack.
 What it replaces, what it doesn't, and how to keep it healthy over time.
 
 **[Additional Resources](#additional-resources)**
+
+--
