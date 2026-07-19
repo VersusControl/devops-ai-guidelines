@@ -1,8 +1,5 @@
 # DevOps AI Guidelines & Learning Path
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub stars](https://img.shields.io/github/stars/VersusControl/devops-ai-guidelines.svg?style=social&label=Star)](https://github.com/VersusControl/devops-ai-guidelines)
-
 **Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
 
 <h1 align="center" style="border-bottom: none">
