@@ -1,7 +1,7 @@
 <!-- Cover -->
 
 <h1 align="center" style="border-bottom: none">
-  <img alt="The Versus SRE Agent" src="https://cdn.jsdelivr.net/gh/VersusControl/devops-ai-guidelines@main/04-ai-agent-for-monitoring/images/versus-sre-agent-book-cover.png" style="max-width: 450px">
+  <img alt="The Versus SRE Agent" src="https://cdn.jsdelivr.net/gh/VersusControl/devops-ai-guidelines@main/04-ai-agent-for-monitoring/images/versus-sre-agent-book-cover.png" style="max-width: 300px">
 </h1>
 
 <div align="center">
