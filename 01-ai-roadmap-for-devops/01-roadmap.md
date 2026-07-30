@@ -1,7 +1,7 @@
 # AI Roadmap for DevOps
 
 <h1 align="center" style="border-bottom: none">
-  <img alt="AI Roadmap for DevOps" src="https://cdn.jsdelivr.net/gh/VersusControl/devops-ai-guidelines@main/resources/images/devops-ai-roadmap.png" style="max-width: 600px">
+  <img alt="AI Roadmap for DevOps" src="https://cdn.jsdelivr.net/gh/VersusControl/devops-ai-guidelines@main/resources/images/devops-ai-roadmap.png" style="max-width: 450px">
 </h1>
 
 *A practical learning path for DevOps engineers moving into AI infrastructure work.*

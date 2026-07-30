@@ -3,7 +3,7 @@
 **Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
 
 <p align="center">
-  <img alt="DevOps AI Guidelines & Learning Path" src="./resources/images/repo-cover.svg" width="100%">
+  <img alt="DevOps AI Guidelines & Learning Path" src="https://cdn.jsdelivr.net/gh/VersusControl/devops-ai-guidelines@main/resources/images/repo-cover.svg" width="100%">
 </p>
 
 ## Overview
