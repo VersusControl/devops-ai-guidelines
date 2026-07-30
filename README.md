@@ -2,9 +2,9 @@
 
 **Sponsored by [Versus Incident](https://github.com/VersusControl/versus-incident)**
 
-<h1 align="center" style="border-bottom: none">
-  <img alt="Versus Incident" src="./resources/images/versus-incident.svg" style="max-width: 600px">
-</h1>
+<p align="center">
+  <img alt="DevOps AI Guidelines & Learning Path" src="./resources/images/repo-cover.svg" width="100%">
+</p>
 
 ## Overview
 
@@ -30,8 +30,9 @@ This repository provides everything you need to master AI in DevOps - from your 
 | [**AI Roadmap Overview**](./01-ai-roadmap-for-devops/01-roadmap.md) | Complete visual learning path with 3 phases and navigation        | ✅ Available |
 | [**MCP for DevOps**](./02-mcp-for-devops/00-toc.md)                 | Complete guide to building MCP servers with Golang and Kubernetes | ✅ Available |
 | [**AI Agent for DevOps**](./03-ai-agent-for-devops/00-toc.md)       | Complete guide to building AI Agent with Golang and LangChain    | ✅ Available |
-| [**Building Your Business on AWS with AI Agent**](./04-ai-agent-for-aws/00-toc.md) | A Step-by-Step Guide for Beginners to Design, Build, and Scale Your Business Infrastructure on Amazon Web Services | ✅ Available        |
+| [**AI Agent for Monitoring**](./04-ai-agent-for-monitoring/00-contents.md) | The Versus SRE Agent - Monitor your systems and automatically escalate unexpected issues by learning what "normal" looks like | ✅ Available        |
 | [**AI Project Management**](./05-ai-project-management/00-toc.md) | An Engineer's Journey to Building an Intelligent Project Management with OpenClaw | ✅ Available        |
+| [**SRE Agent Brain**](./06-sre-agent-brain/00-contents.md) | The SRE Agent's Runbook Brain - Building system knowledge so your agent retrieves the right fix the moment an incident fires | ✅ Available        |
 
 ### For Teams & Organizations
 
