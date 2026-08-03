@@ -16,7 +16,7 @@
   </g>
 
   <!-- Left: copy -->
-  <g>
+  <g transform="translate(0,-18)">
     <rect x="120" y="150" width="236" height="44" rx="22" fill="#ffffff" stroke="#d8ddd3" stroke-width="1"/>
     <circle cx="150" cy="172" r="7" fill="#1b2a25"/>
     <text x="172" y="178" font-size="18" fill="#1b2a25" font-weight="700" letter-spacing="0.5">LEARNING PATH</text>
