@@ -8,13 +8,6 @@
   <!-- Warm paper canvas -->
   <rect x="0" y="-20" width="1600" height="800" fill="#f2ede1"/>
 
-  <!-- Dotted grid texture -->
-  <g fill="#cdc4ae">
-    <circle cx="90" cy="560" r="4"/><circle cx="140" cy="560" r="4"/><circle cx="190" cy="560" r="4"/>
-    <circle cx="90" cy="610" r="4"/><circle cx="140" cy="610" r="4"/><circle cx="190" cy="610" r="4"/>
-    <circle cx="90" cy="660" r="4"/><circle cx="140" cy="660" r="4"/><circle cx="190" cy="660" r="4"/>
-  </g>
-
   <!-- Left: copy -->
   <g transform="translate(0,-18)">
     <rect x="120" y="150" width="236" height="44" rx="22" fill="#ffffff" stroke="#d8ddd3" stroke-width="1"/>
