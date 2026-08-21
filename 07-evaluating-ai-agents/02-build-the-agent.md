@@ -15,12 +15,13 @@ and gives us no way to know if it's right.**
 
 ### Get the code
 
-Everything in this book is in one repository. Clone it and work from the code
-folder for this book:
+Everything in this book is in one repository, with a folder per chapter — so you
+can always run a chapter's code exactly as it stood at the end of that chapter.
+Clone it and start in the Chapter 1 folder:
 
 ```bash
 git clone https://github.com/VersusControl/devops-ai-guidelines.git
-cd devops-ai-guidelines/07-evaluating-ai-agents/code
+cd devops-ai-guidelines/07-evaluating-ai-agents/code/chapter-01
 ```
 
 You'll need Python 3.9 or newer. There are no third-party packages — everything is
@@ -38,7 +39,7 @@ call another tool to learn more, or stop and commit to an answer. What makes it 
 *agent* rather than a script is that the decision isn't hard-coded — it's made by a
 model looking at what's been seen so far.
 
-We'll build it in three pieces:
+We'll build it in three parts:
 
 - **Tools** — the read-only things the agent can look at.
 - **The agent** — the loop that calls tools and commits to a conclusion.
@@ -212,7 +213,7 @@ Now read that output again and answer the book's question: **is this agent any
 good?**
 
 You can't say. And it's worth being precise about *why*, because each reason maps to
-a piece of the harness we're about to build:
+a part of the harness we're about to build:
 
 - **Nothing was compared to a known answer.** The agent asserted a root cause. There
   was no truth on the other side of the equals sign. *(Chapters 2–3: record the

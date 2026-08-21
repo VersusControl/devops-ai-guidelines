@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="440" viewBox="0 0 1080 440" role="img" aria-label="Three stages of the evaluation harness: record a scenario, run the agent on the replayed recording, and grade the result with hard gates and an LLM judge">
+  <defs>
+    <marker id="big" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <marker id="thin" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <style>
+      .t     { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:400; fill:#000000; }
+      .stage { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#000000; letter-spacing:1.5px; }
+      .fill  { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#12222F; }
+      .note  { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#000000; }
+    </style>
+  </defs>
+
+  <rect width="1080" height="440" fill="#FFFFFF"/>
+
+  <!-- ============================ STAGE HEADINGS ============================ -->
+  <text x="161" y="44" text-anchor="middle" class="stage" font-size="19">STAGE 1</text>
+  <text x="587" y="44" text-anchor="middle" class="stage" font-size="19">STAGE 2</text>
+  <text x="987" y="44" text-anchor="middle" class="stage" font-size="19">STAGE 3</text>
+
+  <!-- ============================ STAGE 1 ============================ -->
+  <rect x="26" y="72" width="130" height="68" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="42" y="102" class="t" font-size="15">1) The</text>
+  <text x="42" y="124" class="t" font-size="15">situation</text>
+  <path d="M91,142 V184" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#big)"/>
+
+  <rect x="166" y="72" width="130" height="68" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="182" y="102" class="t" font-size="15">2) The</text>
+  <text x="182" y="124" class="t" font-size="15">answer key</text>
+  <path d="M231,142 V184" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#big)"/>
+
+  <rect x="26" y="186" width="270" height="64" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="161" y="227" text-anchor="middle" class="fill" font-size="21">Recorded scenario</text>
+
+  <text x="161" y="322" text-anchor="middle" class="note" font-size="15">Freeze one case whose correct</text>
+  <text x="161" y="344" text-anchor="middle" class="note" font-size="15">answer you already know</text>
+  <path d="M138,298 L164,254" stroke="#000000" stroke-width="1.5" fill="none" marker-end="url(#thin)"/>
+
+  <!-- ============================ STAGE 1 TO STAGE 2 ============================ -->
+  <path d="M300,218 H448" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#big)"/>
+  <rect x="315" y="172" width="118" height="40" rx="20" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="374" y="197" text-anchor="middle" class="t" font-size="15">3) Replay</text>
+
+  <!-- ============================ STAGE 2 ============================ -->
+  <rect x="452" y="72" width="130" height="68" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="468" y="102" class="t" font-size="15">4) Tool</text>
+  <text x="468" y="124" class="t" font-size="15">calls</text>
+  <path d="M517,142 V184" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#big)"/>
+
+  <rect x="592" y="72" width="130" height="68" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="608" y="102" class="t" font-size="15">5) Root cause</text>
+  <text x="608" y="124" class="t" font-size="15">and path</text>
+  <path d="M657,142 V184" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#big)"/>
+
+  <rect x="452" y="186" width="270" height="64" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="587" y="227" text-anchor="middle" class="fill" font-size="21">Agent conclusion</text>
+
+  <text x="587" y="322" text-anchor="middle" class="note" font-size="15">The agent sees a fixed scene and</text>
+  <text x="587" y="344" text-anchor="middle" class="note" font-size="15">cannot tell it is a recording</text>
+  <path d="M564,298 L590,254" stroke="#000000" stroke-width="1.5" fill="none" marker-end="url(#thin)"/>
+
+  <!-- ============================ BRANCH TO STAGE 3 ============================ -->
+  <path d="M726,212 H752 V172 H768" stroke="#000000" stroke-width="3" fill="none"/>
+  <rect x="772" y="153" width="104" height="38" rx="19" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="824" y="177" text-anchor="middle" class="t" font-size="15">6) Grade</text>
+  <path d="M876,172 H895" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#big)"/>
+
+  <path d="M726,226 H752 V286 H768" stroke="#000000" stroke-width="3" fill="none"/>
+  <rect x="772" y="267" width="104" height="38" rx="19" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="824" y="291" text-anchor="middle" class="t" font-size="15">7) Judge</text>
+  <path d="M876,286 H895" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#big)"/>
+
+  <!-- ============================ STAGE 3 ============================ -->
+  <text x="977" y="106" text-anchor="middle" class="t" font-size="15">The answer key</text>
+  <path d="M977,116 V136" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#big)"/>
+
+  <rect x="899" y="140" width="156" height="64" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="977" y="180" text-anchor="middle" class="fill" font-size="20">Hard gates</text>
+
+  <rect x="899" y="254" width="156" height="64" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="977" y="294" text-anchor="middle" class="fill" font-size="20">LLM judge</text>
+
+  <text x="977" y="374" text-anchor="middle" class="note" font-size="15">A second opinion</text>
+  <text x="977" y="394" text-anchor="middle" class="note" font-size="15">that never decides</text>
+  <text x="977" y="414" text-anchor="middle" class="note" font-size="15">pass or fail</text>
+  <path d="M977,352 V322" stroke="#000000" stroke-width="1.5" fill="none" marker-end="url(#thin)"/>
+</svg>

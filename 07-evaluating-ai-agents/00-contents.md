@@ -10,7 +10,7 @@
 
 # Evaluating AI Agents
 
-### How to Measure and Improve Any Tool-Using Agent
+### How to Measure and Improve Any Tool-Using Agent — Using a DevOps Incident Agent as the Running Example
 
 *Everyone can build an agent now; almost no one can prove theirs is getting better. This book teaches the missing skill — scoring an agent against recorded cases whose answers you already know — built end to end on a DevOps and SRE incident agent, and ready to point at your own.*
 
@@ -28,47 +28,51 @@ agent you'll measure from cover to cover.
 
 **1. [Build the AI Agent This Book Runs On](#1-build-the-ai-agent-this-book-runs-on)**
 Build the tiny incident-diagnosis agent, run it once, and hit the wall the whole
-book is about: it gives you a confident answer and no way to tell if it was right.
+book is about: a confident answer, and no way to tell if it was right.
 
-**2. [Grade Your Agent Against a Known Answer](#2-grade-your-agent-against-a-known-answer)**
-The core idea. Record an incident whose correct answer you already know, replay it
-to the agent, and score how close it got. Why a recorded case is the only thing
-that gives you a number you can trust.
+**2. [How Do You Evaluate an Agent?](#2-how-do-you-evaluate-an-agent)**
+Why an agent is harder to grade than a function, the two things you can actually
+grade (the answer and the path to it), and how to scope what you'll measure before
+you measure anything. Ends with the smallest grader that works — and the agent that
+cheats it.
 
-**3. [Record an Incident Your Agent Will Face](#3-record-an-incident-your-agent-will-face)**
-Freeze one incident into a scenario: the situation the agent is dropped into, plus
-a hidden answer key — the true root cause and its category, the evidence that
-proves it, the planted distraction to reject, and a step budget.
+**3. [The Harness We're Going to Build](#3-the-harness-were-going-to-build)**
+The map of the whole book on one page: five parts, how they fit together, and which
+chapter builds each. Read this and every chapter after it has an obvious place to sit.
 
-**4. [Replay a Recorded Incident to Your Agent](#4-replay-a-recorded-incident-to-your-agent)**
-Swap the agent's live data sources for recorded ones that return the exact same
-shape. The agent investigates normally against a fixed scene and can't tell the
-difference.
+**4. [Record a Test Case Your Agent Will Face](#4-record-a-test-case-your-agent-will-face)**
+Freeze one case into a scenario file: the situation the agent is dropped into, and a
+separate answer key holding the true cause, the evidence that proves it, the planted
+distraction, and the step budget.
 
-**5. [Hide the Answer, Then Run the Agent](#5-hide-the-answer-then-run-the-agent)**
-Strip the answer key before the agent ever sees it. Why this anti-cheat is the
-most important rule of the whole design.
+**5. [Replay That Case to Your Agent](#5-replay-that-case-to-your-agent)**
+Swap the agent's live data sources for recorded ones of the exact same shape. The
+agent investigates a frozen scene and can't tell the difference — which is what makes
+a score mean something.
 
-**6. [Score the Agent on the Hard Gates](#6-score-the-agent-on-the-hard-gates)**
-The deterministic gates and why each one matters: right root-cause category, cited
-the required evidence (not just the right answer), rejected the planted distraction,
-stayed within the step budget. Every gate must pass.
+**6. [Keep the Answer Away from the Agent](#6-keep-the-answer-away-from-the-agent)**
+Enforce the wall between the two parts of a scenario instead of trusting yourself to
+respect it. Why this anti-cheat is the most important rule in the design.
 
-**7. [Add an LLM Judge for Your Agent](#7-add-an-llm-judge-for-your-agent)**
-Add a language-model grader against a plain-language rubric to catch the nuance the
-rules can't express — and keep it as a second opinion that never decides pass or
-fail.
+**7. [Score It with Hard Gates](#7-score-it-with-hard-gates)**
+The deterministic checks and why each exists: right category, cited the evidence that
+proves it, rejected the distraction, stayed inside the step budget. No opinions, no
+arguing.
 
-**8. [Turn Your Agent's Scores Into a Benchmark](#8-turn-your-agents-scores-into-a-benchmark)**
-Run many scenarios and roll pass/fail into one number you track over time — to
-catch regressions and prove real improvement.
+**8. [Add an LLM Judge for the Judgment Calls](#8-add-an-llm-judge-for-the-judgment-calls)**
+Grade what rules can't express, using a language model and a plain-language rubric —
+kept firmly as a second opinion that never decides pass or fail.
 
-**9. [Close the Loop: Every Agent Miss Becomes a Test](#9-close-the-loop-every-agent-miss-becomes-a-test)**
-Turn a real production miss into a new recorded scenario with its own answer key.
-The benchmark grows along your agent's real weaknesses.
+**9. [Turn Scores into a Benchmark](#9-turn-scores-into-a-benchmark)**
+Run many scenarios and roll the results into one number you track over time, so you
+can prove an improvement and catch a regression.
 
-**10. [Gate Your Agent in CI](#10-gate-your-agent-in-ci)**
-Run the benchmark as a merge gate, apply it to your own real agent, and operate it
-honestly. What it catches, what it doesn't.
+**10. [Close the Loop: Every Miss Becomes a Test](#10-close-the-loop-every-miss-becomes-a-test)**
+Turn a real production failure into a new recorded scenario. The benchmark grows
+along your agent's actual weaknesses instead of your guesses.
+
+**11. [Gate Your Agent in CI](#11-gate-your-agent-in-ci)**
+Run the benchmark as a merge gate, point the whole harness at your own agent, and
+operate it honestly. What it catches, and what it never will.
 
 **[Additional Resources](#additional-resources)**

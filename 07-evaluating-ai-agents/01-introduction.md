@@ -199,7 +199,7 @@ Python, no framework — that does the whole loop:
   live tools return (Chapter 4).
 - **Deterministic gates** — right category, required evidence cited, distraction
   rejected, step budget respected — that pass or fail with no argument (Chapter 6).
-- An **LLM judge** for the nuance the gates can't express, kept firmly as a second
+- An **LLM judge** for the judgment calls the gates can't check, kept firmly as a second
   opinion (Chapter 7).
 - A **benchmark**: many scenarios rolled into one score you track over time
   (Chapter 8).
