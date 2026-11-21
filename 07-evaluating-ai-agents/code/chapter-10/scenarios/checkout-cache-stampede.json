@@ -1,0 +1,78 @@
+{
+  "id": "checkout-cache-stampede",
+  "validity": {
+    "owner": "checkout on-call",
+    "recorded_at": "2026-11-07",
+    "review_by": "2027-02-07",
+    "assumptions": {
+      "topology": "checkout-db-pool-v1",
+      "runbook": "checkout-latency-v2",
+      "tool_contract": "incident-tools-v1"
+    },
+    "source": {
+      "kind": "production_miss",
+      "reference": "misses/checkout-cache-stampede.json",
+      "observed_at": "2026-11-07",
+      "agent_model": "gpt-5.4-mini-2026-03-17"
+    }
+  },
+  "situation": {
+    "alert": {
+      "service": "checkout-service",
+      "message": "checkout-service p95 latency > 2s at 15:10",
+      "started_at": "15:10"
+    },
+    "tool_responses": {
+      "get_metrics": {
+        "service": "checkout-service",
+        "window": "15:05-15:15",
+        "p95_latency_ms": [210, 230, 900, 1500, 1900],
+        "error_rate": [0.01, 0.01, 0.03, 0.07, 0.11],
+        "change_at": "15:08",
+        "note": "CACHE_TTL 300 -> 0 applied at 15:08"
+      },
+      "get_logs": {
+        "service": "checkout-service",
+        "lines": [
+          "15:09:02 WARN cache miss ratio 0.98 for checkout_products",
+          "15:09:08 ERROR database query storm: checkout_products",
+          "15:10:01 WARN checkout p95 latency 1.9s",
+          "15:14:22 INFO payment-provider latency 900ms (was 90ms)"
+        ]
+      },
+      "get_deploys": {
+        "service": "checkout-service",
+        "deploys": [
+          {
+            "at": "15:08",
+            "change": "CACHE_TTL 300 -> 0",
+            "commit": "c4a1b2c",
+            "author": "release"
+          }
+        ]
+      },
+      "get_db_status": {
+        "service": "checkout-service",
+        "pool_size": 50,
+        "in_use": 18,
+        "waiting": 0,
+        "qps": 5200,
+        "baseline_qps": 400,
+        "cache_hit_pct": 2,
+        "note": "cache hit rate collapsed; database qps about 13x baseline"
+      }
+    }
+  },
+  "answer_key": {
+    "true_category": "deploy",
+    "true_cause": "A deploy at 15:08 set CACHE_TTL to 0, so product reads missed the cache and the database query rate rose about 13x.",
+    "cause_change": "CACHE_TTL 300 -> 0",
+    "cause_effect": "cache_stampede",
+    "required_evidence": ["get_deploys", "get_db_status", "get_logs"],
+    "distraction": "payment-provider latency rose at 15:14, after the alert",
+    "distraction_source": "get_logs",
+    "distraction_marker": "payment-provider",
+    "distraction_id": "payment_provider",
+    "max_steps": 5
+  }
+}

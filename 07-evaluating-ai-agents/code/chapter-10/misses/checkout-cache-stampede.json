@@ -1,0 +1,29 @@
+{
+  "replay": true,
+  "scenario_id": "checkout-cache-stampede",
+  "observed_at": "2026-11-07",
+  "agent_model": "scripted-replay",
+  "alert": {
+    "service": "checkout-service",
+    "message": "checkout-service p95 latency > 2s at 15:10",
+    "started_at": "15:10"
+  },
+  "conclusion": {
+    "root_cause": "Payment-provider latency rose to 900ms, which slowed checkout authorization and pushed p95 latency above 2s.",
+    "category": "dependency",
+    "cause_change": "payment-provider latency 90 -> 900 ms",
+    "cause_effect": "dependency_slow",
+    "evidence": ["get_metrics", "get_logs"],
+    "rejected_signals": ["checkout_image_release"],
+    "tool_calls": ["get_metrics", "get_logs"],
+    "steps": 3
+  },
+  "hard_gates": {
+    "cause": false,
+    "evidence": false,
+    "distraction": false,
+    "steps": true
+  },
+  "status": "fail",
+  "why": "The run never opened get_deploys or get_db_status. It blamed a payment-provider line that appeared four minutes after the alert and missed the 15:08 cache change."
+}

@@ -1,0 +1,64 @@
+{
+  "id": "checkout-latency-after-pool-change",
+  "validity": {
+    "owner": "checkout on-call",
+    "recorded_at": "2026-09-12",
+    "review_by": "2026-12-12",
+    "assumptions": {
+      "topology": "checkout-db-pool-v1",
+      "runbook": "checkout-latency-v2",
+      "tool_contract": "incident-tools-v1"
+    }
+  },
+  "situation": {
+    "alert": {
+      "service": "checkout-service",
+      "message": "checkout-service p95 latency > 2s",
+      "started_at": "14:03"
+    },
+    "tool_responses": {
+      "get_metrics": {
+        "service": "checkout-service",
+        "window": "14:00-14:10",
+        "p95_latency_ms": [420, 430, 450, 1900, 2100, 2200, 2150],
+        "error_rate": [0.01, 0.01, 0.02, 0.08, 0.11, 0.12, 0.12],
+        "note": "p95 crosses 2s at 14:03, one minute after the 14:02 deploy"
+      },
+      "get_logs": {
+        "service": "checkout-service",
+        "lines": [
+          "14:03:01 WARN  db pool: waiting for connection (waiters=12)",
+          "14:03:04 WARN  db pool: waiting for connection (waiters=27)",
+          "14:03:09 ERROR checkout: timeout acquiring db connection after 2000ms",
+          "14:06:12 INFO  payment-provider latency 180ms (was 90ms)"
+        ]
+      },
+      "get_deploys": {
+        "service": "checkout-service",
+        "deploys": [
+          {"at": "14:02", "change": "DB_MAX_CONNECTIONS 50 -> 5", "commit": "a1b2c3d", "author": "config-bot"},
+          {"at": "09:15", "change": "bump checkout image to v1.9.2", "commit": "9f8e7d6", "author": "release"}
+        ]
+      },
+      "get_db_status": {
+        "service": "checkout-service",
+        "pool_size": 5,
+        "in_use": 5,
+        "waiting": 40,
+        "note": "pool exhausted: 5 of 5 connections in use, 40 requests queued"
+      }
+    }
+  },
+  "answer_key": {
+    "true_category": "deploy",
+    "true_cause": "The 14:02 deploy reduced DB_MAX_CONNECTIONS from 50 to 5, exhausting the connection pool.",
+    "cause_change": "DB_MAX_CONNECTIONS 50 -> 5",
+    "cause_effect": "pool_exhausted",
+    "required_evidence": ["get_deploys", "get_db_status"],
+    "distraction": "payment-provider latency increased at 14:06",
+    "distraction_source": "get_logs",
+    "distraction_marker": "payment-provider",
+    "distraction_id": "payment_provider",
+    "max_steps": 5
+  }
+}

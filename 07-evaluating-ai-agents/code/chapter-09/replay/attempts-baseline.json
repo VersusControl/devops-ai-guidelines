@@ -1,0 +1,158 @@
+{
+  "replay": true,
+  "variant": "baseline",
+  "variant_description": "Chapter 8 version 04: copy the change, name ruled-out signals, compare timing.",
+  "agent_model": "recorded-replay",
+  "attempts": {
+    "pool": [
+      {
+        "status": "pass",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": true,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.9,
+          "confidence": 0.93,
+          "unsupported_claim": 0.05
+        }
+      },
+      {
+        "status": "pass",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": true,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.9,
+          "confidence": 0.93,
+          "unsupported_claim": 0.05
+        }
+      },
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.88,
+          "confidence": 0.93,
+          "unsupported_claim": 0.05
+        }
+      }
+    ],
+    "dependency": [
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.75,
+          "confidence": 0.93,
+          "unsupported_claim": 0.8
+        }
+      },
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": false,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.8,
+          "confidence": 0.93,
+          "unsupported_claim": 0.1
+        }
+      },
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.82,
+          "confidence": 0.93,
+          "unsupported_claim": 0.12
+        }
+      }
+    ],
+    "capacity": [
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.85,
+          "confidence": 0.93,
+          "unsupported_claim": 0.1
+        }
+      },
+      {
+        "status": "fail",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": false,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.83,
+          "confidence": 0.93,
+          "unsupported_claim": 0.09
+        }
+      },
+      {
+        "status": "pass",
+        "hard_gates": {
+          "cause": true,
+          "evidence": true,
+          "distraction": true,
+          "steps": true
+        },
+        "jev": {
+          "model": "jev-1.13.0",
+          "rubric": "incident-explanation-v1",
+          "explanation_score": 1.9,
+          "confidence": 0.93,
+          "unsupported_claim": 0.08
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+trial-results*.json
+case-results.json
+case-judge-results.json
+simulation-results*.json
+*.log

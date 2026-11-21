@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Two gates, one green build</title>
+  <desc id="desc">Gate 1 checks quality only on active valid cases with required attempts, a pass rate threshold, and no incomplete or error run; Gate 2 checks suite health with no expired active case, current coverage, reviewed exclusions, and a cohort fingerprint matching the report; both gates must pass for a green build, and any failure produces a red build with the exact reason named, so a high score on a stale or incomplete suite does not pass</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8C2F2F"/>
+    </marker>
+    <style>
+      .name { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#12222F; }
+      .zone { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#5B6B78; letter-spacing:1.5px; }
+      .detail { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:400; fill:#5B6B78; }
+      .fail { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#8C2F2F; }
+    </style>
+  </defs>
+
+  <rect width="760" height="420" fill="#FFFFFF"/>
+  <text x="380" y="34" text-anchor="middle" class="name" font-size="23">Two gates, one green build</text>
+
+  <!-- Gate 1 -->
+  <rect x="24" y="54" width="664" height="104" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="40" y="78" class="zone" font-size="12">GATE 1 QUALITY</text>
+  <line x1="40" y1="90" x2="672" y2="90" stroke="#C3CED8" stroke-width="1.5"/>
+  <text x="40" y="118" class="name" font-size="15">Valid cases only</text>
+  <text x="40" y="136" class="detail" font-size="12">active, not expired</text>
+  <text x="196" y="118" class="name" font-size="15">Required attempts</text>
+  <text x="196" y="136" class="detail" font-size="12">recorded in full</text>
+  <text x="352" y="118" class="name" font-size="15">Pass rate minimum</text>
+  <text x="352" y="136" class="detail" font-size="12">threshold to pass</text>
+  <text x="508" y="118" class="name" font-size="15">No incomplete</text>
+  <text x="508" y="136" class="detail" font-size="12">no error state</text>
+
+  <!-- Gate 1 to Gate 2 -->
+  <path d="M300,158 V171" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <text x="312" y="170" class="detail" font-size="12">pass</text>
+
+  <!-- Gate 2 -->
+  <rect x="24" y="176" width="664" height="104" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="40" y="200" class="zone" font-size="12">GATE 2 SUITE HEALTH</text>
+  <line x1="40" y1="212" x2="672" y2="212" stroke="#C3CED8" stroke-width="1.5"/>
+  <text x="40" y="240" class="name" font-size="15">No expired case</text>
+  <text x="40" y="258" class="detail" font-size="12">no stale active case</text>
+  <text x="196" y="240" class="name" font-size="15">Coverage current</text>
+  <text x="196" y="258" class="detail" font-size="12">no missing area</text>
+  <text x="352" y="240" class="name" font-size="15">No unreviewed</text>
+  <text x="352" y="258" class="detail" font-size="12">exclusions</text>
+  <text x="508" y="240" class="name" font-size="15">Fingerprint match</text>
+  <text x="508" y="258" class="detail" font-size="12">report and cohort</text>
+
+  <!-- Gate 2 to green -->
+  <path d="M200,280 V295" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <text x="212" y="293" class="detail" font-size="12">both pass</text>
+
+  <!-- Fail rail -->
+  <path d="M688,100 H724 V295" stroke="#8C2F2F" stroke-width="2" fill="none" marker-end="url(#r)"/>
+  <path d="M688,228 H724" stroke="#8C2F2F" stroke-width="2" fill="none"/>
+  <text x="692" y="94" class="fail" font-size="12">fail</text>
+  <text x="692" y="222" class="fail" font-size="12">fail</text>
+
+  <!-- Outcomes -->
+  <rect x="24" y="300" width="356" height="66" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="202" y="324" text-anchor="middle" class="name" font-size="17">Both gates pass: green</text>
+  <text x="202" y="345" text-anchor="middle" class="detail" font-size="12">Merge allowed</text>
+  <text x="202" y="361" text-anchor="middle" class="detail" font-size="12">on this cohort</text>
+
+  <rect x="452" y="300" width="284" height="66" rx="12" fill="#FFFFFF" stroke="#8C2F2F" stroke-width="2"/>
+  <text x="594" y="324" text-anchor="middle" class="fail" font-size="17">Any gate fails: red</text>
+  <text x="594" y="345" text-anchor="middle" class="detail" font-size="12">Name the exact reason</text>
+  <text x="594" y="361" text-anchor="middle" class="detail" font-size="12">in the build output</text>
+
+  <text x="380" y="397" text-anchor="middle" class="detail" font-size="13">A high score on a stale or incomplete suite <tspan class="name">does not pass</tspan></text>
+</svg>

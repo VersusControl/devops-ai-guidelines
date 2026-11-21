@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">One pinned cohort, three fates</title>
+  <desc id="desc">A pinned manifest holds four case cards; active cases are scored across N attempts with a pass rate and uncertainty, expired cases need review and are not scored, and historical cases are kept for audit and never scored; a fingerprint stamp says two variants can be compared only when the fingerprint matches</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <style>
+      .name { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#12222F; }
+      .zone { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#5B6B78; letter-spacing:1.5px; }
+      .detail { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:400; fill:#5B6B78; }
+      .code { font-family:SFMono-Regular,Menlo,Consolas,monospace; font-weight:400; fill:#12222F; }
+    </style>
+  </defs>
+
+  <rect width="760" height="420" fill="#FFFFFF"/>
+  <text x="380" y="34" text-anchor="middle" class="name" font-size="23">One pinned cohort, three fates</text>
+
+  <!-- Manifest -->
+  <rect x="18" y="56" width="204" height="270" rx="12" fill="#F2F5F8"/>
+  <text x="32" y="80" class="zone" font-size="12">PINNED COHORT</text>
+
+  <rect x="30" y="106" width="180" height="46" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="42" y="126" class="code" font-size="14">case 118</text>
+  <text x="42" y="143" class="detail" font-size="12">active</text>
+
+  <rect x="30" y="160" width="180" height="46" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="42" y="180" class="code" font-size="14">case 119</text>
+  <text x="42" y="197" class="detail" font-size="12">active</text>
+
+  <rect x="30" y="214" width="180" height="46" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="42" y="234" class="code" font-size="14">case 120</text>
+  <text x="42" y="251" class="detail" font-size="12">review date passed</text>
+
+  <rect x="30" y="268" width="180" height="46" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="42" y="288" class="code" font-size="14">case 121</text>
+  <text x="42" y="305" class="detail" font-size="12">retired, replaced</text>
+
+  <!-- Active lane -->
+  <rect x="258" y="56" width="484" height="108" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="276" y="80" class="zone" font-size="12">ACTIVE: 2 CASES</text>
+  <text x="276" y="106" class="name" font-size="13">Every active case gets N attempts</text>
+  <text x="276" y="130" class="detail" font-size="13">Pass rate with uncertainty</text>
+  <text x="276" y="152" class="detail" font-size="13">Only this lane feeds the score</text>
+
+  <rect x="600" y="72" width="124" height="76" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="662" y="96" text-anchor="middle" class="name" font-size="17">Pass rate</text>
+  <text x="662" y="117" text-anchor="middle" class="detail" font-size="12">over N attempts</text>
+  <text x="662" y="136" text-anchor="middle" class="detail" font-size="12">with uncertainty</text>
+
+  <!-- Expired lane -->
+  <rect x="258" y="176" width="484" height="66" rx="12" fill="#F2F5F8" stroke="#000000" stroke-width="2"/>
+  <text x="276" y="200" class="zone" font-size="12">EXPIRED: 1 CASE</text>
+  <text x="276" y="224" class="detail" font-size="13">Review date passed: not scored, review required</text>
+
+  <!-- Historical lane -->
+  <rect x="258" y="252" width="484" height="74" rx="12" fill="#F2F5F8" stroke="#000000" stroke-width="2"/>
+  <text x="276" y="276" class="zone" font-size="12">HISTORICAL: 1 CASE</text>
+  <text x="276" y="300" class="detail" font-size="13">Retired or replaced: kept for audit, never scored</text>
+
+  <!-- Manifest to lanes -->
+  <path d="M222,110 H253" stroke="#000000" stroke-width="3" fill="none" marker-end="url(#a)"/>
+  <path d="M222,209 H253" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <path d="M222,289 H253" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#a)"/>
+
+  <!-- Fingerprint rule -->
+  <rect x="18" y="340" width="724" height="62" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <rect x="30" y="350" width="190" height="42" rx="10" fill="#FFFFFF" stroke="#9AA9B6" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="42" y="367" class="zone" font-size="12">COHORT FINGERPRINT</text>
+  <text x="42" y="384" class="code" font-size="12">f3a9c1d2e4</text>
+  <line x1="226" y1="350" x2="226" y2="392" stroke="#C3CED8" stroke-width="1.5"/>
+  <text x="238" y="368" class="name" font-size="14">Compare two variants only when</text>
+  <text x="238" y="386" class="name" font-size="14">the fingerprint matches</text>
+</svg>

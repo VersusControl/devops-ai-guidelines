@@ -1,0 +1,46 @@
+{
+  "cohort_id": "checkout-incidents-2026-09",
+  "created_at": "2026-09-24",
+  "required_coverage": [
+    "db_pool",
+    "payment_dependency",
+    "worker_capacity"
+  ],
+  "policy": {
+    "min_attempts_per_case": 3,
+    "min_pass_rate": 0.8,
+    "max_ungraded_attempts": 0
+  },
+  "cases": [
+    {
+      "id": "pool",
+      "path": "scenarios/checkout-latency.json",
+      "status": "active",
+      "covers": "db_pool"
+    },
+    {
+      "id": "dependency",
+      "path": "scenarios/payment-dependency.json",
+      "status": "active",
+      "covers": "payment_dependency"
+    },
+    {
+      "id": "capacity",
+      "path": "scenarios/worker-capacity.json",
+      "status": "active",
+      "covers": "worker_capacity"
+    },
+    {
+      "id": "pool-2025",
+      "path": "scenarios/checkout-latency-2025.json",
+      "status": "historical",
+      "covers": "db_pool",
+      "superseded_by": "pool",
+      "retired": {
+        "reason": "Recorded before the 2025 checkout topology change.",
+        "owner": "checkout on-call",
+        "reviewed_at": "2026-09-24"
+      }
+    }
+  ]
+}

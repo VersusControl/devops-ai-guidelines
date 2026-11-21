@@ -1,0 +1,64 @@
+{
+  "id": "checkout-worker-queue-saturation",
+  "validity": {
+    "owner": "checkout on-call",
+    "recorded_at": "2026-09-12",
+    "review_by": "2026-12-12",
+    "assumptions": {
+      "topology": "checkout-db-pool-v1",
+      "runbook": "checkout-latency-v2",
+      "tool_contract": "incident-tools-v1"
+    }
+  },
+  "situation": {
+    "alert": {
+      "service": "checkout-service",
+      "message": "checkout-service p95 latency > 2s at 18:03",
+      "started_at": "18:03"
+    },
+    "tool_responses": {
+      "get_metrics": {
+        "service": "checkout-service",
+        "window": "18:00-18:10",
+        "p95_latency_ms": [400, 430, 1700, 2100, 2300],
+        "error_rate": [0.01, 0.01, 0.04, 0.08, 0.10],
+        "change_at": "18:01",
+        "note": "checkout traffic doubled at 18:01",
+        "worker_utilization_pct": [55, 82, 97, 100]
+      },
+      "get_logs": {
+        "service": "checkout-service",
+        "lines": [
+          "18:03:09 WARN worker queue backlog 40",
+          "18:03:12 ERROR checkout: request timed out waiting for worker",
+          "18:06:12 INFO payment-provider latency 180ms (was 90ms)"
+        ]
+      },
+      "get_deploys": {
+        "service": "checkout-service",
+        "deploys": [
+          {"at": "09:15", "change": "bump checkout image to v1.9.2", "commit": "9f8e7d6", "author": "release"}
+        ]
+      },
+      "get_db_status": {
+        "service": "checkout-service",
+        "pool_size": 50,
+        "in_use": 14,
+        "waiting": 0,
+        "note": "database pool healthy: 14 of 50 connections in use"
+      }
+    }
+  },
+  "answer_key": {
+    "true_category": "capacity",
+    "true_cause": "Checkout traffic doubled and saturated the worker pool, leaving requests queued until they timed out.",
+    "cause_change": "checkout traffic doubled at 18:01",
+    "cause_effect": "capacity_limit",
+    "required_evidence": ["get_metrics", "get_logs"],
+    "distraction": "payment-provider latency increased later at 18:06",
+    "distraction_source": "get_logs",
+    "distraction_marker": "payment-provider",
+    "distraction_id": "payment_provider",
+    "max_steps": 5
+  }
+}

@@ -1,0 +1,45 @@
+name: agent-eval
+
+on:
+  pull_request:
+    paths:
+      - "code/chapter-11/**"
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    environment: agent-eval
+    defaults:
+      run:
+        working-directory: code/chapter-11
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Test the gate offline
+        run: python -m unittest test_gate.py test_benchmark.py
+
+      - name: Score the active cohort
+        run: python run_benchmark.py --variant candidate --runs 3 --report reports/ci.json
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-4.1-mini
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          JEV_MODEL: ${{ secrets.JEV_MODEL }}
+
+      - name: Gate quality and suite health
+        run: python gate.py reports/ci.json
+
+      - name: Keep the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-eval-report
+          path: code/chapter-11/reports/ci.json

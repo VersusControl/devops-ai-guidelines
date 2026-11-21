@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">Every miss becomes a reviewed test</title>
+  <desc id="desc">A five stop loop turns a production miss into a review, then a new scenario and answer key, then a case added to the pinned cohort, and then a larger suite; a case card branches to retire or replace when topology, runbook, or tool contract changes, marking the case historical with a reason and superseded_by; the answer key is written and reviewed by a human and never copied from the model answer</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#000000"/>
+    </marker>
+    <style>
+      .name { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#12222F; }
+      .zone { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:700; fill:#5B6B78; letter-spacing:1.5px; }
+      .detail { font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; font-weight:400; fill:#5B6B78; }
+      .code { font-family:SFMono-Regular,Menlo,Consolas,monospace; font-weight:400; fill:#12222F; }
+    </style>
+  </defs>
+
+  <rect width="760" height="420" fill="#FFFFFF"/>
+  <text x="380" y="32" text-anchor="middle" class="name" font-size="23">Every miss becomes a reviewed test</text>
+
+  <!-- Stop 1 -->
+  <rect x="20" y="62" width="156" height="70" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="98" y="88" text-anchor="middle" class="name" font-size="15">1 Production miss</text>
+  <text x="98" y="109" text-anchor="middle" class="detail" font-size="12">alert and wrong</text>
+  <text x="98" y="125" text-anchor="middle" class="detail" font-size="12">answer recorded</text>
+
+  <!-- Stop 2 -->
+  <rect x="196" y="62" width="156" height="70" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="274" y="88" text-anchor="middle" class="name" font-size="15">2 Review</text>
+  <text x="274" y="109" text-anchor="middle" class="detail" font-size="12">owner, review date</text>
+  <text x="274" y="125" text-anchor="middle" class="detail" font-size="12">assumptions, redaction</text>
+
+  <!-- Stop 3 -->
+  <rect x="372" y="62" width="156" height="70" rx="12" fill="#BACFE3" stroke="#000000" stroke-width="2"/>
+  <text x="450" y="88" text-anchor="middle" class="name" font-size="15">3 New scenario</text>
+  <text x="450" y="109" text-anchor="middle" class="detail" font-size="12">situation and</text>
+  <text x="450" y="125" text-anchor="middle" class="detail" font-size="12">answer key</text>
+
+  <!-- Stop 4 -->
+  <rect x="372" y="232" width="156" height="70" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="450" y="258" text-anchor="middle" class="name" font-size="15">4 Add to cohort</text>
+  <text x="450" y="279" text-anchor="middle" class="detail" font-size="12">pinned set, replay</text>
+  <text x="450" y="295" text-anchor="middle" class="detail" font-size="12">and score</text>
+
+  <!-- Stop 5 -->
+  <rect x="20" y="232" width="156" height="70" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="98" y="258" text-anchor="middle" class="name" font-size="15">5 Suite grows</text>
+  <text x="98" y="279" text-anchor="middle" class="detail" font-size="12">one more active</text>
+  <text x="98" y="295" text-anchor="middle" class="detail" font-size="12">case in the set</text>
+
+  <!-- Loop arrows -->
+  <path d="M176,97 H191" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <path d="M352,97 H367" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <path d="M450,132 V227" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <text x="460" y="184" class="detail" font-size="12">replay</text>
+  <path d="M372,267 H181" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+  <path d="M98,232 V137" stroke="#000000" stroke-width="2.5" fill="none" marker-end="url(#a)"/>
+
+  <!-- Center note -->
+  <rect x="180" y="148" width="190" height="66" rx="12" fill="#F2F5F8"/>
+  <text x="275" y="170" text-anchor="middle" class="zone" font-size="12">THE LOOP</text>
+  <text x="275" y="192" text-anchor="middle" class="detail" font-size="13">Every miss adds</text>
+  <text x="275" y="208" text-anchor="middle" class="detail" font-size="13">a reviewed case</text>
+
+  <!-- Case card and retire branch -->
+  <path d="M528,252 H550" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <rect x="555" y="232" width="187" height="70" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="648" y="256" text-anchor="middle" class="name" font-size="16">Case card</text>
+  <text x="648" y="277" text-anchor="middle" class="detail" font-size="12">topology, runbook,</text>
+  <text x="648" y="293" text-anchor="middle" class="detail" font-size="12">tool contract changed</text>
+
+  <path d="M648,302 V313" stroke="#000000" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <rect x="555" y="318" width="187" height="84" rx="12" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+  <text x="648" y="340" text-anchor="middle" class="zone" font-size="12">RETIRE OR REPLACE</text>
+  <text x="648" y="362" text-anchor="middle" class="detail" font-size="12">Mark historical,</text>
+  <text x="648" y="374" text-anchor="middle" class="detail" font-size="12">keep the reason and</text>
+  <text x="648" y="394" text-anchor="middle" class="code" font-size="12">superseded_by</text>
+
+  <!-- Answer key rule -->
+  <rect x="20" y="318" width="508" height="84" rx="12" fill="#F2F5F8"/>
+  <text x="34" y="340" class="zone" font-size="12">ANSWER KEY RULE</text>
+  <text x="34" y="363" class="name" font-size="15">A human writes the answer key</text>
+  <text x="34" y="376" class="detail" font-size="13">and reviews it before use</text>
+  <text x="34" y="394" class="detail" font-size="13">never copied from the model answer</text>
+  <line x1="350" y1="332" x2="350" y2="395" stroke="#C3CED8" stroke-width="1.5"/>
+  <text x="366" y="350" class="zone" font-size="12">OWNER SIGN OFF</text>
+  <text x="366" y="370" class="detail" font-size="12">name and date</text>
+  <text x="366" y="387" class="detail" font-size="12">on the key</text>
+</svg>
